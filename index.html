@@ -5,94 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LunaBia</title>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <style>
         :root {
-            --active-gold: linear-gradient(135deg, #f7e7ce, #d4af37);
-            --text-dark: #5c3b2e;
+            --gold: linear-gradient(135deg, #f7e7ce, #d4af37);
+            --text: #5c3b2e;
         }
 
         body {
             margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif;
-            background-image: url('papeldeparede.png'); background-size: cover;
-            background-position: center; background-attachment: fixed;
+            /* AJUSTADO PARA O NOME QUE ESTÁ NO TEU GITHUB */
+            background-image: url('1.jpeg'); 
+            background-size: cover;
+            background-position: center; 
+            background-attachment: fixed;
             display: flex; justify-content: center; padding: 25px 12px; box-sizing: border-box;
-            color: var(--text-dark);
+            color: var(--text);
         }
 
-        /* 1ª CAMADA: ILHA MÃE AO FUNDO (GLASS) */
+        /* ILHA MÃE - O CHASSI DE VIDRO */
         .ilha-mae {
-            background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(35px) saturate(160%);
-            -webkit-backdrop-filter: blur(35px) saturate(160%);
-            width: 100%; max-width: 450px; border-radius: 60px; padding: 40px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(30px) saturate(160%);
+            -webkit-backdrop-filter: blur(30px) saturate(160%);
+            width: 100%; max-width: 450px; border-radius: 55px; padding: 40px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
             border-top: 2px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
 
         h1 { 
             font-family: 'Bodoni Moda', serif; font-style: italic;
-            color: #7a422d; font-size: 58px; margin: 0;
+            color: #7a422d; font-size: 55px; margin: 0 0 10px 0;
             text-shadow: 2px 2px 20px rgba(255,255,255,0.4);
         }
 
-        /* ILHA DA LUA (LOGO ABAIXO DO NOME) */
-        .ilha-lua {
-            background: rgba(255, 255, 255, 0.03); border-radius: 30px;
-            padding: 15px; margin: 15px 0 30px 0; border: 1px solid rgba(255,255,255,0.15);
-            display: flex; flex-direction: column; align-items: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .lua-shape {
-            width: 50px; height: 50px; border-radius: 50%;
-            background: #dcdcdc; position: relative; overflow: hidden;
-            box-shadow: inset -8px -8px 15px rgba(0,0,0,0.15), 0 0 15px rgba(255,255,255,0.4);
-            background-image: radial-gradient(circle at 30% 30%, #c0c0c0 10%, transparent 12%);
-        }
-
-        /* 2ª CAMADA: ILHA FILHA (TÍTULOS) */
-        .card-titulo {
-            background: transparent; margin-bottom: 30px;
-        }
-
-        h3 { 
-            color: var(--text-dark); text-transform: uppercase; font-size: 9px; 
-            margin-bottom: 12px; letter-spacing: 2.5px; font-weight: 700; opacity: 0.8; 
-        }
-
-        /* 3ª CAMADA: ILHA BEBÊ (INTERNA E FLUTUANTE) */
-        .ilha-bebe {
+        /* ILHAS BEBÊS (CARDS FLUTUANTES) */
+        .card {
             background: rgba(255, 255, 255, 0.04); 
-            border-radius: 25px; padding: 20px;
+            border-radius: 28px; padding: 22px;
+            margin-bottom: 25px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
-            /* Efeito de flutuar dentro da mãe */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
-        /* BOTÕES FLUTUANTES GLASS */
-        .btn-glass {
-            background: rgba(255, 255, 255, 0.1); 
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            cursor: pointer; color: var(--text-dark); font-weight: 600; 
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        h3 { color: var(--text); text-transform: uppercase; font-size: 9px; margin-bottom: 12px; letter-spacing: 2.5px; font-weight: 700; opacity: 0.8; }
+
+        .btn-opt, .btn-rect {
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer; color: var(--text); font-weight: 600; transition: 0.3s;
         }
         .btn-opt { border-radius: 50%; width: 38px; height: 38px; font-size: 11px; }
-        .btn-rect { border-radius: 15px; padding: 14px; font-size: 10px; text-transform: uppercase; }
+        .btn-rect { border-radius: 16px; padding: 14px; font-size: 10px; text-transform: uppercase; }
 
         .active { 
-            background: var(--active-gold) !important; color: #5c3b2e !important; 
-            border: none; transform: scale(1.08) translateY(-4px);
-            box-shadow: 0 12px 25px rgba(212, 175, 55, 0.35);
+            background: var(--gold) !important; color: #5c3b2e !important; 
+            border: none; transform: scale(1.08); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
         }
 
         textarea, input[type="date"] {
-            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 18px; padding: 15px;
-            color: var(--text-dark); font-family: inherit; font-size: 14px; outline: none;
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 18px; padding: 15px;
+            color: var(--text); font-family: inherit; font-size: 14px; outline: none;
         }
 
         .action-row { display: flex; gap: 12px; margin-top: 15px; }
@@ -100,8 +75,8 @@
         .btn-save { background: linear-gradient(135deg, #b87355, #804832); }
         .btn-report { background: linear-gradient(135deg, #a8c1a9, #7a9d7e); color: #1a261b; }
 
-        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(25px); z-index: 9999; padding: 20px; box-sizing: border-box; overflow-y: auto;}
-        .modal-body { background: #fffcfb; border-radius: 50px; padding: 40px 25px; max-width: 450px; margin: auto; color: #333;}
+        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 9999; padding: 20px; box-sizing: border-box; }
+        .modal-body { background: #fffcfb; border-radius: 45px; padding: 35px 20px; max-width: 450px; margin: auto; }
     </style>
 </head>
 <body>
@@ -109,50 +84,35 @@
 <div class="ilha-mae">
     <h1>LunaBia</h1>
 
-    <div class="ilha-lua">
-        <div class="lua-shape"></div>
-        <div style="font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-top:8px; opacity: 0.6;">Quarto Minguante</div>
-    </div>
-
-    <div class="card-titulo">
+    <div class="card">
         <h3>📅 Data do Registro</h3>
-        <div class="ilha-bebe">
-            <input type="date" id="data-input" onchange="carregarData()">
-        </div>
+        <input type="date" id="data-input" onchange="carregarData()">
     </div>
 
-    <div class="card-titulo">
+    <div class="card">
         <h3>📖 Leitura Bíblica</h3>
-        <div class="ilha-bebe">
-            <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;"></div>
-        </div>
+        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;"></div>
     </div>
 
-    <div class="card-titulo">
+    <div class="card">
         <h3>✨ Versículo do Dia</h3>
-        <div class="ilha-bebe">
-            <textarea id="v-input" rows="2" placeholder="O que o Senhor falou hoje?"></textarea>
-        </div>
+        <textarea id="v-input" rows="2" placeholder="O que o Senhor falou hoje?"></textarea>
     </div>
 
     <div id="area-escalas"></div>
 
-    <div class="card-titulo">
+    <div class="card" id="card-ciclo">
         <h3>🩸 Ciclo Menstrual</h3>
-        <div class="ilha-bebe" id="bebe-ciclo">
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-                <button class="btn-glass btn-rect" onclick="soUm(this)">Leve</button>
-                <button class="btn-glass btn-rect" onclick="soUm(this)">Moderado</button>
-                <button class="btn-glass btn-rect" onclick="soUm(this)">Intenso</button>
-            </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+            <button class="btn-rect" onclick="soUm(this)">Leve</button>
+            <button class="btn-rect" onclick="soUm(this)">Moderado</button>
+            <button class="btn-rect" onclick="soUm(this)">Intenso</button>
         </div>
     </div>
 
-    <div class="card-titulo">
+    <div class="card">
         <h3>✍️ Meu Diário</h3>
-        <div class="ilha-bebe">
-            <textarea id="d-input" rows="4" placeholder="Abra seu coração aqui..."></textarea>
-        </div>
+        <textarea id="d-input" rows="4" placeholder="Abra seu coração aqui..."></textarea>
     </div>
 
     <div class="action-row">
@@ -164,25 +124,23 @@
 <div id="modal"><div class="modal-body" id="m-content"></div></div>
 
 <script>
-    // Gerar Dias
     const g = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
-        const b = document.createElement('button'); b.className = 'btn-glass btn-opt'; b.innerText = i;
+        const b = document.createElement('button'); b.className = 'btn-opt'; b.innerText = i;
         b.onclick = () => b.classList.toggle('active'); g.appendChild(b);
     }
 
-    // Gerar Escalas
     const nomes = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
+    const area = document.getElementById('area-escalas');
     nomes.forEach(n => {
-        const c = document.createElement('div'); c.className = 'card-titulo'; c.innerHTML = `<h3>${n}</h3>`;
-        const b = document.createElement('div'); b.className = 'ilha-bebe';
+        const c = document.createElement('div'); c.className = 'card'; c.innerHTML = `<h3>${n}</h3>`;
         const gr = document.createElement('div'); gr.style = "display:grid; grid-template-columns:repeat(5,1fr); gap:8px;";
         for(let i=1; i<=5; i++) {
-            const bt = document.createElement('button'); bt.className = 'btn-glass btn-opt s-btn'; bt.innerText = i; bt.dataset.cat = n;
+            const bt = document.createElement('button'); bt.className = 'btn-opt s-btn'; bt.innerText = i; bt.dataset.cat = n;
             bt.onclick = function() { gr.querySelectorAll('.btn-opt').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
             gr.appendChild(bt);
         }
-        b.appendChild(gr); c.appendChild(b); document.getElementById('area-escalas').appendChild(c);
+        c.appendChild(gr); area.appendChild(c);
     });
 
     function soUm(btn) {
@@ -196,38 +154,36 @@
             biblia: Array.from(document.querySelectorAll('#grid-biblia .active')).map(b => b.innerText),
             versiculo: document.getElementById('v-input').value,
             escalas: {},
-            ciclo: document.querySelector('#bebe-ciclo .active')?.innerText || "",
+            ciclo: document.querySelector('#card-ciclo .active')?.innerText || "",
             diario: document.getElementById('d-input').value
         };
         document.querySelectorAll('.s-btn.active').forEach(b => entry.escalas[b.dataset.cat] = b.innerText);
-        let db = JSON.parse(localStorage.getItem('lunabia_vfinal_fix') || "{}");
-        db[d] = entry; localStorage.setItem('lunabia_vfinal_fix', JSON.stringify(db));
+        let db = JSON.parse(localStorage.getItem('lunabia_v_glass') || "{}");
+        db[d] = entry; localStorage.setItem('lunabia_v_glass', JSON.stringify(db));
         alert("LunaBia: Guardado com luz! ✨");
     }
 
     function carregarData() {
         const d = document.getElementById('data-input').value;
-        const db = JSON.parse(localStorage.getItem('lunabia_vfinal_fix') || "{}");
+        const db = JSON.parse(localStorage.getItem('lunabia_v_glass') || "{}");
         const log = db[d];
         document.querySelectorAll('.active').forEach(b => b.classList.remove('active'));
         document.getElementById('v-input').value = ""; document.getElementById('d-input').value = "";
         if(log) {
-            document.getElementById('v-input').value = log.versiculo;
-            document.getElementById('d-input').value = log.diario;
+            document.getElementById('v-input').value = log.versiculo; document.getElementById('d-input').value = log.diario;
             log.biblia.forEach(n => Array.from(document.querySelectorAll('#grid-biblia .btn-opt')).find(x => x.innerText == n)?.classList.add('active'));
             Object.keys(log.escalas).forEach(k => Array.from(document.querySelectorAll(`.s-btn[data-cat="${k}"]`)).find(x => x.innerText == log.escalas[k])?.classList.add('active'));
-            if(log.ciclo) Array.from(document.querySelectorAll('#bebe-ciclo .btn-rect')).find(x => x.innerText == log.ciclo)?.classList.add('active');
+            if(log.ciclo) Array.from(document.querySelectorAll('#card-ciclo .btn-rect')).find(x => x.innerText == log.ciclo)?.classList.add('active');
         }
     }
 
     function abrirRelatorio() {
-        const db = JSON.parse(localStorage.getItem('lunabia_vfinal_fix') || "{}");
+        const db = JSON.parse(localStorage.getItem('lunabia_v_glass') || "{}");
         const modal = document.getElementById('m-content');
         const datas = Object.keys(db).sort().reverse();
-        let h = `<h2 style="font-family:'Bodoni Moda'; font-style:italic; color:#804832; font-size:40px;">Análise</h2>`;
-        if(datas.length > 0) {
-            datas.forEach(dt => h += `<div style="border-bottom:1px solid #eee; padding:15px 0; text-align:left; font-size:12px;"><b>📅 ${dt}</b> | 🩸 Ciclo: ${db[dt].ciclo || '-'}<br>✨ ${db[dt].versiculo.substring(0,30)}...</div>`);
-        } else { h += "<p>Sem dados.</p>"; }
+        let h = `<h2 style="font-family:'Bodoni Moda'; font-style:italic; color:#804832; font-size:35px;">Registos</h2>`;
+        if(datas.length > 0) { datas.forEach(dt => h += `<div style="border-bottom:1px solid #eee; padding:15px 0; text-align:left; font-size:12px;"><b>📅 ${dt}</b> | ✨ ${db[dt].versiculo.substring(0,30)}...</div>`); }
+        else { h += "<p>Ainda sem registos.</p>"; }
         h += `<button onclick="document.getElementById('modal').style.display='none'" class="btn-action btn-save" style="margin-top:20px; width:100%;">VOLTAR</button>`;
         modal.innerHTML = h; document.getElementById('modal').style.display = 'block';
     }
