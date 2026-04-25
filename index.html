@@ -1,1 +1,227 @@
-v
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LunaBia Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --eucalipto-escuro: #2d3d36;
+            --eucalipto-glass: rgba(45, 61, 54, 0.2);
+            --bege-bebe: rgba(245, 245, 220, 0.9);
+            --glass-claro: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif;
+            background-image: url('1.jpeg'); background-size: cover;
+            background-position: center; background-attachment: fixed;
+            display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .ilha-mae {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-align: center;
+        }
+
+        h1 { 
+            font-family: 'Cinzel', serif;
+            color: var(--eucalipto-escuro) !important; font-size: 45px; margin: 0;
+            letter-spacing: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* VETOR DOURADO DELICADO */
+        .divider {
+            margin: 10px auto 30px;
+            width: 160px;
+            opacity: 0.7;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .ilha-lua {
+            background: rgba(0, 0, 0, 0.2); border-radius: 30px;
+            padding: 15px; margin: 0 auto 40px; width: fit-content;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.2);
+        }
+        #lua-visual { font-size: 38px; }
+        #lua-nome { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: white; font-weight: 700; margin-top: 5px; }
+
+        /* ILHAS COM PROFUNDIDADE REAL */
+        .ilha-filha {
+            background: var(--glass-claro); border-radius: 40px;
+            padding: 25px 18px; margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25); /* Efeito Flutuante */
+        }
+
+        .ilha-verde {
+            background: var(--eucalipto-glass) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+
+        /* BOTÕES BEGE PEROLADOS (FLUTUANTES) */
+        .btn-bege {
+            background: var(--bege-bebe); border: 1px solid white;
+            border-radius: 50%; width: 44px; height: 44px;
+            color: var(--eucalipto-escuro); font-weight: 700;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            cursor: pointer; transition: 0.3s;
+        }
+
+        .btn-flutuante {
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 18px; padding: 16px; color: white; font-weight: 700;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            cursor: pointer; transition: 0.4s; text-transform: uppercase; font-size: 10px;
+        }
+
+        /* ATIVO - MERGULHA NO VERDE EUCALIPTO */
+        .active { 
+            background: var(--eucalipto-escuro) !important; color: white !important;
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        textarea, input[type="date"] {
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 18px;
+            color: white; font-family: inherit; font-size: 16px; outline: none;
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-action { 
+            width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2);
+            color: white; font-weight: 800; text-transform: uppercase; font-size: 12px;
+            background: var(--eucalipto-glass); backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="ilha-mae">
+    <h1>LunaBia</h1>
+    
+    <div class="divider">
+        <svg viewBox="0 0 100 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#d4af37" stroke-width="0.5"/>
+            <circle cx="50" cy="10" r="2.5" fill="#d4af37"/>
+            <path d="M42 8L38 5M58 8L62 5" stroke="#d4af37" stroke-width="0.5" stroke-linecap="round"/>
+        </svg>
+    </div>
+    
+    <div class="ilha-lua">
+        <div id="lua-visual">🌑</div>
+        <div id="lua-nome">...</div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>📅 Registro</h3>
+        <input type="date" id="data-input" onchange="carregarData()">
+    </div>
+
+    <div class="ilha-filha ilha-verde">
+        <h3>📖 Leitura Bíblica</h3>
+        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;"></div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>✨ Versículo</h3>
+        <textarea id="v-input" rows="2" placeholder="Sua palavra hoje..."></textarea>
+    </div>
+
+    <div id="area-escalas"></div>
+
+    <div class="ilha-filha">
+        <h3>🩸 Ciclo</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <button class="btn-flutuante" onclick="soUm(this)">Leve</button>
+            <button class="btn-flutuante" onclick="soUm(this)">Mod.</button>
+            <button class="btn-flutuante" onclick="soUm(this)">Int.</button>
+        </div>
+    </div>
+
+    <div class="ilha-filha ilha-verde">
+        <h3>🤒 Sintomas</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <button class="btn-flutuante" onclick="this.classList.toggle('active')">Cólica</button>
+            <button class="btn-flutuante" onclick="this.classList.toggle('active')">Inchaço</button>
+            <button class="btn-flutuante" onclick="this.classList.toggle('active')">D. Cabeça</button>
+            <button class="btn-flutuante" onclick="this.classList.toggle('active')">D. Costas</button>
+            <button class="btn-flutuante" onclick="this.classList.toggle('active')">Rinite</button>
+            <button class="btn-flutuante" onclick="this.classList.toggle('active')">Insônia</button>
+        </div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>✍️ Diário</h3>
+        <textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea>
+    </div>
+
+    <button class="btn-action" onclick="salvar()">GUARDAR NO ALTAR</button>
+</div>
+
+<script>
+    function updateMoon() {
+        const date = new Date();
+        const lp = 2551443; 
+        const new_moon = new Date('1970-01-07T20:35:00Z').getTime();
+        const phase = ((date.getTime() - new_moon) / 1000) % lp;
+        const days = phase / (24 * 3600);
+        let res = { emoji: '🌑', nome: 'Lua Nova' };
+        if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' };
+        else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' };
+        else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' };
+        else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa Crescente' };
+        else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' };
+        else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa Minguante' };
+        else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' };
+        else if (days < 27.68) res = { emoji: '🌘', nome: 'Lua Minguante' };
+        document.getElementById('lua-visual').innerText = res.emoji;
+        document.getElementById('lua-nome').innerText = res.nome;
+    }
+
+    const bib = document.getElementById('grid-biblia');
+    for(let i=1; i<=31; i++) {
+        const b = document.createElement('button'); b.className = 'btn-bege'; b.innerText = i;
+        b.onclick = () => b.classList.toggle('active'); bib.appendChild(b);
+    }
+
+    const nomes = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
+    const area = document.getElementById('area-escalas');
+    nomes.forEach(n => {
+        const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
+        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;";
+        for(let i=1; i<=5; i++) {
+            const bt = document.createElement('button'); bt.className = 'btn-bege s-btn'; bt.innerText = i; bt.dataset.cat = n;
+            bt.onclick = function() { g.querySelectorAll('.btn-bege').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
+            g.appendChild(bt);
+        }
+        f.appendChild(g); area.appendChild(f);
+    });
+
+    function soUm(btn) {
+        btn.parentElement.querySelectorAll('.btn-flutuante').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function salvar() { alert("LunaBia: Salvo com sucesso! ✨🌿"); }
+    function carregarData() { document.querySelectorAll('.active').forEach(b => b.classList.remove('active')); }
+
+    document.getElementById('data-input').valueAsDate = new Date();
+    updateMoon();
+</script>
+</body>
+</html>
