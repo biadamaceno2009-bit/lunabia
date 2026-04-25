@@ -8,8 +8,8 @@
     <style>
         :root {
             --terracota-grad: linear-gradient(135deg, #b87355, #804832);
-            --glass-mae: rgba(255, 255, 255, 0.15); /* Um pouco mais visível */
-            --glass-filha: rgba(255, 255, 255, 0.1);
+            --glass-mae: rgba(255, 255, 255, 0.1);
+            --glass-filha: rgba(255, 255, 255, 0.05);
             --text-brown: #633624;
         }
 
@@ -17,12 +17,11 @@
             margin: 0;
             min-height: 100vh;
             font-family: 'Inter', sans-serif;
-            /* AQUI ESTÁ O SEGREDO DO FUNDO: nome exato que está no seu GitHub */
             background-image: url('papeldeparede.png'); 
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            background-color: #f4ece6; /* Cor de reserva caso a imagem falhe */
+            background-color: #f4ece6;
             display: flex;
             justify-content: center;
             padding: 20px 10px;
@@ -30,8 +29,8 @@
 
         .container {
             background: var(--glass-mae);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             width: 100%;
             max-width: 500px;
             border-radius: 40px;
@@ -41,27 +40,13 @@
             text-align: center;
         }
 
-        /* AJUSTE DA LOGO - Ficou mais delicada e proporcional */
-        .logo-container {
-            margin-bottom: 25px;
-        }
-
+        /* LOGO AJUSTADA */
         h1 { 
             font-family: 'Great Vibes', cursive; 
             color: #804832; 
-            font-size: 55px; /* Reduzi um pouco para ficar mais harmônico */
-            margin: 0;
-            line-height: 1;
-            text-shadow: 1px 1px 3px rgba(255,255,255,0.5);
-        }
-
-        .subtitle {
-            font-size: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: var(--text-brown);
-            margin-top: -5px;
-            opacity: 0.8;
+            font-size: 65px; 
+            margin: 0 0 20px 0;
+            text-shadow: 1px 1px 4px rgba(255,255,255,0.6);
         }
 
         .card {
@@ -71,87 +56,97 @@
             padding: 20px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        h3 { color: var(--text-brown); text-transform: uppercase; font-size: 12px; margin-bottom: 15px; letter-spacing: 1px; }
+        h3 { color: var(--text-brown); text-transform: uppercase; font-size: 13px; margin-bottom: 15px; letter-spacing: 1.5px; font-weight: 700; }
 
         .grid-layout { display: grid; gap: 8px; justify-content: center; }
         .grid-7 { grid-template-columns: repeat(7, 1fr); }
         .grid-5 { grid-template-columns: repeat(5, 1fr); }
 
         .btn-opt {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             width: 38px; height: 38px;
             cursor: pointer;
             color: #4a3728;
             font-weight: 600;
-            font-size: 13px;
-            transition: 0.3s;
         }
 
-        .active { background: var(--terracota-grad) !important; color: white !important; transform: scale(1.1); box-shadow: 0 4px 10px rgba(128, 72, 50, 0.3); }
+        .active { background: var(--terracota-grad) !important; color: white !important; border: none; transform: scale(1.1); }
 
         textarea, input[type="date"] {
-            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.3);
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.2);
             border: 1px solid rgba(255,255,255,0.5); border-radius: 15px; padding: 12px;
-            color: #4a3728; font-family: inherit; font-size: 14px;
+            color: #4a3728; font-family: inherit;
         }
 
-        .btn-save {
-            width: 100%; padding: 18px; border-radius: 20px; border: none;
-            background: var(--terracota-grad); color: white; font-weight: bold;
-            letter-spacing: 1px; cursor: pointer; font-size: 14px; margin-top: 10px;
+        /* BOTÕES FINAIS */
+        .action-row { display: flex; gap: 15px; margin-top: 10px; }
+        
+        .btn-action {
+            flex: 1; padding: 18px; border-radius: 20px; border: none; color: white;
+            font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
+
+        .btn-save { background: var(--terracota-grad); }
+        .btn-report { background: linear-gradient(135deg, #9bb89d, #7a9d7e); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo-container">
-        <h1>LunaBia</h1>
-        <div class="subtitle">Journal & Care</div>
+    <h1>LunaBia</h1>
+
+    <div class="card">
+        <h3>Registro Diário</h3>
+        <input type="date" id="data">
     </div>
 
     <div class="card">
-        <h3>📅 Data do Registro</h3>
-        <input type="date" id="dataPrincipal">
+        <h3>Leitura Bíblica</h3>
+        <div class="grid-layout grid-7" id="biblia"></div>
     </div>
 
     <div class="card">
-        <h3>📖 Leitura Bíblica</h3>
-        <div class="grid-layout grid-7" id="bibliaContainer"></div>
+        <h3>Versículo do Dia</h3>
+        <textarea rows="3" placeholder="Qual palavra o Senhor te deu hoje?"></textarea>
     </div>
 
-    <div id="escalas"></div>
+    <div id="escalas-area"></div>
 
     <div class="card">
-        <h3>📝 Diário</h3>
-        <textarea rows="4" placeholder="O que o Senhor falou hoje?"></textarea>
+        <h3>Diário</h3>
+        <textarea rows="4" placeholder="Escreva aqui..."></textarea>
     </div>
 
-    <button class="btn-save">SALVAR NO MEU DIÁRIO</button>
+    <div class="action-row">
+        <button class="btn-action btn-save">SALVAR</button>
+        <button class="btn-action btn-report">RELATÓRIO</button>
+    </div>
 </div>
 
 <script>
-    // Gerar dias do mês
-    const biblia = document.getElementById('bibliaContainer');
+    // Bíblia
+    const b = document.getElementById('biblia');
     for(let i=1; i<=31; i++){
-        const b = document.createElement('button');
-        b.className = 'btn-opt';
-        b.innerText = i;
-        b.onclick = () => b.classList.toggle('active');
-        biblia.appendChild(b);
+        const btn = document.createElement('button');
+        btn.className = 'btn-opt';
+        btn.innerText = i;
+        btn.onclick = () => btn.classList.toggle('active');
+        b.appendChild(btn);
     }
 
-    // Gerar Escalas
-    const nomesEscalas = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
-    const escalasDiv = document.getElementById('escalas');
-    nomesEscalas.forEach(nome => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<h3>${nome}</h3>`;
+    // Escalas
+    const esc = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
+    const area = document.getElementById('escalas-area');
+    esc.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `<h3>${t}</h3>`;
         const grid = document.createElement('div');
         grid.className = 'grid-layout grid-5';
         for(let i=1; i<=5; i++){
@@ -164,11 +159,10 @@
             };
             grid.appendChild(btn);
         }
-        card.appendChild(grid);
-        escalasDiv.appendChild(card);
+        div.appendChild(grid);
+        area.appendChild(div);
     });
-
-    document.getElementById('dataPrincipal').valueAsDate = new Date();
+    document.getElementById('data').valueAsDate = new Date();
 </script>
 
 </body>
