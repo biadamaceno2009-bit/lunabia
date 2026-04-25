@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LunaBia - Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracota-grad: linear-gradient(135deg, #b87355, #804832);
+            --glass-mae: rgba(255, 255, 255, 0.08);
+            --glass-filha: rgba(255, 255, 255, 0.03);
+            --text-brown: #633624;
+            --text-main: #4a3728;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: #f4ece6 url('https://www.transparenttextures.com/patterns/paper.png');
+            display: flex;
+            justify-content: center;
+            padding: 20px 10px;
+        }
+
+        .container {
+            background: var(--glass-mae);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 30px;
+            padding: 40px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 { font-family: 'Great Vibes', cursive; color: #804832; font-size: 70px; margin: 0 0 30px 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.1); }
+
+        .card {
+            background: var(--glass-filha);
+            backdrop-filter: blur(4px);
+            border-radius: 25px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        h3 { color: var(--text-brown); text-transform: uppercase; font-size: 18px; letter-spacing: 1px; margin-bottom: 20px; font-weight: bold; }
+
+        /* Grades e Botões */
+        .grid-layout { display: grid; gap: 10px; justify-content: center; }
+        .grid-7 { grid-template-columns: repeat(7, 1fr); }
+        .grid-5 { grid-template-columns: repeat(5, 1fr); }
+        .flex-wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+        .btn-opt {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 15px;
+            padding: 12px 18px;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .circle-btn { border-radius: 50%; width: 40px; height: 40px; padding: 0; display: flex; align-items: center; justify-content: center; }
+
+        .active { background: var(--terracota-grad) !important; color: white !important; border: none !important; transform: scale(1.1); }
+
+        textarea, input[type="date"] {
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; padding: 15px;
+            color: var(--text-main); font-family: inherit; font-size: 16px; outline: none;
+        }
+
+        /* Botões Finais */
+        .action-row { display: flex; gap: 15px; margin-top: 30px; }
+        .btn-action {
+            flex: 1; padding: 18px; border-radius: 20px; border: none; color: white;
+            font-weight: bold; font-size: 16px; cursor: pointer; text-transform: uppercase;
+        }
+        .btn-save { background: linear-gradient(135deg, #d4a373, #b87355); box-shadow: 0 8px 20px rgba(184, 115, 85, 0.3); }
+        .btn-report { background: linear-gradient(135deg, #9bb89d, #7a9d7e); box-shadow: 0 8px 20px rgba(122, 157, 126, 0.3); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>LunaBia</h1>
+
+    <div class="card">
+        <h3>Registro Diário</h3>
+        <input type="date" id="registroData">
+    </div>
+
+    <div class="card">
+        <h3>Leitura Bíblica</h3>
+        <div class="grid-layout grid-7" id="bibliaGrid"></div>
+    </div>
+
+    <div class="card">
+        <h3>Versículo do Dia</h3>
+        <textarea rows="3" placeholder="Digite o versículo..."></textarea>
+    </div>
+
+    <div id="escalas-area"></div>
+
+    <div class="card">
+        <h3>Ciclo Menstrual</h3>
+        <div class="flex-wrap">
+            <button class="btn-opt" onclick="selectOne(this)">Leve</button>
+            <button class="btn-opt" onclick="selectOne(this)">Moderado</button>
+            <button class="btn-opt" onclick="selectOne(this)">Intenso</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Sintomas</h3>
+        <div class="flex-wrap" id="sintomasGrid"></div>
+    </div>
+
+    <div class="card">
+        <h3>Meu Diário</h3>
+        <textarea rows="5" placeholder="O que o Senhor falou hoje?"></textarea>
+    </div>
+
+    <div class="action-row">
+        <button class="btn-action btn-save" onclick="alert('Registro salvo!')">Salvar</button>
+        <button class="btn-action btn-report" onclick="alert('Relatório gerado!')">Relatório</button>
+    </div>
+</div>
+
+<script>
+    // 1. Dias da Bíblia (1-31)
+    const bGrid = document.getElementById('bibliaGrid');
+    for(let i=1; i<=31; i++){
+        const btn = document.createElement('button');
+        btn.className = 'btn-opt circle-btn';
+        btn.innerText = i;
+        btn.onclick = () => btn.classList.toggle('active');
+        bGrid.appendChild(btn);
+    }
+
+    // 2. Escalas (Conforme o arquivo: Sono, Humor, Cansaço, Descanso, Energia)
+    const escalas = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
+    const area = document.getElementById('escalas-area');
+    escalas.forEach(titulo => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `<h3>${titulo}</h3>`;
+        const grid = document.createElement('div');
+        grid.className = 'grid-layout grid-5';
+        for(let i=1; i<=5; i++){
+            const b = document.createElement('button');
+            b.className = 'btn-opt circle-btn';
+            b.innerText = i;
+            b.onclick = function() {
+                grid.querySelectorAll('.btn-opt').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+            };
+            grid.appendChild(b);
+        }
+        div.appendChild(grid);
+        area.appendChild(div);
+    });
+
+    // 3. Sintomas (Exatos do arquivo)
+    const listaSintomas = ['Cólica', 'Inchaço', 'Enxaqueca', 'Rinite', 'Dor nas Costas', 'Irritabilidade'];
+    const sGrid = document.getElementById('sintomasGrid');
+    listaSintomas.forEach(s => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-opt';
+        btn.innerText = s;
+        btn.onclick = () => btn.classList.toggle('active');
+        sGrid.appendChild(btn);
+    });
+
+    function selectOne(el) {
+        el.parentElement.querySelectorAll('.btn-opt').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    document.getElementById('registroData').valueAsDate = new Date();
+</script>
+
+</body>
+</html>
