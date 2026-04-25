@@ -251,3 +251,210 @@
 </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LunaBia Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --verde-eucalipto: #4d6d60;
+            --verde-glass: rgba(77, 109, 96, 0.6);
+            --glass-claro: rgba(255, 255, 255, 0.08);
+            --bege-glass: rgba(245, 245, 220, 0.3);
+        }
+
+        body {
+            margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif;
+            background-image: url('1.jpeg'); background-size: cover;
+            background-position: center; background-attachment: fixed;
+            display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box;
+        }
+
+        .ilha-mae {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(35px) saturate(160%);
+            -webkit-backdrop-filter: blur(35px) saturate(160%);
+            width: 100%; max-width: 375px; border-radius: 60px; padding: 50px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        h1 { 
+            font-family: 'Bodoni Moda', serif; font-style: italic;
+            color: var(--verde-eucalipto) !important; font-size: 58px; margin: 0;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            -webkit-text-fill-color: var(--verde-eucalipto);
+        }
+
+        .ilha-lua {
+            background: rgba(255, 255, 255, 0.05); border-radius: 20px;
+            padding: 10px; margin: 15px auto 35px; width: fit-content;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .lua-shape { width: 35px; height: 35px; border-radius: 50%; background: #f5f5f5; margin: auto; }
+
+        .ilha-filha {
+            background: var(--glass-claro); border-radius: 40px;
+            padding: 22px 14px; margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+        }
+
+        h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 18px 0; color: white; font-weight: 700; }
+
+        .ilha-bebe {
+            background: var(--bege-glass); border-radius: 28px;
+            padding: 20px; border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer; color: white; font-weight: 700; transition: all 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .btn-opt { border-radius: 50%; width: 42px; height: 42px; font-size: 12px; }
+        .btn-rect { border-radius: 16px; padding: 14px 6px; font-size: 10px; text-transform: uppercase; width: 100%; }
+
+        /* ESTADO ATIVO COM VERDE EUCALIPTO E CHECK */
+        .active { 
+            background: var(--verde-eucalipto) !important; 
+            color: white !important;
+            border: 1px solid rgba(255,255,255,0.5) !important;
+            transform: scale(1.05);
+        }
+        .active::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            font-size: 8px;
+            color: white;
+        }
+
+        textarea, input[type="date"] {
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 15px;
+            color: white; font-family: inherit; font-size: 15px; outline: none;
+        }
+
+        /* BOTÕES SALVAR E RELATÓRIO - VERDE EUCALIPTO GLASS */
+        .action-row { display: flex; gap: 15px; margin-top: 20px; }
+        .btn-action { 
+            flex: 1; padding: 22px; border-radius: 32px; border: 1px solid rgba(255,255,255,0.3);
+            color: white; font-weight: 700; text-transform: uppercase; font-size: 12px;
+            backdrop-filter: blur(15px);
+            background: var(--verde-glass); /* Verde Eucalipto Efeito Vidro */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+        .btn-action:active { transform: scale(0.95); }
+
+        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(25px); z-index: 9999; padding: 20px; box-sizing: border-box; }
+        .modal-body { background: #fffcfb; border-radius: 50px; padding: 40px 25px; max-width: 360px; margin: auto; color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="ilha-mae">
+    <h1>LunaBia</h1>
+    
+    <div class="ilha-lua">
+        <div class="lua-shape"></div>
+        <div style="font-size: 8px; text-transform: uppercase; letter-spacing: 2px; margin-top:5px; color: rgba(255,255,255,0.6);">Devocional</div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>📅 Registro</h3>
+        <div class="ilha-bebe"><input type="date" id="data-input" onchange="carregarData()"></div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>📖 Leitura Bíblica</h3>
+        <div class="ilha-bebe">
+            <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;"></div>
+        </div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>✨ Versículo</h3>
+        <div class="ilha-bebe"><textarea id="v-input" rows="2" placeholder="O que o Senhor falou?"></textarea></div>
+    </div>
+
+    <div id="area-escalas"></div>
+
+    <div class="ilha-filha">
+        <h3>🩸 Ciclo</h3>
+        <div class="ilha-bebe">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                <button class="btn-glass btn-rect" onclick="soUm(this)">Leve</button>
+                <button class="btn-glass btn-rect" onclick="soUm(this)">Mod.</button>
+                <button class="btn-glass btn-rect" onclick="soUm(this)">Int.</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>🤒 Sintomas</h3>
+        <div class="ilha-bebe">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <button class="btn-glass btn-rect" onclick="this.classList.toggle('active')">Cólica</button>
+                <button class="btn-glass btn-rect" onclick="this.classList.toggle('active')">Inchaço</button>
+                <button class="btn-glass btn-rect" onclick="this.classList.toggle('active')">D. Cabeça</button>
+                <button class="btn-glass btn-rect" onclick="this.classList.toggle('active')">D. Costas</button>
+                <button class="btn-glass btn-rect" onclick="this.classList.toggle('active')">Rinite</button>
+                <button class="btn-glass btn-rect" onclick="this.classList.toggle('active')">Insônia</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ilha-filha">
+        <h3>✍️ Diário</h3>
+        <div class="ilha-bebe"><textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea></div>
+    </div>
+
+    <div class="action-row">
+        <button class="btn-action" onclick="salvar()">SALVAR</button>
+        <button class="btn-action" onclick="abrirRelatorio()">RELATÓRIO</button>
+    </div>
+</div>
+
+<div id="modal"><div class="modal-body" id="m-content"></div></div>
+
+<script>
+    const bib = document.getElementById('grid-biblia');
+    for(let i=1; i<=31; i++) {
+        const b = document.createElement('button'); b.className = 'btn-glass btn-opt'; b.innerText = i;
+        b.onclick = () => b.classList.toggle('active'); bib.appendChild(b);
+    }
+
+    const nomes = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
+    const area = document.getElementById('area-escalas');
+    nomes.forEach(n => {
+        const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
+        const b = document.createElement('div'); b.className = 'ilha-bebe';
+        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:8px;";
+        for(let i=1; i<=5; i++) {
+            const bt = document.createElement('button'); bt.className = 'btn-glass btn-opt'; bt.innerText = i;
+            bt.onclick = function() { g.querySelectorAll('.btn-opt').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
+            g.appendChild(bt);
+        }
+        b.appendChild(g); f.appendChild(b); area.appendChild(f);
+    });
+
+    function soUm(btn) {
+        btn.parentElement.querySelectorAll('.btn-rect').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function salvar() { alert("LunaBia: Salvo com sucesso! ✨🌿"); }
+    function carregarData() { document.querySelectorAll('.active').forEach(b => b.classList.remove('active')); }
+    function abrirRelatorio() { document.getElementById('modal').style.display = 'block'; }
+
+    document.getElementById('data-input').valueAsDate = new Date();
+</script>
+</body>
+</html>
