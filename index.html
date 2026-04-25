@@ -13,7 +13,6 @@
 
         body {
             margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif;
-            /* AJUSTADO PARA O NOME QUE ESTÁ NO TEU GITHUB */
             background-image: url('1.jpeg'); 
             background-size: cover;
             background-position: center; 
@@ -22,61 +21,73 @@
             color: var(--text);
         }
 
-        /* ILHA MÃE - O CHASSI DE VIDRO */
+        /* ILHA MÃE - CHASSI DE VIDRO PROFUNDO */
         .ilha-mae {
-            background: rgba(255, 255, 255, 0.015);
-            backdrop-filter: blur(30px) saturate(160%);
-            -webkit-backdrop-filter: blur(30px) saturate(160%);
-            width: 100%; max-width: 450px; border-radius: 55px; padding: 40px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(35px) saturate(160%);
+            -webkit-backdrop-filter: blur(35px) saturate(160%);
+            width: 100%; max-width: 450px; border-radius: 55px; padding: 45px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-top: 2px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
         h1 { 
             font-family: 'Bodoni Moda', serif; font-style: italic;
-            color: #7a422d; font-size: 55px; margin: 0 0 10px 0;
+            color: #7a422d; font-size: 58px; margin: 0 0 30px 0;
             text-shadow: 2px 2px 20px rgba(255,255,255,0.4);
         }
 
-        /* ILHAS BEBÊS (CARDS FLUTUANTES) */
+        /* ILHAS BEBÊS - CARDS COM PROFUNDIDADE REAL */
         .card {
-            background: rgba(255, 255, 255, 0.04); 
-            border-radius: 28px; padding: 22px;
-            margin-bottom: 25px; 
+            background: rgba(255, 255, 255, 0.03); 
+            border-radius: 30px; padding: 25px;
+            margin-bottom: 30px; 
             border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-top: 2px solid rgba(255, 255, 255, 0.4); /* Brilho de cristal */
+            backdrop-filter: blur(15px);
+            /* Sombra que desprende o card do fundo */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), inset 0 0 10px rgba(255,255,255,0.1);
+            transition: transform 0.3s ease;
         }
 
-        h3 { color: var(--text); text-transform: uppercase; font-size: 9px; margin-bottom: 12px; letter-spacing: 2.5px; font-weight: 700; opacity: 0.8; }
+        h3 { color: var(--text); text-transform: uppercase; font-size: 9px; margin-bottom: 18px; letter-spacing: 2.5px; font-weight: 700; opacity: 0.7; }
 
-        .btn-opt, .btn-rect {
-            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer; color: var(--text); font-weight: 600; transition: 0.3s;
+        /* BOTÕES FLUTUANTES */
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.15); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer; color: var(--text); font-weight: 600; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Sombra de botão elevado */
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
-        .btn-opt { border-radius: 50%; width: 38px; height: 38px; font-size: 11px; }
-        .btn-rect { border-radius: 16px; padding: 14px; font-size: 10px; text-transform: uppercase; }
+        .btn-opt { border-radius: 50%; width: 42px; height: 42px; font-size: 11px; }
+        .btn-rect { border-radius: 18px; padding: 16px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* ESTADO ATIVO - DOURADO CHAMPAGNE COM BRILHO */
         .active { 
             background: var(--gold) !important; color: #5c3b2e !important; 
-            border: none; transform: scale(1.08); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            border: none; 
+            transform: scale(1.1) translateY(-5px); /* Salta ao clicar */
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.45);
         }
 
         textarea, input[type="date"] {
-            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 18px; padding: 15px;
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 18px;
             color: var(--text); font-family: inherit; font-size: 14px; outline: none;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .action-row { display: flex; gap: 12px; margin-top: 15px; }
-        .btn-action { flex: 1; padding: 22px; border-radius: 28px; border: none; color: white; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+        .action-row { display: flex; gap: 15px; margin-top: 20px; }
+        .btn-action { flex: 1; padding: 22px; border-radius: 32px; border: none; color: white; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
         .btn-save { background: linear-gradient(135deg, #b87355, #804832); }
         .btn-report { background: linear-gradient(135deg, #a8c1a9, #7a9d7e); color: #1a261b; }
 
-        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 9999; padding: 20px; box-sizing: border-box; }
-        .modal-body { background: #fffcfb; border-radius: 45px; padding: 35px 20px; max-width: 450px; margin: auto; }
+        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(30px); z-index: 9999; padding: 20px; box-sizing: border-box; }
+        .modal-body { background: #fffcfb; border-radius: 55px; padding: 45px 25px; max-width: 450px; margin: auto; }
     </style>
 </head>
 <body>
@@ -91,7 +102,7 @@
 
     <div class="card">
         <h3>📖 Leitura Bíblica</h3>
-        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;"></div>
+        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;"></div>
     </div>
 
     <div class="card">
@@ -103,16 +114,16 @@
 
     <div class="card" id="card-ciclo">
         <h3>🩸 Ciclo Menstrual</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-            <button class="btn-rect" onclick="soUm(this)">Leve</button>
-            <button class="btn-rect" onclick="soUm(this)">Moderado</button>
-            <button class="btn-rect" onclick="soUm(this)">Intenso</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <button class="btn-glass btn-rect" onclick="soUm(this)">Leve</button>
+            <button class="btn-glass btn-rect" onclick="soUm(this)">Moderado</button>
+            <button class="btn-glass btn-rect" onclick="soUm(this)">Intenso</button>
         </div>
     </div>
 
     <div class="card">
         <h3>✍️ Meu Diário</h3>
-        <textarea id="d-input" rows="4" placeholder="Abra seu coração aqui..."></textarea>
+        <textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea>
     </div>
 
     <div class="action-row">
@@ -126,7 +137,7 @@
 <script>
     const g = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
-        const b = document.createElement('button'); b.className = 'btn-opt'; b.innerText = i;
+        const b = document.createElement('button'); b.className = 'btn-glass btn-opt'; b.innerText = i;
         b.onclick = () => b.classList.toggle('active'); g.appendChild(b);
     }
 
@@ -134,9 +145,9 @@
     const area = document.getElementById('area-escalas');
     nomes.forEach(n => {
         const c = document.createElement('div'); c.className = 'card'; c.innerHTML = `<h3>${n}</h3>`;
-        const gr = document.createElement('div'); gr.style = "display:grid; grid-template-columns:repeat(5,1fr); gap:8px;";
+        const gr = document.createElement('div'); gr.style = "display:grid; grid-template-columns:repeat(5,1fr); gap:10px;";
         for(let i=1; i<=5; i++) {
-            const bt = document.createElement('button'); bt.className = 'btn-opt s-btn'; bt.innerText = i; bt.dataset.cat = n;
+            const bt = document.createElement('button'); bt.className = 'btn-glass btn-opt s-btn'; bt.innerText = i; bt.dataset.cat = n;
             bt.onclick = function() { gr.querySelectorAll('.btn-opt').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
             gr.appendChild(bt);
         }
@@ -158,14 +169,14 @@
             diario: document.getElementById('d-input').value
         };
         document.querySelectorAll('.s-btn.active').forEach(b => entry.escalas[b.dataset.cat] = b.innerText);
-        let db = JSON.parse(localStorage.getItem('lunabia_v_glass') || "{}");
-        db[d] = entry; localStorage.setItem('lunabia_v_glass', JSON.stringify(db));
-        alert("LunaBia: Guardado com luz! ✨");
+        let db = JSON.parse(localStorage.getItem('lunabia_v_pro') || "{}");
+        db[d] = entry; localStorage.setItem('lunabia_v_pro', JSON.stringify(db));
+        alert("LunaBia: Salvo com sucesso! ✨🙏");
     }
 
     function carregarData() {
         const d = document.getElementById('data-input').value;
-        const db = JSON.parse(localStorage.getItem('lunabia_v_glass') || "{}");
+        const db = JSON.parse(localStorage.getItem('lunabia_v_pro') || "{}");
         const log = db[d];
         document.querySelectorAll('.active').forEach(b => b.classList.remove('active'));
         document.getElementById('v-input').value = ""; document.getElementById('d-input').value = "";
@@ -178,12 +189,12 @@
     }
 
     function abrirRelatorio() {
-        const db = JSON.parse(localStorage.getItem('lunabia_v_glass') || "{}");
+        const db = JSON.parse(localStorage.getItem('lunabia_v_pro') || "{}");
         const modal = document.getElementById('m-content');
         const datas = Object.keys(db).sort().reverse();
-        let h = `<h2 style="font-family:'Bodoni Moda'; font-style:italic; color:#804832; font-size:35px;">Registos</h2>`;
+        let h = `<h2 style="font-family:'Bodoni Moda'; font-style:italic; color:#804832; font-size:35px;">Análise</h2>`;
         if(datas.length > 0) { datas.forEach(dt => h += `<div style="border-bottom:1px solid #eee; padding:15px 0; text-align:left; font-size:12px;"><b>📅 ${dt}</b> | ✨ ${db[dt].versiculo.substring(0,30)}...</div>`); }
-        else { h += "<p>Ainda sem registos.</p>"; }
+        else { h += "<p>Sem dados.</p>"; }
         h += `<button onclick="document.getElementById('modal').style.display='none'" class="btn-action btn-save" style="margin-top:20px; width:100%;">VOLTAR</button>`;
         modal.innerHTML = h; document.getElementById('modal').style.display = 'block';
     }
