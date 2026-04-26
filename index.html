@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LunaBia Final</title>
+    <title>LunaBia Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --eucalipto-profundo: #2d3d36;
-            --eucalipto-glass: rgba(45, 61, 54, 0.25); /* Tonalidade suave de antes */
-            --botao-glass-claro: rgba(255, 255, 255, 0.4); /* Claro e translúcido */
-            --glass-puro: rgba(255, 255, 255, 0.05);
+            --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); /* Verde mais escuro e translúcido */
+            --eucalipto-btn-glass: rgba(77, 109, 96, 0.35); /* Botões em tom verde */
+            --border-glass: rgba(255, 255, 255, 0.2);
         }
 
         body {
@@ -26,8 +26,8 @@
             backdrop-filter: blur(45px) saturate(160%);
             -webkit-backdrop-filter: blur(45px) saturate(160%);
             width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
+            border: 1px solid var(--border-glass);
+            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
         }
 
         h1 { 
@@ -36,71 +36,87 @@
             letter-spacing: 5px;
         }
 
-        .divider {
-            margin: 10px auto 35px; width: 180px; opacity: 0.8;
-        }
+        .divider { margin: 10px auto 35px; width: 180px; opacity: 0.8; }
 
+        /* ILHA DA LUA */
         .ilha-lua {
-            background: rgba(255, 255, 255, 0.03); border-radius: 30px;
+            background: rgba(255, 255, 255, 0.05); border-radius: 30px;
             padding: 18px; margin: 0 auto 40px; width: fit-content;
-            border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1), inset 0 0 10px rgba(255,255,255,0.05);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.1);
         }
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
 
         .ilha-filha {
-            background: var(--glass-puro); border-radius: 40px;
+            background: rgba(255, 255, 255, 0.05); border-radius: 40px;
             padding: 25px 18px; margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            backdrop-filter: blur(15px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
+        /* ILHAS FILHAS EM VERDE EUCALIPTO ESCURO TRANSLÚCIDO */
         .ilha-verde {
-            background: var(--eucalipto-glass) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            background: var(--eucalipto-glass-escuro) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
         }
 
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
 
-        /* BOTÕES CLAROS E TRANSLÚCIDOS (EFEITO CRISTAL) */
-        .btn-glass-claro {
-            background: var(--botao-glass-claro); 
-            border: 1px solid rgba(255, 255, 255, 0.6); 
-            border-radius: 50%; width: 44px; height: 44px;
-            color: var(--eucalipto-profundo); font-weight: 700;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2); /* Flutuante */
+        /* BOTÕES EM TOM VERDE EUCALIPTO TRANSLÚCIDO */
+        .btn-glass-verde {
+            background: var(--eucalipto-btn-glass); 
+            border: 1px solid rgba(255, 255, 255, 0.4); 
+            border-radius: 50%; width: 46px; height: 46px;
+            color: white; font-weight: 700;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
             cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
 
         .btn-rect-glass {
-            background: var(--botao-glass-claro);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.1); /* Mais translúcido para o ciclo */
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 18px; padding: 16px; color: white; font-weight: 700;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             cursor: pointer; transition: 0.4s; text-transform: uppercase; font-size: 10px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(12px);
         }
 
         .active { 
-            background: var(--eucalipto-profundo) !important; color: white !important;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+            background: var(--eucalipto-profundo) !important; 
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            border: 1px solid white !important;
         }
 
         textarea, input[type="date"] {
             width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 18px;
+            border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px;
             color: white; font-family: inherit; font-size: 16px; outline: none;
         }
 
-        .btn-action { 
-            width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2);
-            color: white; font-weight: 800; text-transform: uppercase; font-size: 12px;
-            background: var(--eucalipto-glass); backdrop-filter: blur(15px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3); margin-bottom: 15px;
+        /* ÁREA DE BOTÕES FINAIS */
+        .area-acoes {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-salvar { 
+            width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3);
+            color: white; font-weight: 800; text-transform: uppercase; font-size: 13px;
+            background: var(--eucalipto-glass-escuro); backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        .btn-hist {
+            width: 100%; padding: 20px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7); text-transform: uppercase; font-size: 11px;
+            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
         }
     </style>
 </head>
@@ -119,27 +135,27 @@
     
     <div class="ilha-lua">
         <div id="lua-visual">🌑</div>
-        <div id="lua-nome">Carregando...</div>
+        <div id="lua-nome">...</div>
     </div>
 
     <div class="ilha-filha">
         <h3>📅 Registro</h3>
-        <input type="date" id="data-input" onchange="carregarData()">
+        <input type="date" id="data-input">
     </div>
 
     <div class="ilha-filha ilha-verde">
         <h3>📖 Leitura Bíblica</h3>
-        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;"></div>
+        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;"></div>
     </div>
 
     <div class="ilha-filha">
-        <h3>✨ Versículo</h3>
-        <textarea id="v-input" rows="2" placeholder="O que Ele disse?"></textarea>
+        <h3>✨ Palavra do Dia</h3>
+        <textarea id="v-input" rows="2" placeholder="Digite aqui..."></textarea>
     </div>
 
     <div id="area-escalas"></div>
 
-    <div class="ilha-filha">
+    <div class="ilha-filha" style="backdrop-filter: blur(25px); background: rgba(255,255,255,0.08);">
         <h3>🩸 Ciclo</h3>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
             <button class="btn-rect-glass" onclick="soUm(this)">Leve</button>
@@ -165,7 +181,10 @@
         <textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea>
     </div>
 
-    <button class="btn-action" onclick="salvar()">GUARDAR NO DIÁRIO</button>
+    <div class="area-acoes">
+        <button class="btn-salvar" onclick="salvar()">Salvar no Diário</button>
+        <button class="btn-hist" onclick="alert('Histórico em breve!')">Histórico de Registros</button>
+    </div>
 </div>
 
 <script>
@@ -190,7 +209,7 @@
 
     const bib = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
-        const b = document.createElement('button'); b.className = 'btn-glass-claro'; b.innerText = i;
+        const b = document.createElement('button'); b.className = 'btn-glass-verde'; b.innerText = i;
         b.onclick = () => b.classList.toggle('active'); bib.appendChild(b);
     }
 
@@ -200,8 +219,8 @@
         const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
         const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;";
         for(let i=1; i<=5; i++) {
-            const bt = document.createElement('button'); bt.className = 'btn-glass-claro s-btn'; bt.innerText = i; bt.dataset.cat = n;
-            bt.onclick = function() { g.querySelectorAll('.btn-glass-claro').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
+            const bt = document.createElement('button'); bt.className = 'btn-glass-verde'; bt.innerText = i;
+            bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
             g.appendChild(bt);
         }
         f.appendChild(g); area.appendChild(f);
@@ -212,9 +231,7 @@
         btn.classList.add('active');
     }
 
-    function salvar() { alert("LunaBia: Salvo com sucesso! ✨🌿"); }
-    function carregarData() { document.querySelectorAll('.active').forEach(b => b.classList.remove('active')); }
-
+    function salvar() { alert("LunaBia: Tudo guardado com luz! Boa noite, Bia! ✨🌙"); }
     document.getElementById('data-input').valueAsDate = new Date();
     updateMoon();
 </script>
