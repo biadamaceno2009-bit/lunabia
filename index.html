@@ -24,14 +24,21 @@
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
         .btn-glass-verde { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); border-radius: 50%; width: 44px; height: 44px; font-weight: 700; box-shadow: 0 6px 12px rgba(0,0,0,0.2); }
         .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: translateY(3px); box-shadow: none; }
-        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; justify-items: center; }
-        .btn-icone-bia { width: 48px; height: 48px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
         
-        /* ESTILO DO VETOR INTERNO E DO SVG DA CÓLICA */
-        .btn-icone-bia img, .svg-colica { width: 30px; height: 30px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.9; transition: 0.3s; }
+        /* GRID DE SINTOMAS COM NOMES */
+        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px 5px; width: 100%; justify-items: center; }
+        .container-sintoma { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
         
-        .active-icon { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: translateY(3px); box-shadow: none; }
+        .btn-icone-bia { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 5px 12px rgba(0,0,0,0.2); }
+        .btn-icone-bia img, .svg-colica { width: 26px; height: 26px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.8; transition: 0.3s; }
+        
+        /* Legenda do Sintoma */
+        .label-sintoma { font-size: 7.5px; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; text-align: center; line-height: 1.1; }
+
+        /* Estado Ativo */
+        .active-icon .btn-icone-bia { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: translateY(2px); box-shadow: none; }
         .active-icon img, .active-icon .svg-colica { opacity: 1 !important; }
+        .active-icon .label-sintoma { color: white !important; font-weight: 800; }
 
         textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: white; font-family: inherit; font-size: 16px; outline: none; }
         .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
@@ -52,22 +59,51 @@
     <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
         <div class="grid-icones-bia">
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cólica">
-                <svg class="svg-colica" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50,10 A40,40 0 1,1 10,50 A40,40 0 0,1 50,10 Z" stroke="black" fill="none" stroke-width="8"/>
-                    <path d="M50,25 A25,25 0 1,1 25,50 A25,25 0 0,1 50,25 Z" stroke="black" fill="none" stroke-width="6"/>
-                    <path d="M50,40 A10,10 0 1,1 40,50 A10,10 0 0,1 50,40 Z" stroke="black" fill="none" stroke-width="4"/>
-                </svg>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia">
+                    <svg class="svg-colica" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50,10 A40,40 0 1,1 10,50 A40,40 0 0,1 50,10 Z" stroke="black" fill="none" stroke-width="8"/>
+                        <path d="M50,25 A25,25 0 1,1 25,50 A25,25 0 0,1 50,25 Z" stroke="black" fill="none" stroke-width="6"/>
+                    </svg>
+                </div>
+                <div class="label-sintoma">Cólica</div>
             </div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Inchada"><img src="inchada.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Dor nas Costas"><img src="dor nas costas.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Enxaqueca"><img src="enxaqueca.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Rinite"><img src="Renite.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Estressada"><img src="extressada.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Desânimo"><img src="desânimo.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Focada"><img src="Focada.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Ouvido"><img src="Dor de ouvido.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cansaço"><img src="cansaço.png"></div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="inchada.png"></div>
+                <div class="label-sintoma">Inchaço</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="dor nas costas.png"></div>
+                <div class="label-sintoma">Costas</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="enxaqueca.png"></div>
+                <div class="label-sintoma">Cabeça</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="Renite.png"></div>
+                <div class="label-sintoma">Rinite</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="extressada.png"></div>
+                <div class="label-sintoma">Estresse</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="desânimo.png"></div>
+                <div class="label-sintoma">Desânimo</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="Focada.png"></div>
+                <div class="label-sintoma">Focada</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="Dor de ouvido.png"></div>
+                <div class="label-sintoma">Ouvido</div>
+            </div>
+            <div class="container-sintoma" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia"><img src="cansaço.png"></div>
+                <div class="label-sintoma">Cansaço</div>
+            </div>
         </div>
     </div>
     <div class="ilha-filha"><h3>✍️ Diário</h3><textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea></div>
