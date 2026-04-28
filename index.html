@@ -240,9 +240,53 @@ document.getElementById('data-input').addEventListener('change', updateMoon);
         btn.classList.add('active');
     }
 
-    function salvar() { alert("LunaBia: Tudo guardado com luz! Boa noite, Bia! ✨🌙"); }
-    document.getElementById('data-input').valueAsDate = new Date();
-    updateMoon();
-</script>
-</body>
-</html>
+   function salvar() {
+    // 1. Coleta os dados básicos
+    const data = document.getElementById('data-input').value;
+    const lua = document.getElementById('lua-nome').innerText;
+    const palavra = document.getElementById('v-input').value;
+    const diario = document.getElementById('d-input').value;
+
+    // 2. Coleta os ícones selecionados (seus vetores)
+    const iconesAtivos = [];
+    document.querySelectorAll('.btn-icone-bia.active-icon').forEach(btn => {
+        iconesAtivos.push(btn.getAttribute('title'));
+    });
+
+    // 3. Coleta os níveis das escalas (Sono, Humor, etc)
+    const escalas = {};
+    const ilhasEscalas = document.querySelectorAll('#area-escalas .ilha-filha');
+    ilhasEscalas.forEach(ilha => {
+        const nomeEscala = ilha.querySelector('h3').innerText;
+        const valorAtivo = ilha.querySelector('.btn-glass-verde.active');
+        escalas[nomeEscala] = valorAtivo ? valorAtivo.innerText : "0";
+    });
+
+    // 4. Cria o objeto do Registro de Hoje
+    const registroDeHoje = {
+        data,
+        lua,
+        palavra,
+        diario,
+        iconesAtivos,
+        escalas
+    };
+
+    // 5. Salva na memória do Celular (localStorage)
+    // Primeiro, pega o que já existe ou cria uma lista vazia
+    let historico = JSON.parse(localStorage.getItem('lunaBia_dados')) || [];
+    
+    // Adiciona o novo registro
+    historico.push(registroDeHoje);
+    
+    // Guarda de volta na "gavetinha" do celular
+    localStorage.setItem('lunaBia_dados', JSON.stringify(historico));
+
+    alert("LunaBia: Registro salvo na memória do seu celular! ✨🌙");
+    
+    // Limpa alguns campos para o próximo uso (opcional)
+    document.getElementById('v-input').value = "";
+    document.getElementById('d-input').value = "";
+    document.querySelectorAll('.active-icon').forEach(el => el.classList.remove('active-icon'));
+    document.querySelectorAll('.btn-glass-verde.active').forEach(el => el.classList.remove('active'));
+}
