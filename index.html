@@ -53,49 +53,58 @@
         .btn-glass-verde { 
             background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); 
             color: white; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); 
-            border-radius: 50%; width: 46px; height: 46px; font-weight: 700;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            border-radius: 50%; width: 44px; height: 44px; font-weight: 700;
         }
         
         .active { 
             background: var(--eucalipto-profundo) !important; border: 1px solid white !important; 
-            transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
+            transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
         }
 
-        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; justify-items: center; padding: 0 5px; }
+        /* GRID DE SINTOMAS - AJUSTADO */
+        .grid-icones-bia { 
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 5px; 
+            justify-items: center; 
+            padding: 0;
+            width: 100%;
+        }
 
         .btn-icone-bia {
-            width: 55px; height: 55px; 
+            width: 48px; height: 48px; 
             background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer; transition: 0.3s;
             backdrop-filter: blur(10px);
+            box-sizing: border-box; /* Garante que a borda não aumente o tamanho */
         }
 
         .btn-icone-bia img { 
-            width: 38px; height: 38px; object-fit: contain; 
-            filter: brightness(0) invert(1); 
-            opacity: 0.95; 
+            width: 30px; height: 30px; object-fit: contain; 
+            filter: brightness(0) invert(1); /* VETOR BRANCO */
+            opacity: 0.9; 
             transition: 0.3s;
         }
 
+        /* ESTADO SELECIONADO (AJUSTADO BIA) */
         .active-icon { 
-            background: rgba(255, 255, 255, 0.1) !important; 
-            border: 2px solid white !important; 
-            transform: translateY(-5px); 
-            box-shadow: 0 10px 25px rgba(255,255,255,0.2); 
+            background: var(--eucalipto-profundo) !important; /* FUNDO VERDE ESCURO IGUAL AS ESCALAS */
+            border: 1px solid white !important; /* BORDA BRANCA BEM FININHA */
+            transform: scale(1.05); /* Pequeno zoom para feedback */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .active-icon img { 
-            opacity: 1 !important; 
-            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255,255,255,0.6)); 
+
+        .active-icon img {
+            opacity: 1 !important; /* ÍCONE BRANCO NÍTIDO DENTRO DO VERDE */
+            filter: brightness(0) invert(1);
         }
 
         textarea, input[type="date"] { 
             width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); 
             border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; 
             color: white; font-family: inherit; font-size: 16px; outline: none;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
@@ -132,7 +141,8 @@
     <div class="ilha-filha ilha-verde">
         <h3>🤒 Sintomas</h3>
         <div class="grid-icones-bia">
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cólicas"><img src="colica.png"></div> <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Inchada"><img src="inchada.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cólica"><img src="cólica.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Inchada"><img src="inchada.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Dor nas Costas"><img src="dor nas costas.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Enxaqueca"><img src="enxaqueca.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Rinite"><img src="Renite.png"></div>
@@ -140,7 +150,8 @@
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Desânimo"><img src="desânimo.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Focada"><img src="Focada.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Ouvido"><img src="Dor de ouvido.png"></div>
-            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cansaço"><img src="cansaço.png"></div> </div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cansaço"><img src="cansaço.png"></div>
+        </div>
     </div>
 
     <div class="ilha-filha">
@@ -185,12 +196,11 @@
         b.onclick = () => b.classList.toggle('active'); bib.appendChild(b);
     }
 
-    // LISTA DE ESCALAS COMPLETA (SEM CANSAÇO)
-    const nomes = ["Sono", "Humor", "Energia"];
+    const nomes = ["Sono", "Humor", "Energia", "Descanso"];
     const area = document.getElementById('area-escalas');
     nomes.forEach(n => {
         const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
-        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;";
+        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:10px;";
         for(let i=1; i<=5; i++) {
             const bt = document.createElement('button'); bt.className = 'btn-glass-verde'; bt.innerText = i;
             bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
@@ -202,15 +212,6 @@
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
     function salvar() {
-        const registro = {
-            data: document.getElementById('data-input').value,
-            lua: document.getElementById('lua-nome').innerText,
-            diario: document.getElementById('d-input').value,
-            icones: Array.from(document.querySelectorAll('.active-icon')).map(i => i.getAttribute('title'))
-        };
-        let hist = JSON.parse(localStorage.getItem('lunaBia_dados')) || [];
-        hist.push(registro);
-        localStorage.setItem('lunaBia_dados', JSON.stringify(hist));
         alert("LunaBia: Salvo com sucesso! ✨🌙");
     }
 </script>
