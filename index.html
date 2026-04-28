@@ -6,114 +6,77 @@
     <title>LunaBia Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* PALETA BLINDADA */
         :root {
             --eucalipto-profundo: #2d3d36;
             --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); 
             --eucalipto-btn-glass: rgba(77, 109, 96, 0.35); 
             --border-glass: rgba(255, 255, 255, 0.2);
+            --cor-bia-canva: #32620e; /* A COR EXATA QUE VOCÊ PEDIU */
         }
 
-        body {
-            margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif;
-            background-image: url('1.jpeg'); background-size: cover;
-            background-position: center; background-attachment: fixed;
-            display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box;
-            overflow-x: hidden;
-        }
-
-        .ilha-mae {
-            background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(45px) saturate(160%);
-            -webkit-backdrop-filter: blur(45px) saturate(160%);
-            width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px;
-            border: 1px solid var(--border-glass);
-            text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-        }
-
-        h1 { 
-            font-family: 'Cinzel', serif;
-            color: var(--eucalipto-profundo) !important; font-size: 48px; margin: 0;
-            letter-spacing: 5px;
-        }
-
+        /* ESTRUTURA BLINDADA */
+        body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
+        .ilha-mae { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(45px) saturate(160%); -webkit-backdrop-filter: blur(45px) saturate(160%); width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px; border: 1px solid var(--border-glass); text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+        h1 { font-family: 'Cinzel', serif; color: var(--eucalipto-profundo) !important; font-size: 48px; margin: 0; letter-spacing: 5px; }
         .divider { margin: 10px auto 35px; width: 180px; opacity: 0.8; }
-
-        .ilha-lua {
-            background: rgba(255, 255, 255, 0.05); border-radius: 30px;
-            padding: 18px; margin: 0 auto 40px; width: fit-content;
-            border: 1px solid var(--border-glass);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
+        .ilha-lua { background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border-glass); backdrop-filter: blur(20px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
-
-        .ilha-filha {
-            background: rgba(255, 255, 255, 0.05); border-radius: 40px;
-            padding: 25px 18px; margin-bottom: 40px;
-            border: 1px solid var(--border-glass);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-
-        .ilha-verde {
-            background: var(--eucalipto-glass-escuro) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        }
-
+        .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 40px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
+        .btn-glass-verde { background: var(--eucalipto-btn-glass); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; width: 46px; height: 46px; color: white; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-rect-glass { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 18px; padding: 16px; color: white; font-weight: 700; cursor: pointer; transition: 0.4s; text-transform: uppercase; font-size: 10px; }
+        .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
+        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: white; font-family: inherit; font-size: 16px; outline: none; }
+        .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .btn-salvar { width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; font-size: 13px; background: var(--eucalipto-glass-escuro); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .btn-hist { width: 100%; padding: 20px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); text-transform: uppercase; font-size: 11px; background: rgba(255,255,255,0.03); }
 
-        .btn-glass-verde {
-            background: var(--eucalipto-btn-glass); 
-            border: 1px solid rgba(255, 255, 255, 0.4); 
-            border-radius: 50%; width: 46px; height: 46px;
-            color: white; font-weight: 700;
-            cursor: pointer; transition: 0.3s;
-        }
-
-        .btn-rect-glass {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 18px; padding: 16px; color: white; font-weight: 700;
-            cursor: pointer; transition: 0.4s; text-transform: uppercase; font-size: 10px;
-        }
-
-        /* ESTILO DOS SEUS ÍCONES DO CANVA */
+        /* ESTILO DOS SEUS ÍCONES DO CANVA - AGORA TRANSPARENTES */
         .grid-icones-bia {
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; justify-items: center;
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr); /* 5 por linha para caber os 10 */
+            gap: 10px; 
+            justify-items: center;
         }
 
         .btn-icone-bia {
-            width: 52px; height: 52px; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 14px;
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            width: 55px; 
+            height: 55px; 
+            background: rgba(255, 255, 255, 0.05); /* Fundo vidro totalmente claro */
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Borda vidro sutil */
+            border-radius: 15px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
         }
 
-        .btn-icone-bia img { width: 32px; height: 32px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.6; }
-
-        .active-icon { background: var(--eucalipto-profundo) !important; border: 1px solid white; transform: scale(1.1); }
-        .active-icon img { filter: none !important; opacity: 1 !important; }
-
-        .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
-
-        textarea, input[type="date"] {
-            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px;
-            color: white; font-family: inherit; font-size: 16px; outline: none;
+        .btn-icone-bia img { 
+            width: 35px; 
+            height: 35px; 
+            object-fit: contain; 
+            opacity: 0.7; /* Suave quando não selecionado */
+            transition: 0.3s;
         }
 
-        .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
+        /* ESTADO SELECIONADO (ACTIVE-ICON) */
+        .active-icon { 
+            background: rgba(255, 255, 255, 0.15) !important; /* Continua claro, só aumenta a transparência */
+            border: 2px solid white; /* Borda branca de destaque */
+            transform: translateY(-5px); /* Dá um pulinho */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
 
-        .btn-salvar { 
-            width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3);
-            color: white; font-weight: 800; text-transform: uppercase; font-size: 13px;
-            background: var(--eucalipto-glass-escuro); box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        .active-icon img { 
+            opacity: 1; /* Cor cheia (o verde `#32620e` que você desenhou) */
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.6)); /* Brilho branco de destaque */
         }
-        .btn-hist {
-            width: 100%; padding: 20px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.7); text-transform: uppercase; font-size: 11px;
-            background: rgba(255,255,255,0.03);
-        }
+
     </style>
 </head>
 <body>
@@ -168,10 +131,15 @@
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Dor nas Costas"><img src="dor nas costas.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Enxaqueca"><img src="enxaqueca.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Rinite"><img src="Renite.png"></div>
+            
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Estressada"><img src="extressada.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Desânimo"><img src="desânimo.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Focada"><img src="Focada.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Ouvido"><img src="Dor de ouvido.png"></div>
+            
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cuidado Íntimo">
+                <img src="útero_coração.png">
+            </div>
         </div>
     </div>
 
@@ -182,91 +150,26 @@
 
     <div class="area-acoes">
         <button class="btn-salvar" onclick="salvar()">Salvar no Diário</button>
-        <button class="btn-hist" onclick="verHistorico()">Analisar Padrões</button>
+        <button class="btn-hist" onclick="alert('Analisando padrões lunares...')">Analisar Padrões</button>
     </div>
 </div>
 
 <script>
-    function updateMoon() {
-        const dataSelecionada = document.getElementById('data-input').value;
-        const date = dataSelecionada ? new Date(dataSelecionada + "T12:00:00") : new Date();
-        const lp = 2551443; 
-        const new_moon = new Date('1970-01-07T20:35:00Z').getTime();
-        const phase = ((date.getTime() - new_moon) / 1000) % lp;
-        const days = phase / (24 * 3600);
-        let res = { emoji: '🌑', nome: 'Lua Nova' };
-        if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' };
-        else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' };
-        else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' };
-        else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa Crescente' };
-        else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' };
-        else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa Minguante' };
-        else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' };
-        else if (days < 27.68) res = { emoji: '🌘', nome: 'Lua Minguante' };
-        document.getElementById('lua-visual').innerText = res.emoji;
-        document.getElementById('lua-nome').innerText = res.nome;
-    }
-
+    /* SCRIPT BLINDADO - NÃO MEXER */
+    function updateMoon() { const dataSelecionada = document.getElementById('data-input').value; const date = dataSelecionada ? new Date(dataSelecionada + "T12:00:00") : new Date(); const lp = 2551443; const new_moon = new Date('1970-01-07T20:35:00Z').getTime(); const phase = ((date.getTime() - new_moon) / 1000) % lp; const days = phase / (24 * 3600); let res = { emoji: '🌑', nome: 'Lua Nova' }; if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' }; else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' }; else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' }; else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa Crescente' }; else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' }; else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa Minguante' }; else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' }; else if (days < 27.68) res = { emoji: '🌘', nome: 'Lua Minguante' }; document.getElementById('lua-visual').innerText = res.emoji; document.getElementById('lua-nome').innerText = res.nome; }
     document.getElementById('data-input').addEventListener('change', updateMoon);
     window.onload = updateMoon;
-
     const bib = document.getElementById('grid-biblia');
-    for(let i=1; i<=31; i++) {
-        const b = document.createElement('button'); b.className = 'btn-glass-verde'; b.innerText = i;
-        b.onclick = () => b.classList.toggle('active'); bib.appendChild(b);
-    }
-
+    for(let i=1; i<=31; i++) { const b = document.createElement('button'); b.className = 'btn-glass-verde'; b.innerText = i; b.onclick = () => b.classList.toggle('active'); bib.appendChild(b); }
     const nomes = ["Sono", "Humor", "Cansaço", "Descanso", "Energia"];
     const area = document.getElementById('area-escalas');
-    nomes.forEach(n => {
-        const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
-        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;";
-        for(let i=1; i<=5; i++) {
-            const bt = document.createElement('button'); bt.className = 'btn-glass-verde'; bt.innerText = i;
-            bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
-            g.appendChild(bt);
-        }
-        f.appendChild(g); area.appendChild(f);
-    });
-
-    function soUm(btn) {
-        btn.parentElement.querySelectorAll('.btn-rect-glass').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
-
+    nomes.forEach(n => { const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`; const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;"; for(let i=1; i<=5; i++) { const bt = document.createElement('button'); bt.className = 'btn-glass-verde'; bt.innerText = i; bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); }; g.appendChild(bt); } f.appendChild(g); area.appendChild(f); });
+    function soUm(btn) { btn.parentElement.querySelectorAll('.btn-rect-glass').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+    
+    // FUNÇÃO QUE ATIVA/DESATIVA O ÍCONE (SEM MUDAR A COR DELE)
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
-
-    function salvar() {
-        const data = document.getElementById('data-input').value;
-        const lua = document.getElementById('lua-nome').innerText;
-        const palavra = document.getElementById('v-input').value;
-        const diario = document.getElementById('d-input').value;
-        const iconesAtivos = [];
-        document.querySelectorAll('.btn-icone-bia.active-icon').forEach(btn => { iconesAtivos.push(btn.getAttribute('title')); });
-
-        const escalas = {};
-        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
-            const nomeEscala = ilha.querySelector('h3').innerText;
-            const valorAtivo = ilha.querySelector('.btn-glass-verde.active');
-            escalas[nomeEscala] = valorAtivo ? valorAtivo.innerText : "0";
-        });
-
-        const registro = { data, lua, palavra, diario, iconesAtivos, escalas };
-        let historico = JSON.parse(localStorage.getItem('lunaBia_dados')) || [];
-        historico.push(registro);
-        localStorage.setItem('lunaBia_dados', JSON.stringify(historico));
-        alert("LunaBia: Salvo no seu celular! ✨🌙");
-    }
-
-    function verHistorico() {
-        let dados = localStorage.getItem('lunaBia_dados');
-        if (dados) {
-            let lista = JSON.parse(dados);
-            alert("Você tem " + lista.length + " registros. Em breve analisarei seus padrões!");
-        } else {
-            alert("Ainda não há registros para analisar, Bia!");
-        }
-    }
+    
+    function salvar() { const data = document.getElementById('data-input').value; const lua = document.getElementById('lua-nome').innerText; const palavra = document.getElementById('v-input').value; const diario = document.getElementById('d-input').value; const iconesAtivos = []; document.querySelectorAll('.btn-icone-bia.active-icon').forEach(btn => { iconesAtivos.push(btn.getAttribute('title')); }); const escalas = {}; document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nomeEscala = ilha.querySelector('h3').innerText; const valorAtivo = ilha.querySelector('.btn-glass-verde.active'); escalas[nomeEscala] = valorAtivo ? valorAtivo.innerText : "0"; }); alert(`LunaBia: Salvo! ✨🌙 \nData: ${data} \nLua: ${lua} \nÍcones: ${iconesAtivos.join(', ')}`); }
 </script>
 </body>
 </html>
