@@ -12,58 +12,94 @@
             --border-glass: rgba(255, 255, 255, 0.2);
         }
 
-        body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
+        body { 
+            margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; 
+            background-image: url('1.jpeg'); background-size: cover; background-position: center; 
+            background-attachment: fixed; display: flex; justify-content: center; 
+            padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; 
+        }
         
-        .ilha-mae { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(45px) saturate(160%); -webkit-backdrop-filter: blur(45px) saturate(160%); width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px; border: 1px solid var(--border-glass); text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+        /* ILHA MÃE FLUTUANTE */
+        .ilha-mae { 
+            background: rgba(255, 255, 255, 0.01); 
+            backdrop-filter: blur(45px) saturate(160%); 
+            -webkit-backdrop-filter: blur(45px) saturate(160%); 
+            width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px; 
+            border: 1px solid var(--border-glass); text-align: center; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4); /* Efeito Flutuante */
+        }
         
         h1 { font-family: 'Cinzel', serif; color: var(--eucalipto-profundo) !important; font-size: 48px; margin: 0; letter-spacing: 5px; }
-        
         .divider { margin: 10px auto 35px; width: 180px; opacity: 0.8; }
         
-        .ilha-lua { background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border-glass); backdrop-filter: blur(20px); }
+        .ilha-lua { 
+            background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; 
+            margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border-glass); 
+            backdrop-filter: blur(20px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+        }
         
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
 
-        .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 40px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        /* ILHAS FILHAS FLUTUANTES */
+        .ilha-filha { 
+            background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; 
+            margin-bottom: 40px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); /* Efeito Flutuante */
+        }
         
         .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
 
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
 
-        /* BOTÕES DE ESCALA E CICLO */
-        .btn-glass-verde, .btn-rect-glass { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); }
-        .btn-glass-verde { border-radius: 50%; width: 46px; height: 46px; font-weight: 700; }
-        .btn-rect-glass { border-radius: 18px; padding: 16px; font-weight: 700; text-transform: uppercase; font-size: 10px; }
-        .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: scale(1.05); }
+        /* BOTÕES FLUTUANTES */
+        .btn-glass-verde { 
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); 
+            color: white; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); 
+            border-radius: 50%; width: 46px; height: 46px; font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+        }
+        
+        .active { 
+            background: var(--eucalipto-profundo) !important; border: 1px solid white !important; 
+            transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
+        }
 
-        /* ESTILO TRANSPARENTE PARA OS SEUS ÍCONES */
-        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; justify-items: center; }
+        /* GRID DE ÍCONES AJUSTADO */
+        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; justify-items: center; padding: 0 5px; }
 
         .btn-icone-bia {
-            width: 55px; height: 55px; 
-            background: rgba(255, 255, 255, 0.08); /* Vidro bem clarinho */
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            border-radius: 15px;
+            width: 50px; height: 50px; background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; transition: all 0.3s ease;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .btn-icone-bia img { width: 38px; height: 38px; object-fit: contain; transition: 0.3s; }
+        .btn-icone-bia img { 
+            width: 32px; height: 32px; object-fit: contain; 
+            filter: brightness(0) invert(1); /* SEUS VETORES EM BRANCO */
+            opacity: 0.4; transition: 0.3s;
+        }
 
-        /* QUANDO VOCÊ CLICA NO ÍCONE */
         .active-icon { 
-            background: rgba(255, 255, 255, 0.2) !important; 
-            border: 2px solid white !important; 
-            box-shadow: 0 0 15px rgba(255,255,255,0.3);
-            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15) !important; border: 2px solid white !important; 
+            transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+        .active-icon img { opacity: 1 !important; }
+
+        textarea, input[type="date"] { 
+            width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); 
+            border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; 
+            color: white; font-family: inherit; font-size: 16px; outline: none;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: white; font-family: inherit; font-size: 16px; outline: none; }
-        
         .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .btn-salvar { width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; font-size: 13px; background: var(--eucalipto-glass-escuro); }
-        .btn-hist { width: 100%; padding: 20px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); text-transform: uppercase; font-size: 11px; background: rgba(255,255,255,0.03); }
+        .btn-salvar { 
+            width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); 
+            color: white; font-weight: 800; text-transform: uppercase; font-size: 13px; 
+            background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
@@ -112,16 +148,18 @@
 
     <div class="area-acoes">
         <button class="btn-salvar" onclick="salvar()">Salvar no Diário</button>
-        <button class="btn-hist" onclick="alert('Analisando padrões...')">Analisar Padrões</button>
     </div>
 </div>
 
 <script>
+    // FUNÇÃO DA DATA E LUA CORRIGIDA
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
         const date = dataIn ? new Date(dataIn + "T12:00:00") : new Date();
-        const lp = 2551443; const new_m = new Date('1970-01-07T20:35:00Z').getTime();
-        const phase = ((date.getTime() - new_m) / 1000) % lp; const days = phase / (24 * 3600);
+        const lp = 2551443; 
+        const new_m = new Date('1970-01-07T20:35:00Z').getTime();
+        const phase = ((date.getTime() - new_m) / 1000) % lp;
+        const days = phase / (24 * 3600);
         let res = { emoji: '🌑', nome: 'Lua Nova' };
         if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' };
         else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' };
@@ -134,6 +172,10 @@
         document.getElementById('lua-visual').innerText = res.emoji;
         document.getElementById('lua-nome').innerText = res.nome;
     }
+
+    // Configura data de hoje ao abrir
+    const hoje = new Date().toISOString().split('T')[0];
+    document.getElementById('data-input').value = hoje;
     document.getElementById('data-input').addEventListener('change', updateMoon);
     window.onload = updateMoon;
 
@@ -168,7 +210,7 @@
         let hist = JSON.parse(localStorage.getItem('lunaBia_dados')) || [];
         hist.push(registro);
         localStorage.setItem('lunaBia_dados', JSON.stringify(hist));
-        alert("Salvo com sucesso! ✨🌙");
+        alert("LunaBia: Salvo com sucesso! ✨🌙");
     }
 </script>
 </body>
