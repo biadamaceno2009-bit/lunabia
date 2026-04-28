@@ -10,6 +10,7 @@
             --eucalipto-profundo: #2d3d36;
             --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); 
             --border-glass: rgba(255, 255, 255, 0.2);
+            --sombra-flutuante: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         body { 
@@ -43,62 +44,45 @@
         .ilha-filha { 
             background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; 
             margin-bottom: 40px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3); 
+            box-shadow: var(--sombra-flutuante); 
         }
         
         .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
 
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
 
+        /* BOTÕES FLUTUANTES (BÍBLIA E ESCALAS) */
         .btn-glass-verde { 
             background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); 
             color: white; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); 
             border-radius: 50%; width: 44px; height: 44px; font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .active { 
             background: var(--eucalipto-profundo) !important; border: 1px solid white !important; 
-            transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); 
+            transform: translateY(2px); box-shadow: none; /* Efeito de apertar */
         }
 
-        /* GRID DE SINTOMAS - AJUSTADO */
-        .grid-icones-bia { 
-            display: grid; 
-            grid-template-columns: repeat(5, 1fr); 
-            gap: 5px; 
-            justify-items: center; 
-            padding: 0;
-            width: 100%;
-        }
+        /* GRID DE SINTOMAS FLUTUANTES */
+        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; }
 
         .btn-icone-bia {
             width: 48px; height: 48px; 
-            background: rgba(255, 255, 255, 0.03); 
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; 
             cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(10px);
-            box-sizing: border-box; /* Garante que a borda não aumente o tamanho */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
 
-        .btn-icone-bia img { 
-            width: 30px; height: 30px; object-fit: contain; 
-            filter: brightness(0) invert(1); /* VETOR BRANCO */
-            opacity: 0.9; 
-            transition: 0.3s;
-        }
+        .btn-icone-bia img { width: 30px; height: 30px; filter: brightness(0) invert(1); opacity: 0.9; }
 
-        /* ESTADO SELECIONADO (AJUSTADO BIA) */
         .active-icon { 
-            background: var(--eucalipto-profundo) !important; /* FUNDO VERDE ESCURO IGUAL AS ESCALAS */
-            border: 1px solid white !important; /* BORDA BRANCA BEM FININHA */
-            transform: scale(1.05); /* Pequeno zoom para feedback */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .active-icon img {
-            opacity: 1 !important; /* ÍCONE BRANCO NÍTIDO DENTRO DO VERDE */
-            filter: brightness(0) invert(1);
+            background: var(--eucalipto-profundo) !important; 
+            border: 1px solid white !important; 
+            transform: translateY(2px);
+            box-shadow: none;
         }
 
         textarea, input[type="date"] { 
@@ -108,11 +92,17 @@
         }
 
         .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .btn-salvar { 
-            width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); 
-            color: white; font-weight: 800; text-transform: uppercase; font-size: 13px; 
-            background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        
+        .btn-salvar, .btn-relatorio { 
+            width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); 
+            color: white; font-weight: 800; text-transform: uppercase; font-size: 13px; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
+
+        .btn-salvar { background: var(--eucalipto-glass-escuro); }
+        .btn-relatorio { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); }
+        
+        .btn-salvar:active, .btn-relatorio:active { transform: translateY(3px); box-shadow: none; }
     </style>
 </head>
 <body>
@@ -139,7 +129,7 @@
     <div id="area-escalas"></div>
 
     <div class="ilha-filha ilha-verde">
-        <h3>🤒 Sintomas</h3>
+        <h3>Sintomas</h3>
         <div class="grid-icones-bia">
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cólica"><img src="cólica.png"></div>
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Inchada"><img src="inchada.png"></div>
@@ -161,6 +151,7 @@
 
     <div class="area-acoes">
         <button class="btn-salvar" onclick="salvar()">Salvar no Diário</button>
+        <button class="btn-relatorio" onclick="alert('Relatório em desenvolvimento...')">Relatório</button>
     </div>
 </div>
 
@@ -211,9 +202,7 @@
 
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
-    function salvar() {
-        alert("LunaBia: Salvo com sucesso! ✨🌙");
-    }
+    function salvar() { alert("LunaBia: Salvo com sucesso! ✨🌙"); }
 </script>
 </body>
 </html>
