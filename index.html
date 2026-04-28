@@ -10,7 +10,6 @@
             --eucalipto-profundo: #2d3d36;
             --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); 
             --border-glass: rgba(255, 255, 255, 0.2);
-            --sombra-flutuante: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         body { 
@@ -20,6 +19,7 @@
             padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; 
         }
         
+        /* ILHA MÃE FLUTUANTE */
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.01); 
             backdrop-filter: blur(45px) saturate(160%); 
@@ -44,7 +44,7 @@
         .ilha-filha { 
             background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; 
             margin-bottom: 40px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); 
-            box-shadow: var(--sombra-flutuante); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3); 
         }
         
         .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
@@ -56,16 +56,16 @@
             background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); 
             color: white; cursor: pointer; transition: 0.3s; backdrop-filter: blur(10px); 
             border-radius: 50%; width: 44px; height: 44px; font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
         .active { 
             background: var(--eucalipto-profundo) !important; border: 1px solid white !important; 
-            transform: translateY(2px); box-shadow: none; /* Efeito de apertar */
+            transform: translateY(3px); box-shadow: none; 
         }
 
-        /* GRID DE SINTOMAS FLUTUANTES */
-        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; }
+        /* GRID DE SINTOMAS AJUSTADO */
+        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; justify-items: center; }
 
         .btn-icone-bia {
             width: 48px; height: 48px; 
@@ -73,15 +73,19 @@
             border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px;
             display: flex; align-items: center; justify-content: center; 
             cursor: pointer; transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
         }
 
-        .btn-icone-bia img { width: 30px; height: 30px; filter: brightness(0) invert(1); opacity: 0.9; }
+        .btn-icone-bia img { 
+            width: 30px; height: 30px; object-fit: contain;
+            filter: brightness(0) invert(1); /* Deixa o vetor branco */
+            opacity: 0.9; 
+        }
 
         .active-icon { 
             background: var(--eucalipto-profundo) !important; 
             border: 1px solid white !important; 
-            transform: translateY(2px);
+            transform: translateY(3px);
             box-shadow: none;
         }
 
@@ -128,7 +132,7 @@
 
     <div id="area-escalas"></div>
 
-   <div class="ilha-filha ilha-verde">
+    <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
         <div class="grid-icones-bia">
             <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cólica"><img src="Cólica.png"></div>
@@ -151,7 +155,7 @@
 
     <div class="area-acoes">
         <button class="btn-salvar" onclick="salvar()">Salvar no Diário</button>
-        <button class="btn-relatorio" onclick="alert('Relatório em desenvolvimento...')">Relatório</button>
+        <button class="btn-relatorio" onclick="alert('Analisando seus padrões...')">Relatório</button>
     </div>
 </div>
 
@@ -201,7 +205,6 @@
     });
 
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
-
     function salvar() { alert("LunaBia: Salvo com sucesso! ✨🌙"); }
 </script>
 </body>
