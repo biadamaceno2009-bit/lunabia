@@ -8,8 +8,8 @@
     <style>
         :root {
             --eucalipto-profundo: #2d3d36;
-            --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); /* Verde mais escuro e translúcido */
-            --eucalipto-btn-glass: rgba(77, 109, 96, 0.35); /* Botões em tom verde */
+            --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); 
+            --eucalipto-btn-glass: rgba(77, 109, 96, 0.35); 
             --border-glass: rgba(255, 255, 255, 0.2);
         }
 
@@ -38,13 +38,12 @@
 
         .divider { margin: 10px auto 35px; width: 180px; opacity: 0.8; }
 
-        /* ILHA DA LUA */
         .ilha-lua {
             background: rgba(255, 255, 255, 0.05); border-radius: 30px;
             padding: 18px; margin: 0 auto 40px; width: fit-content;
             border: 1px solid var(--border-glass);
             backdrop-filter: blur(20px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1), inset 0 0 15px rgba(255,255,255,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
@@ -57,41 +56,45 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        /* ILHAS FILHAS EM VERDE EUCALIPTO ESCURO TRANSLÚCIDO */
         .ilha-verde {
             background: var(--eucalipto-glass-escuro) !important;
             border: 1px solid rgba(255, 255, 255, 0.3) !important;
-            box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
         }
 
-        h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
 
-        /* BOTÕES EM TOM VERDE EUCALIPTO TRANSLÚCIDO */
         .btn-glass-verde {
             background: var(--eucalipto-btn-glass); 
             border: 1px solid rgba(255, 255, 255, 0.4); 
             border-radius: 50%; width: 46px; height: 46px;
             color: white; font-weight: 700;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
             cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(10px);
         }
 
         .btn-rect-glass {
-            background: rgba(255, 255, 255, 0.1); /* Mais translúcido para o ciclo */
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 18px; padding: 16px; color: white; font-weight: 700;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             cursor: pointer; transition: 0.4s; text-transform: uppercase; font-size: 10px;
-            backdrop-filter: blur(12px);
         }
 
-        .active { 
-            background: var(--eucalipto-profundo) !important; 
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-            border: 1px solid white !important;
+        /* ESTILO DOS SEUS ÍCONES DO CANVA */
+        .grid-icones-bia {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; justify-items: center;
         }
+
+        .btn-icone-bia {
+            width: 52px; height: 52px; background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 14px;
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+        }
+
+        .btn-icone-bia img { width: 32px; height: 32px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.6; }
+
+        .active-icon { background: var(--eucalipto-profundo) !important; border: 1px solid white; transform: scale(1.1); }
+        .active-icon img { filter: none !important; opacity: 1 !important; }
+
+        .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
 
         textarea, input[type="date"] {
             width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05);
@@ -99,24 +102,17 @@
             color: white; font-family: inherit; font-size: 16px; outline: none;
         }
 
-        /* ÁREA DE BOTÕES FINAIS */
-        .area-acoes {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+        .area-acoes { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
 
         .btn-salvar { 
             width: 100%; padding: 25px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3);
             color: white; font-weight: 800; text-transform: uppercase; font-size: 13px;
-            background: var(--eucalipto-glass-escuro); backdrop-filter: blur(20px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            background: var(--eucalipto-glass-escuro); box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         .btn-hist {
             width: 100%; padding: 20px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.1);
             color: rgba(255,255,255,0.7); text-transform: uppercase; font-size: 11px;
-            background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.03);
         }
     </style>
 </head>
@@ -165,14 +161,17 @@
     </div>
 
     <div class="ilha-filha ilha-verde">
-        <h3>🤒 Sintomas</h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-            <button class="btn-rect-glass" onclick="this.classList.toggle('active')">Cólica</button>
-            <button class="btn-rect-glass" onclick="this.classList.toggle('active')">Inchaço</button>
-            <button class="btn-rect-glass" onclick="this.classList.toggle('active')">D. Cabeça</button>
-            <button class="btn-rect-glass" onclick="this.classList.toggle('active')">D. Costas</button>
-            <button class="btn-rect-glass" onclick="this.classList.toggle('active')">Rinite</button>
-            <button class="btn-rect-glass" onclick="this.classList.toggle('active')">Insônia</button>
+        <h3>🩹 Monitoramento & Cuidado</h3>
+        <div class="grid-icones-bia">
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Cansaço"><img src="cansaço.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Inchada"><img src="inchada.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Dor nas Costas"><img src="dor nas costas.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Enxaqueca"><img src="enxaqueca.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Rinite"><img src="Renite.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Estressada"><img src="extressada.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Desânimo"><img src="desânimo.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Focada"><img src="Focada.png"></div>
+            <div class="btn-icone-bia" onclick="toggleIcon(this)" title="Ouvido"><img src="Dor de ouvido.png"></div>
         </div>
     </div>
 
@@ -183,38 +182,33 @@
 
     <div class="area-acoes">
         <button class="btn-salvar" onclick="salvar()">Salvar no Diário</button>
-        <button class="btn-hist" onclick="alert('Histórico em breve!')">Histórico de Registros</button>
+        <button class="btn-hist" onclick="verHistorico()">Analisar Padrões</button>
     </div>
 </div>
 
 <script>
-   // FUNÇÃO DA LUA CORRIGIDA E CONECTADA AO CALENDÁRIO
-function updateMoon() {
-    // Agora ele pega a data que você escolheu no calendário!
-    const dataSelecionada = document.getElementById('data-input').value;
-    const date = dataSelecionada ? new Date(dataSelecionada + "T12:00:00") : new Date();
-    
-    const lp = 2551443; 
-    const new_moon = new Date('1970-01-07T20:35:00Z').getTime();
-    const phase = ((date.getTime() - new_moon) / 1000) % lp;
-    const days = phase / (24 * 3600);
-    
-    let res = { emoji: '🌑', nome: 'Lua Nova' };
-    if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' };
-    else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' };
-    else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' };
-    else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa Crescente' };
-    else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' };
-    else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa Minguante' };
-    else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' };
-    else if (days < 27.68) res = { emoji: '🌘', nome: 'Lua Minguante' };
-    
-    document.getElementById('lua-visual').innerText = res.emoji;
-    document.getElementById('lua-nome').innerText = res.nome;
-}
+    function updateMoon() {
+        const dataSelecionada = document.getElementById('data-input').value;
+        const date = dataSelecionada ? new Date(dataSelecionada + "T12:00:00") : new Date();
+        const lp = 2551443; 
+        const new_moon = new Date('1970-01-07T20:35:00Z').getTime();
+        const phase = ((date.getTime() - new_moon) / 1000) % lp;
+        const days = phase / (24 * 3600);
+        let res = { emoji: '🌑', nome: 'Lua Nova' };
+        if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' };
+        else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' };
+        else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' };
+        else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa Crescente' };
+        else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' };
+        else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa Minguante' };
+        else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' };
+        else if (days < 27.68) res = { emoji: '🌘', nome: 'Lua Minguante' };
+        document.getElementById('lua-visual').innerText = res.emoji;
+        document.getElementById('lua-nome').innerText = res.nome;
+    }
 
-// Isso faz com que a lua mude assim que você escolher o dia
-document.getElementById('data-input').addEventListener('change', updateMoon);
+    document.getElementById('data-input').addEventListener('change', updateMoon);
+    window.onload = updateMoon;
 
     const bib = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
@@ -240,53 +234,39 @@ document.getElementById('data-input').addEventListener('change', updateMoon);
         btn.classList.add('active');
     }
 
-   function salvar() {
-    // 1. Coleta os dados básicos
-    const data = document.getElementById('data-input').value;
-    const lua = document.getElementById('lua-nome').innerText;
-    const palavra = document.getElementById('v-input').value;
-    const diario = document.getElementById('d-input').value;
+    function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
-    // 2. Coleta os ícones selecionados (seus vetores)
-    const iconesAtivos = [];
-    document.querySelectorAll('.btn-icone-bia.active-icon').forEach(btn => {
-        iconesAtivos.push(btn.getAttribute('title'));
-    });
+    function salvar() {
+        const data = document.getElementById('data-input').value;
+        const lua = document.getElementById('lua-nome').innerText;
+        const palavra = document.getElementById('v-input').value;
+        const diario = document.getElementById('d-input').value;
+        const iconesAtivos = [];
+        document.querySelectorAll('.btn-icone-bia.active-icon').forEach(btn => { iconesAtivos.push(btn.getAttribute('title')); });
 
-    // 3. Coleta os níveis das escalas (Sono, Humor, etc)
-    const escalas = {};
-    const ilhasEscalas = document.querySelectorAll('#area-escalas .ilha-filha');
-    ilhasEscalas.forEach(ilha => {
-        const nomeEscala = ilha.querySelector('h3').innerText;
-        const valorAtivo = ilha.querySelector('.btn-glass-verde.active');
-        escalas[nomeEscala] = valorAtivo ? valorAtivo.innerText : "0";
-    });
+        const escalas = {};
+        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
+            const nomeEscala = ilha.querySelector('h3').innerText;
+            const valorAtivo = ilha.querySelector('.btn-glass-verde.active');
+            escalas[nomeEscala] = valorAtivo ? valorAtivo.innerText : "0";
+        });
 
-    // 4. Cria o objeto do Registro de Hoje
-    const registroDeHoje = {
-        data,
-        lua,
-        palavra,
-        diario,
-        iconesAtivos,
-        escalas
-    };
+        const registro = { data, lua, palavra, diario, iconesAtivos, escalas };
+        let historico = JSON.parse(localStorage.getItem('lunaBia_dados')) || [];
+        historico.push(registro);
+        localStorage.setItem('lunaBia_dados', JSON.stringify(historico));
+        alert("LunaBia: Salvo no seu celular! ✨🌙");
+    }
 
-    // 5. Salva na memória do Celular (localStorage)
-    // Primeiro, pega o que já existe ou cria uma lista vazia
-    let historico = JSON.parse(localStorage.getItem('lunaBia_dados')) || [];
-    
-    // Adiciona o novo registro
-    historico.push(registroDeHoje);
-    
-    // Guarda de volta na "gavetinha" do celular
-    localStorage.setItem('lunaBia_dados', JSON.stringify(historico));
-
-    alert("LunaBia: Registro salvo na memória do seu celular! ✨🌙");
-    
-    // Limpa alguns campos para o próximo uso (opcional)
-    document.getElementById('v-input').value = "";
-    document.getElementById('d-input').value = "";
-    document.querySelectorAll('.active-icon').forEach(el => el.classList.remove('active-icon'));
-    document.querySelectorAll('.btn-glass-verde.active').forEach(el => el.classList.remove('active'));
-}
+    function verHistorico() {
+        let dados = localStorage.getItem('lunaBia_dados');
+        if (dados) {
+            let lista = JSON.parse(dados);
+            alert("Você tem " + lista.length + " registros. Em breve analisarei seus padrões!");
+        } else {
+            alert("Ainda não há registros para analisar, Bia!");
+        }
+    }
+</script>
+</body>
+</html>
