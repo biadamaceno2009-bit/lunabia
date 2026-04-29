@@ -41,6 +41,11 @@
     <div class="ilha-lua"><div id="lua-visual">🌑</div><div id="lua-nome">...</div></div>
     <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="carregarDadosDia()"></div>
 
+    <div class="ilha-filha ilha-verde"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div></div>
+    <div class="ilha-filha ilha-clara"><h3>📜 Versículo do Dia</h3><textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea></div>
+    
+    <div id="area-escalas"></div>
+
     <div class="ilha-filha ilha-clara" id="ilha-ciclo">
         <h3 style="color: var(--eucalipto-profundo) !important;">🩸 Fluxo Menstrual</h3>
         <div style="display: flex; justify-content: center; gap: 8px;">
@@ -50,9 +55,6 @@
         </div>
     </div>
 
-    <div class="ilha-filha ilha-verde"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div></div>
-    <div class="ilha-filha ilha-clara"><h3>📜 Versículo do Dia</h3><textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea></div>
-    <div id="area-escalas"></div>
     <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
         <div class="grid-icones-bia" id="grid-sintomas">
