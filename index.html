@@ -9,46 +9,29 @@
     <style>
         :root { --eucalipto-profundo: #2d3d36; --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); --border-glass: rgba(255, 255, 255, 0.2); }
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
-        
-        /* ILHA MÃE COM PROFUNDIDADE */
         .ilha-mae { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(45px) saturate(160%); -webkit-backdrop-filter: blur(45px) saturate(160%); width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px; border: 1px solid var(--border-glass); text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-        
         h1 { font-family: 'Cinzel', serif; color: var(--eucalipto-profundo) !important; font-size: 48px; margin: 0; letter-spacing: 5px; }
         .divider { margin: 10px auto 35px; width: 180px; opacity: 0.8; }
-        
         .ilha-lua { background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border-glass); backdrop-filter: blur(20px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
-        
-        /* ILHAS FILHAS COM PROFUNDIDADE */
         .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 30px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
         .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
         .ilha-clara { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.4) !important; }
-        
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
-        
-        /* BOTÕES FLUTUANTES */
         .btn-glass-verde { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; cursor: pointer; transition: 0.3s; border-radius: 50%; width: 42px; height: 42px; font-weight: 700; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .btn-ciclo { width: auto; padding: 12px 18px; border-radius: 20px; font-size: 10px; margin: 5px; }
         .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: translateY(3px); box-shadow: none; }
-        
         .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px 5px; width: 100%; justify-items: center; }
         .container-sintoma { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
-        
         .btn-icone-bia { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 5px 12px rgba(0,0,0,0.25); }
         .btn-icone-bia img, .svg-colica { width: 26px; height: 26px; filter: brightness(0) invert(1); opacity: 0.8; }
-        
         .label-sintoma { font-size: 7.5px; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; text-align: center; }
-        
         .active-icon .btn-icone-bia { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; box-shadow: none; transform: translateY(2px); }
         .active-icon .label-sintoma { color: white !important; font-weight: 800; }
-        
-        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-family: inherit; font-size: 15px; font-weight: 600; outline: none; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1); }
-        textarea::placeholder { color: rgba(45, 61, 54, 0.5); }
-
-        .area-acoes { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-family: inherit; font-size: 15px; font-weight: 600; outline: none; }
         .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .btn-salvar:active, .btn-relatorio:active { transform: translateY(3px); box-shadow: none; }
+        .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body>
@@ -56,36 +39,24 @@
     <h1>LunaBia</h1>
     <div class="divider"><svg viewBox="0 0 100 20" fill="none"><path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#2d3d36" stroke-width="0.5"/><circle cx="50" cy="10" r="2.5" fill="#2d3d36"/></svg></div>
     <div class="ilha-lua"><div id="lua-visual">🌑</div><div id="lua-nome">...</div></div>
-    
-    <div class="ilha-filha">
-        <h3>📅 Registro</h3>
-        <input type="date" id="data-input" onchange="carregarDadosDia()">
+    <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="carregarDadosDia()"></div>
+
+    <div class="ilha-filha ilha-clara" id="ilha-ciclo">
+        <h3 style="color: var(--eucalipto-profundo) !important;">🩸 Fluxo Menstrual</h3>
+        <div style="display: flex; justify-content: center; gap: 8px;">
+            <button class="btn-glass-verde btn-ciclo" onclick="setSelect(this)">Leve</button>
+            <button class="btn-glass-verde btn-ciclo" onclick="setSelect(this)">Moderado</button>
+            <button class="btn-glass-verde btn-ciclo" onclick="setSelect(this)">Intenso</button>
+        </div>
     </div>
 
-    <div class="ilha-filha ilha-verde">
-        <h3>📖 Leitura Bíblica</h3>
-        <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div>
-    </div>
-
-    <div class="ilha-filha ilha-clara">
-        <h3>📜 Versículo do Dia</h3>
-        <textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea>
-    </div>
-
+    <div class="ilha-filha ilha-verde"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div></div>
+    <div class="ilha-filha ilha-clara"><h3>📜 Versículo do Dia</h3><textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea></div>
     <div id="area-escalas"></div>
-
     <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
         <div class="grid-icones-bia" id="grid-sintomas">
-            <div class="container-sintoma" data-sintoma="colica" onclick="toggleIcon(this)">
-                <div class="btn-icone-bia">
-                    <svg class="svg-colica" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="6"/>
-                        <circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="5"/>
-                    </svg>
-                </div>
-                <div class="label-sintoma">Cólica</div>
-            </div>
+            <div class="container-sintoma" data-sintoma="colica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="6"/><circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="5"/></svg></div><div class="label-sintoma">Cólica</div></div>
             <div class="container-sintoma" data-sintoma="inchaco" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
             <div class="container-sintoma" data-sintoma="costas" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="dor nas costas.png"></div><div class="label-sintoma">Costas</div></div>
             <div class="container-sintoma" data-sintoma="cabeca" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
@@ -97,34 +68,19 @@
             <div class="container-sintoma" data-sintoma="cansaco" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="cansaço.png"></div><div class="label-sintoma">Cansaço</div></div>
         </div>
     </div>
-
-    <div class="ilha-filha">
-        <h3>✍️ Diário</h3>
-        <textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea>
-    </div>
-
-    <div class="area-acoes">
-        <button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro</button>
-        <button class="btn-relatorio" onclick="alert('Relatório em breve!')">Gerar Relatório</button>
-    </div>
+    <div class="ilha-filha"><h3>✍️ Diário</h3><textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea></div>
+    <div class="area-acoes"><button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro</button><button class="btn-relatorio" onclick="alert('Relatório em breve!')">Gerar Relatório</button></div>
 </div>
 
 <script>
     const bib = document.getElementById('grid-biblia');
     const leituraSalva = JSON.parse(localStorage.getItem('LunaBia-Tracker-Biblia') || '[]');
     for(let i=1; i<=31; i++) {
-        const b = document.createElement('button');
-        b.className = 'btn-glass-verde';
-        if(leituraSalva.includes(i.toString())) b.classList.add('active');
-        b.innerText = i;
-        b.onclick = function() { 
-            this.classList.toggle('active');
-            const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText);
-            localStorage.setItem('LunaBia-Tracker-Biblia', JSON.stringify(atuais));
-        };
+        const b = document.createElement('button'); b.className = 'btn-glass-verde';
+        if(leituraSalva.includes(i.toString())) b.classList.add('active'); b.innerText = i;
+        b.onclick = function() { this.classList.toggle('active'); const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText); localStorage.setItem('LunaBia-Tracker-Biblia', JSON.stringify(atuais)); };
         bib.appendChild(b);
     }
-
     const escalasArea = document.getElementById('area-escalas');
     const nomesEscalas = ["Sono", "Humor", "Energia", "Descanso"];
     nomesEscalas.forEach(n => {
@@ -137,72 +93,56 @@
         }
         f.appendChild(g); escalasArea.appendChild(f);
     });
-
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
         const date = dataIn ? new Date(dataIn + "T12:00:00") : new Date();
-        const lp = 2551443;
-        const new_m = new Date('1970-01-07T20:35:00Z').getTime();
-        const phase = ((date.getTime() - new_m) / 1000) % lp;
-        const days = phase / (24 * 3600);
+        const lp = 2551443; const new_m = new Date('1970-01-07T20:35:00Z').getTime();
+        const phase = ((date.getTime() - new_m) / 1000) % lp; const days = phase / (24 * 3600);
         let res = { emoji: '🌑', nome: 'Lua Nova' };
         if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' }; else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' }; else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' }; else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa' }; else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' }; else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa' }; else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' }; else res = { emoji: '🌘', nome: 'Lua Minguante' };
-        document.getElementById('lua-visual').innerText = res.emoji;
-        document.getElementById('lua-nome').innerText = res.nome;
+        document.getElementById('lua-visual').innerText = res.emoji; document.getElementById('lua-nome').innerText = res.nome;
     }
-
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
-
+    function setSelect(btn) {
+        const p = btn.parentElement;
+        const jaAtivo = btn.classList.contains('active');
+        p.querySelectorAll('.btn-glass-verde').forEach(b => b.classList.remove('active'));
+        if (!jaAtivo) btn.classList.add('active');
+    }
     function salvarDadosDia() {
         const data = document.getElementById('data-input').value;
         const diario = document.getElementById('d-input').value;
         const versiculo = document.getElementById('v-input').value;
         const sintomas = Array.from(document.querySelectorAll('.active-icon')).map(i => i.getAttribute('data-sintoma'));
+        const fluxo = document.querySelector('#ilha-ciclo .active')?.innerText || "";
         const escalas = {};
-        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
-            const nome = ilha.querySelector('h3').innerText;
-            const valor = ilha.querySelector('.active')?.innerText || "";
-            escalas[nome] = valor;
-        });
-        const dados = { diario, versiculo, sintomas, escalas };
+        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = ilha.querySelector('.active')?.innerText || ""; escalas[nome] = valor; });
+        const dados = { diario, versiculo, sintomas, fluxo, escalas };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
-        alert("LunaBia: Salvo com sucesso! ✨");
+        alert("LunaBia: Registro salvo com sucesso! ✨");
     }
-
     function carregarDadosDia() {
         updateMoon();
         const data = document.getElementById('data-input').value;
         const salvo = localStorage.getItem('LunaBia-' + data);
-        document.getElementById('d-input').value = "";
-        document.getElementById('v-input').value = "";
+        document.getElementById('d-input').value = ""; document.getElementById('v-input').value = "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
-        document.querySelectorAll('#area-escalas .active').forEach(b => b.classList.remove('active'));
-
+        document.querySelectorAll('.active').forEach(b => b.classList.remove('active'));
         if (salvo) {
             const dados = JSON.parse(salvo);
             document.getElementById('d-input').value = dados.diario || "";
             document.getElementById('v-input').value = dados.versiculo || "";
-            if (dados.sintomas) {
-                dados.sintomas.forEach(s => {
-                    const el = document.querySelector(`[data-sintoma="${s}"]`);
-                    if (el) el.classList.add('active-icon');
-                });
+            if (dados.fluxo) {
+                document.querySelectorAll('#ilha-ciclo .btn-glass-verde').forEach(b => { if(b.innerText == dados.fluxo) b.classList.add('active'); });
             }
-            if (dados.escalas) {
-                document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
-                    const nome = ilha.querySelector('h3').innerText;
-                    const valor = dados.escalas[nome];
-                    if (valor) {
-                        ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); });
-                    }
-                });
-            }
+            if (dados.sintomas) { dados.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if (el) el.classList.add('active-icon'); }); }
+            if (dados.escalas) { document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = dados.escalas[nome]; if (valor) { ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); } }); }
         }
+        const leitura = JSON.parse(localStorage.getItem('LunaBia-Tracker-Biblia') || '[]');
+        document.querySelectorAll('#grid-biblia button').forEach(b => { if(leitura.includes(b.innerText)) b.classList.add('active'); });
     }
-
     const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('data-input').value = hoje;
-    window.onload = carregarDadosDia;
+    document.getElementById('data-input').value = hoje; window.onload = carregarDadosDia;
 </script>
 </body>
 </html>
