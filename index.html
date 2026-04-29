@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LunaBia Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --eucalipto-profundo: #2d3d36; --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); --border-glass: rgba(255, 255, 255, 0.2); }
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
@@ -31,39 +30,67 @@
         textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-family: inherit; font-size: 15px; font-weight: 600; outline: none; }
         .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); margin-top: 10px; }
         
-        /* Modal do Relatório */
-        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; overflow-y:auto; padding:20px; box-sizing:border-box; justify-content:center; align-items:center; }
-        .card-analise { background:#f4f7f5; border-radius:40px; padding:25px; width:100%; max-width:350px; color: var(--eucalipto-profundo); max-height: 90vh; overflow-y: auto; }
-        .analise-texto { font-size: 12px; line-height: 1.5; text-align: left; padding: 15px; background: white; border-radius: 20px; border-left: 4px solid var(--eucalipto-profundo); margin-top: 15px; }
-        .chart-container { position: relative; height: 150px; width: 100%; margin-bottom: 30px; background: rgba(255,255,255,0.5); border-radius: 15px; padding: 10px; box-sizing: border-box; }
-        .chart-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--eucalipto-profundo); margin-bottom: 5px; display: block; text-align: left; }
-        .insights-container { font-size: 11px; line-height: 1.6; text-align: left; margin-bottom: 15px; }
-        .insights-container b { color: var(--eucalipto-profundo); }
+        /* Modal do Relatório Infográfico */
+        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.92); z-index:2000; overflow-y:auto; padding:20px; box-sizing:border-box; justify-content:center; align-items:center; backdrop-filter: blur(10px); }
+        .card-analise { background:#fdfdfd; border-radius:50px; padding:30px 20px; width:100%; max-width:360px; color: var(--eucalipto-profundo); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        
+        /* Estilo das Barras Visuais */
+        .infografico-secao { margin-bottom: 25px; text-align: left; }
+        .infografico-titulo { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 12px; display: block; }
+        
+        .barra-container { margin-bottom: 15px; }
+        .barra-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; margin-bottom: 6px; color: var(--eucalipto-profundo); }
+        .barra-fundo { height: 12px; background: #eee; border-radius: 10px; overflow: hidden; position: relative; }
+        .barra-preenchimento { height: 100%; background: var(--eucalipto-profundo); border-radius: 10px; transition: width 1s ease-in-out; }
+        
+        /* Cards de Destaque */
+        .grid-destaques { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .card-destaque { background: #f4f7f5; padding: 15px; border-radius: 25px; text-align: center; border: 1px solid rgba(0,0,0,0.05); }
+        .destaque-icone { font-size: 24px; margin-bottom: 8px; display: block; }
+        .destaque-valor { font-size: 12px; font-weight: 800; display: block; color: var(--eucalipto-profundo); }
+        .destaque-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+
+        /* Mapa de Sintomas */
+        .mapa-sintomas { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; background: #f9f9f9; padding: 15px; border-radius: 25px; }
+        .tag-sintoma { background: var(--eucalipto-profundo); color: white; padding: 6px 12px; border-radius: 15px; font-size: 10px; font-weight: 600; }
+
+        .analise-bo-visual { background: #f4f7f5; padding: 20px; border-radius: 30px; border-left: 5px solid var(--eucalipto-profundo); font-size: 13px; line-height: 1.6; color: #444; margin-top: 20px; text-align: left; }
+        .analise-bo-visual b { color: var(--eucalipto-profundo); }
     </style>
 </head>
 <body>
 
 <div id="modal-relatorio">
     <div class="card-analise">
-        <h2 style="font-family:'Cinzel'; text-align:center; font-size:22px;">Análise Brilhante ✨</h2>
-        
-        <div style="margin-top: 20px;">
-            <span class="chart-label">📈 Qualidade do Sono</span>
-            <div class="chart-container"><canvas id="chartSono"></canvas></div>
-            
-            <span class="chart-label">🎭 Estabilidade do Humor</span>
-            <div class="chart-container"><canvas id="chartHumor"></canvas></div>
-            
-            <span class="chart-label">⚡ Nível de Energia</span>
-            <div class="chart-container"><canvas id="chartEnergia"></canvas></div>
-            
-            <span class="chart-label">🌿 Nível de Descanso</span>
-            <div class="chart-container"><canvas id="chartDescanso"></canvas></div>
+        <h2 id="titulo-mes" style="font-family:'Cinzel'; text-align:center; font-size:24px; margin-bottom: 5px;">Relatório</h2>
+        <p id="subtitulo-mes" style="font-size: 10px; text-transform: uppercase; letter-spacing: 3px; text-align: center; margin-bottom: 30px; color: #888;">Visão Geral do Ciclo</p>
+
+        <div class="infografico-secao">
+            <span class="infografico-titulo">Níveis Médios</span>
+            <div id="area-barras"></div>
         </div>
 
-        <div class="insights-container" id="dados-corpo"></div>
-        <div id="analise-bo" class="analise-texto"></div>
-        <button class="btn-salvar" onclick="document.getElementById('modal-relatorio').style.display='none'">Fechar</button>
+        <div class="grid-destaques">
+            <div class="card-destaque">
+                <span class="destaque-icone">🏆</span>
+                <span class="destaque-valor" id="val-ouro">--</span>
+                <span class="destaque-label">Dia de Ouro</span>
+            </div>
+            <div class="card-destaque">
+                <span class="destaque-icone">🌙</span>
+                <span class="destaque-valor" id="val-lua">--</span>
+                <span class="destaque-label">Fase Crítica</span>
+            </div>
+        </div>
+
+        <div class="infografico-secao">
+            <span class="infografico-titulo">Sintomas Frequentes</span>
+            <div class="mapa-sintomas" id="area-sintomas"></div>
+        </div>
+
+        <div id="bo-texto-visual" class="analise-bo-visual"></div>
+
+        <button class="btn-salvar" style="margin-top: 30px;" onclick="document.getElementById('modal-relatorio').style.display='none'">Fechar Análise</button>
     </div>
 </div>
 
@@ -200,188 +227,82 @@
         }
     }
 
-    let chartsRelatorio = {};
-
     function gerarRelatorio() {
         const dataInput = document.getElementById('data-input').value;
-        const partes = dataInput.split('-');
-        const anoBusca = partes[0];
-        const mesBusca = partes[1];
-        
+        const [ano, mes] = dataInput.split('-');
         const mesesNomes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-        const nomeMesExtenso = mesesNomes[parseInt(mesBusca) - 1];
+        const nomeMesExtenso = mesesNomes[parseInt(mes) - 1];
 
-        let dadosDiarios = {};
-        let sintCount = {};
-        let luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
-        let luaEnergia = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
+        let soma = {Sono:0, Humor:0, Energia:0, Descanso:0}, conta = 0;
+        let sintCount = {}, luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
         let diaOuro = null;
-
-        console.log("Iniciando busca para:", anoBusca, mesBusca);
 
         for (let i = 0; i < localStorage.length; i++) {
             const chave = localStorage.key(i);
-            
-            // Busca ultra-flexível: se tiver LunaBia e o ano/mês em qualquer lugar da chave
-            if (chave.includes('LunaBia') && !chave.includes('Biblia')) {
+            if (chave.startsWith('LunaBia-') && chave.includes(`${ano}-${mes}`) && !chave.includes('Biblia')) {
                 const d = JSON.parse(localStorage.getItem(chave));
+                conta++;
+                for(let k in soma) soma[k] += parseInt(d.escalas?.[k] || 0);
+                if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
                 
-                // Tentar extrair a data da própria chave ou do objeto salvo
-                // Formatos possíveis na chave: LunaBia-2026-03-01 ou 2026-03-01
-                const regexData = /(\d{4})-(\d{2})-(\d{2})/;
-                const match = chave.match(regexData);
-                
-                if (match) {
-                    const anoChave = match[1];
-                    const mesChave = match[2];
-                    const diaChave = match[3];
+                const fLua = d.lua || getLua(chave.replace('LunaBia-', ''));
+                if(fLua) luaHumor[fLua].push(parseInt(d.escalas?.Humor || 0));
 
-                    if (anoChave === anoBusca && mesChave === mesBusca) {
-                        console.log("Encontrado registro para o dia:", diaChave);
-                        
-                        dadosDiarios[diaChave] = {
-                            sono: parseInt(d.escalas?.Sono || d.escalas?.sono || 0),
-                            humor: parseInt(d.escalas?.Humor || d.escalas?.humor || 0),
-                            energia: parseInt(d.escalas?.Energia || d.escalas?.energia || 0),
-                            descanso: parseInt(d.escalas?.Descanso || d.escalas?.descanso || 0),
-                            lua: d.lua || getLua(`${anoChave}-${mesChave}-${diaChave}`)
-                        };
-
-                        if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
-
-                        const faseLua = dadosDiarios[diaChave].lua;
-                        if(faseLua) {
-                            luaHumor[faseLua].push(dadosDiarios[diaChave].humor);
-                            luaEnergia[faseLua].push(dadosDiarios[diaChave].energia);
-                        }
-
-                        const s = dadosDiarios[diaChave];
-                        if(s.sono >= 5 && s.humor >= 5 && s.energia >= 5 && s.descanso >= 5) {
-                            diaOuro = diaChave;
-                        }
-                    }
+                const s = d.escalas;
+                if(s && s.Sono=="5" && s.Humor=="5" && s.Energia=="5" && s.Descanso=="5") {
+                    diaOuro = chave.split('-').pop();
                 }
             }
         }
 
-        // Preparar dados para gráficos (ordenar por dia)
-        const diasOrdenados = Object.keys(dadosDiarios).sort((a,b) => parseInt(a) - parseInt(b));
-        const labels = diasOrdenados.map(d => d);
-        const sonoData = diasOrdenados.map(d => dadosDiarios[d].sono);
-        const humorData = diasOrdenados.map(d => dadosDiarios[d].humor);
-        const energiaData = diasOrdenados.map(d => dadosDiarios[d].energia);
-        const descansoData = diasOrdenados.map(d => dadosDiarios[d].descanso);
-
-        // Se não houver dados, avisar
-        if (diasOrdenados.length === 0) {
-            alert(`Bia, não encontrei registros para ${nomeMesExtenso} de ${ano}. Selecione uma data deste mês no calendário primeiro!`);
+        if (conta === 0) {
+            alert(`Bia, não encontrei registros para ${nomeMesExtenso}.`);
             return;
         }
 
-        // Abrir modal primeiro
-        const modal = document.getElementById('modal-relatorio');
-        modal.style.display = 'flex';
-        document.querySelector('#modal-relatorio h2').innerText = `Análise de ${nomeMesExtenso} ✨`;
+        // Preencher Visual
+        document.getElementById('modal-relatorio').style.display = 'flex';
+        document.getElementById('titulo-mes').innerText = nomeMesExtenso;
+        
+        // Barras Visuais
+        const areaBarras = document.getElementById('area-barras');
+        areaBarras.innerHTML = '';
+        for(let k in soma) {
+            const media = soma[k] / conta;
+            const perc = (media / 5) * 100;
+            const cor = media > 4 ? '#2d3d36' : (media > 2.5 ? '#6b8e7d' : '#d4a373');
+            areaBarras.innerHTML += `
+                <div class="barra-container">
+                    <div class="barra-label"><span>${k}</span><span>${media.toFixed(1)}/5</span></div>
+                    <div class="barra-fundo"><div class="barra-preenchimento" style="width: ${perc}%; background: ${cor};"></div></div>
+                </div>
+            `;
+        }
 
-        // Usar setTimeout para garantir que o modal esteja visível antes de desenhar os gráficos
-        setTimeout(() => {
-            // Destruir gráficos anteriores
-            Object.values(chartsRelatorio).forEach(chart => { if(chart) chart.destroy(); });
-            chartsRelatorio = {};
-
-            const configGrafico = {
-                type: 'bar',
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: { duration: 500 },
-                    scales: {
-                        y: { max: 5, min: 0, ticks: { stepSize: 1, color: '#2d3d36' }, grid: { color: 'rgba(0,0,0,0.05)' } },
-                        x: { ticks: { color: '#2d3d36', font: { size: 10 } }, grid: { display: false } }
-                    },
-                    plugins: { legend: { display: false } }
-                }
-            };
-
-            // Criar os gráficos um por um com IDs garantidos
-            chartsRelatorio.sono = new Chart(document.getElementById('chartSono').getContext('2d'), {
-                ...configGrafico, data: { labels: labels, datasets: [{ data: sonoData, backgroundColor: '#4a6d5d', borderRadius: 4 }] }
-            });
-            chartsRelatorio.humor = new Chart(document.getElementById('chartHumor').getContext('2d'), {
-                ...configGrafico, data: { labels: labels, datasets: [{ data: humorData, backgroundColor: '#2d3d36', borderRadius: 4 }] }
-            });
-            chartsRelatorio.energia = new Chart(document.getElementById('chartEnergia').getContext('2d'), {
-                ...configGrafico, data: { labels: labels, datasets: [{ data: energiaData, backgroundColor: '#6b8e7d', borderRadius: 4 }] }
-            });
-            chartsRelatorio.descanso = new Chart(document.getElementById('chartDescanso').getContext('2d'), {
-                ...configGrafico, data: { labels: labels, datasets: [{ data: descansoData, backgroundColor: '#8fb3a1', borderRadius: 4 }] }
-            });
-        }, 100);
-
-        // Calcular médias por fase lunar
-        let piorLuaHumor = "";
-        let piorLuaEnergia = "";
-        let minHumor = 6;
-        let minEnergia = 6;
-
+        // Destaques
+        document.getElementById('val-ouro').innerText = diaOuro ? `Dia ${diaOuro}` : "---";
+        
+        let piorLua = "---"; let minH = 6;
         for(let l in luaHumor) {
             if(luaHumor[l].length > 0) {
                 let m = luaHumor[l].reduce((a,b)=>a+b)/luaHumor[l].length;
-                if(m < minHumor) { minHumor = m; piorLuaHumor = l; }
+                if(m < minH) { minH = m; piorLua = l; }
             }
         }
+        document.getElementById('val-lua').innerText = piorLua !== "---" ? piorLua : "---";
 
-        for(let l in luaEnergia) {
-            if(luaEnergia[l].length > 0) {
-                let m = luaEnergia[l].reduce((a,b)=>a+b)/luaEnergia[l].length;
-                if(m < minEnergia) { minEnergia = m; piorLuaEnergia = l; }
-            }
-        }
-
-        // Top 3 sintomas
+        // Sintomas
         const topSint = Object.entries(sintCount).sort((a,b) => b[1]-a[1]).slice(0,3);
-        const textTopSint = topSint.length > 0 ? topSint.map(s => `${s[0]} (${s[1]}x)`).join(', ') : 'Nenhum sintoma registrado';
+        const areaSintomas = document.getElementById('area-sintomas');
+        areaSintomas.innerHTML = topSint.length > 0 ? topSint.map(s => `<span class="tag-sintoma">${s[0]}</span>`).join('') : '<span style="font-size:10px; color:#888;">Nenhum registrado</span>';
 
-        // Montar insights
-        let insightsHTML = `<b>📊 Insights do Mês:</b><br>`;
-        insightsHTML += `<b>Top Sintomas:</b> ${textTopSint}<br>`;
-        
-        if(diaOuro) {
-            insightsHTML += `<b>🏆 Dia de Ouro:</b> ${diaOuro} de ${mesAno} (Notas máximas!)<br>`;
-        }
-        
-        if(piorLuaHumor) {
-            insightsHTML += `<b>🌙 Humor:</b> Mais baixo na Lua ${piorLuaHumor} (${minHumor.toFixed(1)}/5)<br>`;
-        }
-        
-        if(piorLuaEnergia) {
-            insightsHTML += `<b>⚡ Energia:</b> Mais baixa na Lua ${piorLuaEnergia} (${minEnergia.toFixed(1)}/5)<br>`;
-        }
-
-        document.getElementById('dados-corpo').innerHTML = insightsHTML;
-
-        // Gerar "Análise do Bo"
-        let analiseTexto = `Bia, analisando seu mês de ${nomeMesExtenso}... `;
-        
-        if(diaOuro) {
-            analiseTexto += `Seu <b>Dia de Ouro</b> foi <b>${diaOuro}</b> — que dia especial! `;
-        }
-
-        if(piorLuaHumor && piorLuaEnergia) {
-            analiseTexto += `Notei que na <b>Lua ${piorLuaHumor}</b> seu humor oscila mais, e na <b>Lua ${piorLuaEnergia}</b> sua energia cai. `;
-        } else if(piorLuaHumor) {
-            analiseTexto += `Percebi que seu humor é mais instável durante a <b>Lua ${piorLuaHumor}</b>. `;
-        } else if(piorLuaEnergia) {
-            analiseTexto += `Sua energia tende a cair durante a <b>Lua ${piorLuaEnergia}</b>. `;
-        }
-
-        if(topSint.length > 0) {
-            analiseTexto += `Seus sintomas mais frequentes foram ${topSint.slice(0,2).map(s => `<b>${s[0]}</b>`).join(' e ')}. `;
-        }
-
-        analiseTexto += `Continue se cuidando! 💚`;
-
-        document.getElementById('analise-bo').innerHTML = analiseTexto;
+        // Texto do Bo
+        let txt = `Bia, em <b>${nomeMesExtenso}</b> sua energia média foi <b>${(soma.Energia/conta).toFixed(1)}</b>. `;
+        if(diaOuro) txt += `O dia <b>${diaOuro}</b> foi seu ápice de bem-estar! `;
+        if(piorLua !== "---") txt += `Fique atenta à <b>Lua ${piorLua}</b>, quando seu humor tende a oscilar mais. `;
+        if(topSint.length > 0) txt += `Notei que <b>${topSint[0][0]}</b> foi o que mais apareceu. `;
+        txt += `Continue brilhando! ✨`;
+        document.getElementById('bo-texto-visual').innerHTML = txt;
     }
 
     document.getElementById('data-input').value = new Date().toISOString().split('T')[0];
