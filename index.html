@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LunaBia Pro</title>
-    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --eucalipto-profundo: #2d3d36; --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); --border-glass: rgba(255, 255, 255, 0.2); }
@@ -33,13 +32,12 @@
         .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
         
-        /* ESTILO DO RELATÓRIO BRILHANTE */
         #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(15px); z-index:1000; justify-content:center; align-items:center; padding:20px; box-sizing:border-box; }
         #conteudo-relatorio { background:#f8f9f8; width:100%; max-width:350px; border-radius:50px; padding:35px; text-align:left; max-height:85vh; overflow-y:auto; color: var(--eucalipto-profundo); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         #conteudo-relatorio h2 { font-family: 'Cinzel', serif; font-size: 26px; text-align:center; margin-bottom:25px; color: var(--eucalipto-profundo); }
         .sessao-relatorio { background: white; border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(45,61,54,0.1); }
         .barra-progresso-bg { background: #eee; border-radius: 10px; height: 12px; width: 100%; margin: 10px 0; overflow: hidden; }
-        .barra-progresso-fill { background: var(--eucalipto-profundo); height: 100%; transition: 0.5s; }
+        .barra-progresso-fill { background: var(--eucalipto-profundo); height: 100%; transition: 0.5s; width: 0; }
         .label-barra { font-size: 10px; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; }
         .btn-fechar { width:100%; padding:20px; background:var(--eucalipto-profundo); color:white; border:none; border-radius:30px; font-weight:800; text-transform:uppercase; margin-top:10px; cursor:pointer; }
     </style>
@@ -77,16 +75,16 @@
     <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
         <div class="grid-icones-bia" id="grid-sintomas">
-            <div class="container-sintoma" data-sintoma="colica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="6"/><circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="5"/></svg></div><div class="label-sintoma">Cólica</div></div>
-            <div class="container-sintoma" data-sintoma="inchaco" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
+            <div class="container-sintoma" data-sintoma="cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="6"/><circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="5"/></svg></div><div class="label-sintoma">Cólica</div></div>
+            <div class="container-sintoma" data-sintoma="inchaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
             <div class="container-sintoma" data-sintoma="costas" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="dor nas costas.png"></div><div class="label-sintoma">Costas</div></div>
-            <div class="container-sintoma" data-sintoma="cabeca" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
+            <div class="container-sintoma" data-sintoma="cabeça" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
             <div class="container-sintoma" data-sintoma="rinite" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Renite.png"></div><div class="label-sintoma">Rinite</div></div>
             <div class="container-sintoma" data-sintoma="estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="extressada.png"></div><div class="label-sintoma">Estresse</div></div>
-            <div class="container-sintoma" data-sintoma="desanimo" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="desânimo.png"></div><div class="label-sintoma">Desânimo</div></div>
+            <div class="container-sintoma" data-sintoma="desânimo" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="desânimo.png"></div><div class="label-sintoma">Desânimo</div></div>
             <div class="container-sintoma" data-sintoma="focada" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Focada.png"></div><div class="label-sintoma">Focada</div></div>
             <div class="container-sintoma" data-sintoma="ouvido" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Dor de ouvido.png"></div><div class="label-sintoma">Ouvido</div></div>
-            <div class="container-sintoma" data-sintoma="cansaco" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="cansaço.png"></div><div class="label-sintoma">Cansaço</div></div>
+            <div class="container-sintoma" data-sintoma="cansaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="cansaço.png"></div><div class="label-sintoma">Cansaço</div></div>
         </div>
     </div>
     <div class="ilha-filha"><h3>✍️ Diário</h3><textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea></div>
@@ -94,7 +92,6 @@
 </div>
 
 <script>
-    // Geradores Iniciais
     const bib = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
         const b = document.createElement('button'); b.className = 'btn-glass-verde';
@@ -114,7 +111,6 @@
         f.appendChild(g); document.getElementById('area-escalas').appendChild(f);
     });
 
-    // Funções de Sistema
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
         const date = dataIn ? new Date(dataIn + "T12:00:00") : new Date();
@@ -127,9 +123,8 @@
 
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
     function setSelect(btn) {
-        const p = btn.parentElement; const jaAtivo = btn.classList.contains('active');
-        p.querySelectorAll('.btn-glass-verde').forEach(b => b.classList.remove('active'));
-        if (!jaAtivo) btn.classList.add('active');
+        const p = btn.parentElement; p.querySelectorAll('.btn-glass-verde').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
     }
 
     function salvarLeituraMensal() {
@@ -146,14 +141,13 @@
         const sintomas = Array.from(document.querySelectorAll('.active-icon')).map(i => i.getAttribute('data-sintoma'));
         const fluxo = document.querySelector('#ilha-ciclo .active')?.innerText || "";
         const escalas = {};
-        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { 
-            const nome = ilha.querySelector('h3').innerText; 
-            const valor = ilha.querySelector('.active')?.innerText || ""; 
-            escalas[nome] = valor; 
+        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
+            const nome = ilha.querySelector('h3').innerText;
+            const valor = ilha.querySelector('.active')?.innerText || "";
+            escalas[nome] = valor;
         });
-        const dados = { diario, versiculo, sintomas, fluxo, escalas };
-        localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
-        alert("LunaBia: Salvo! ✨");
+        localStorage.setItem('LunaBia-' + data, JSON.stringify({ diario, versiculo, sintomas, fluxo, escalas }));
+        alert("LunaBia: Registro salvo! ✨");
     }
 
     function carregarDadosDia() {
@@ -161,106 +155,59 @@
         const dataInput = document.getElementById('data-input').value;
         const mesAno = dataInput.substring(0, 7);
         const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
-        document.querySelectorAll('#grid-biblia button').forEach(b => { 
-            b.classList.remove('active'); 
-            if(leitura.includes(b.innerText)) b.classList.add('active'); 
+        document.querySelectorAll('#grid-biblia button').forEach(b => {
+            b.classList.remove('active'); if(leitura.includes(b.innerText)) b.classList.add('active');
         });
-
-        const salvo = localStorage.getItem('LunaBia-' + dataInput);
-        document.getElementById('d-input').value = ""; document.getElementById('v-input').value = "";
+        const salvo = JSON.parse(localStorage.getItem('LunaBia-' + dataInput) || '{}');
+        document.getElementById('d-input').value = salvo.diario || "";
+        document.getElementById('v-input').value = salvo.versiculo || "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
+        if(salvo.sintomas) salvo.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if(el) el.classList.add('active-icon'); });
         document.querySelectorAll('#area-escalas .active, #ilha-ciclo .active').forEach(b => b.classList.remove('active'));
-
-        if (salvo) {
-            const dados = JSON.parse(salvo);
-            document.getElementById('d-input').value = dados.diario || "";
-            document.getElementById('v-input').value = dados.versiculo || "";
-            if (dados.fluxo) document.querySelectorAll('#ilha-ciclo .btn-glass-verde').forEach(b => { if(b.innerText == dados.fluxo) b.classList.add('active'); });
-            if (dados.sintomas) dados.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if (el) el.classList.add('active-icon'); });
-            if (dados.escalas) { 
-                document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { 
-                    const nome = ilha.querySelector('h3').innerText; 
-                    const valor = dados.escalas[nome]; 
-                    if (valor) ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); 
-                }); 
-            }
+        if(salvo.fluxo) document.querySelectorAll('#ilha-ciclo button').forEach(b => { if(b.innerText == salvo.fluxo) b.classList.add('active'); });
+        if(salvo.escalas) {
+            document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
+                const nome = ilha.querySelector('h3').innerText;
+                const valor = salvo.escalas[nome];
+                if(valor) ilha.querySelectorAll('button').forEach(b => { if(b.innerText == valor) b.classList.add('active'); });
+            });
         }
     }
 
-    // RELATÓRIO BRILHANTE ATIVADO
     function gerarRelatorio() {
-        const dataInput = document.getElementById('data-input').value;
-        const mesAno = dataInput.substring(0, 7);
-        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
+        const mesAno = document.getElementById('data-input').value.substring(0, 7);
+        let contSintomas = {}, somaEscalas = {Sono:0, Humor:0, Energia:0, Descanso:0}, contaEscalas = {Sono:0, Humor:0, Energia:0, Descanso:0}, diasIntensos = 0;
         
-        let contSintomas = {};
-        let somaEscalas = { "Sono":0, "Humor":0, "Energia":0, "Descanso":0 };
-        let contaEscalas = { "Sono":0, "Humor":0, "Energia":0, "Descanso":0 };
-        let diasIntensos = 0;
-
         for (let i = 0; i < localStorage.length; i++) {
             const chave = localStorage.key(i);
-            if (chave.startsWith('LunaBia-') && chave.includes(mesAno) && !chave.includes('Biblia')) {
+            if (chave.startsWith('LunaBia-' + mesAno)) {
                 const dados = JSON.parse(localStorage.getItem(chave));
                 if(dados.sintomas) dados.sintomas.forEach(s => contSintomas[s] = (contSintomas[s] || 0) + 1);
+                if(dados.fluxo === "Intenso") diasIntensos++;
                 if(dados.escalas) {
                     for(let esc in somaEscalas) {
-                        if(dados.escalas[esc]) {
-                            somaEscalas[esc] += parseInt(dados.escalas[esc]);
-                            contaEscalas[esc]++;
-                        }
+                        if(dados.escalas[esc]) { somaEscalas[esc] += parseInt(dados.escalas[esc]); contaEscalas[esc]++; }
                     }
                 }
-                if(dados.fluxo === "Intenso") diasIntensos++;
             }
         }
 
-        let html = `
-            <div class="sessao-relatorio">
-                <div class="label-barra"><span>📖 Jornada Bíblica</span><span>${leitura.length}/31 dias</span></div>
-                <div class="barra-progresso-bg"><div class="barra-progresso-fill" style="width:${(leitura.length/31)*100}%"></div></div>
-            </div>
-            
-            <div class="sessao-relatorio">
-                <h3 style="color:var(--eucalipto-profundo); margin-bottom:15px; font-size:10px;">📊 Médias de Bem-Estar</h3>
-        `;
-
+        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
+        let html = `<div class="sessao-relatorio"><div class="label-barra"><span>📖 Bíblia</span><span>${leitura.length}/31</span></div><div class="barra-progresso-bg"><div class="barra-progresso-fill" style="width:${(leitura.length/31)*100}%"></div></div></div><div class="sessao-relatorio"><h3>📊 Médias</h3>`;
         for(let esc in somaEscalas) {
-            let media = contaEscalas[esc] > 0 ? (somaEscalas[esc] / contaEscalas[esc]).toFixed(1) : 0;
-            html += `
-                <div class="label-barra" style="margin-top:10px;"><span>${esc}</span><span>${media}</span></div>
-                <div class="barra-progresso-bg"><div class="barra-progresso-fill" style="width:${(media/5)*100}%; background:#5a7569;"></div></div>
-            `;
+            let med = contaEscalas[esc] > 0 ? (somaEscalas[esc]/contaEscalas[esc]).toFixed(1) : 0;
+            html += `<div class="label-barra" style="margin-top:10px;"><span>${esc}</span><span>${med}</span></div><div class="barra-progresso-bg"><div class="barra-progresso-fill" style="width:${(med/5)*100}%; background:#5a7569;"></div></div>`;
         }
-
-        let resumoSintomas = Object.entries(contSintomas).sort((a,b) => b[1] - a[1]).slice(0,3);
-        html += `</div>
-            <div class="sessao-relatorio">
-                <h3 style="color:var(--eucalipto-profundo); margin-bottom:10px; font-size:10px;">🩺 Sinais do Corpo</h3>
-                <p style="font-size:12px; margin:0;">${resumoSintomas.map(s => `<b>${s[0]}</b> apareceu ${s[1]}x`).join(', ') || "Tudo tranquilo por aqui!"}</p>
-                <p style="font-size:12px; margin-top:10px;">🩸 Fluxo intenso: <b>${diasIntensos} dias</b>.</p>
-            </div>
-        `;
-
-        let mediaEnergia = contaEscalas["Energia"] > 0 ? (somaEscalas["Energia"] / contaEscalas["Energia"]) : 0;
-        if(mediaEnergia > 0 && mediaEnergia < 3) {
-            html += `<div class="sessao-relatorio" style="border-left: 5px solid #8b0000; background:#fff5f5;">
-                <p style="font-size:12px; color:#8b0000; margin:0;"><b>💡 Conselho do Bo:</b> Bia, sua energia este mês está pedindo socorro. Que tal agendar um "dia de nada" para recarregar? Você merece esse cuidado!</p>
-            </div>`;
-        } else {
-            html += `<div class="sessao-relatorio" style="border-left: 5px solid var(--eucalipto-profundo);">
-                <p style="font-size:12px; margin:0;"><b>✨ Palavra do Bo:</b> Continue firme na sua jornada, Bia! Seus registros mostram uma mulher dedicada ao autocuidado e à palavra.</p>
-            </div>`;
-        }
-
+        let resumo = Object.entries(contSintomas).sort((a,b) => b[1]-a[1]).slice(0,3);
+        html += `</div><div class="sessao-relatorio"><h3>🩺 Corpo</h3><p style="font-size:12px;">${resumo.map(s => `<b>${s[0]}:</b> ${s[1]}x`).join('<br>') || "Sem registros"}</p><p style="font-size:12px; margin-top:10px;">🩸 Intenso: ${diasIntensos} dias</p></div>`;
+        
         document.getElementById('dados-relatorio').innerHTML = html;
         document.getElementById('modal-relatorio').style.display = 'flex';
     }
 
     function fecharRelatorio() { document.getElementById('modal-relatorio').style.display = 'none'; }
-
-    const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('data-input').value = hoje; window.onload = carregarDadosDia;
+    document.getElementById('data-input').value = new Date().toISOString().split('T')[0];
+    window.onload = carregarDadosDia;
 </script>
 </body>
 </html>
