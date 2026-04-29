@@ -5,32 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LunaBia Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --eucalipto-profundo: #2d3d36; --eucalipto-glass-escuro: rgba(45, 61, 54, 0.5); --border-glass: rgba(255, 255, 255, 0.2); }
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
-        .ilha-mae { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(45px) saturate(160%); width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px; border: 1px solid var(--border-glass); text-align: center; }
+        .ilha-mae { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(45px) saturate(160%); -webkit-backdrop-filter: blur(45px) saturate(160%); width: 100%; max-width: 380px; border-radius: 65px; padding: 60px 15px; border: 1px solid var(--border-glass); text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
         h1 { font-family: 'Cinzel', serif; color: var(--eucalipto-profundo) !important; font-size: 48px; margin: 0; letter-spacing: 5px; }
-        .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 30px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); }
-        h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: white; font-weight: 700; margin-bottom: 15px; }
-        .btn-glass-verde { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; cursor: pointer; border-radius: 50%; width: 42px; height: 42px; font-weight: 700; }
-        .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
-        .active-icon { background: var(--eucalipto-profundo) !important; border-radius: 12px; border: 1px solid white !important; }
-        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .container-sintoma { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .btn-icone-bia { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-        .btn-icone-bia img, .svg-colica { width: 26px; height: 26px; filter: brightness(0) invert(1); }
-        .label-sintoma { font-size: 7.5px; color: white; margin-top: 5px; text-transform: uppercase; }
-        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-weight: 600; outline: none; }
-        .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-profundo); margin-top: 10px; }
-
-        /* MODAL ANALÍTICO OFFLINE */
-        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; padding:20px; box-sizing:border-box; overflow-y:auto; justify-content:center; }
-        .card-analise { background:#f4f7f5; border-radius:40px; padding:25px; width:100%; max-width:350px; color: var(--eucalipto-profundo); }
-        .box-info { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; text-align: left; border-left: 5px solid var(--eucalipto-profundo); }
+        .divider { margin: 10px auto 35px; width: 180px; opacity: 0.8; }
+        .ilha-lua { background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border-glass); backdrop-filter: blur(20px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        #lua-visual { font-size: 40px; }
+        #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
+        .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 30px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
+        .ilha-clara { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.4) !important; }
+        h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
+        .btn-glass-verde { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; cursor: pointer; transition: 0.3s; border-radius: 50%; width: 42px; height: 42px; font-weight: 700; font-size: 12px; }
+        .btn-ciclo { width: auto; padding: 12px 18px; border-radius: 20px; font-size: 10px; margin: 5px; }
+        .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: translateY(3px); box-shadow: none; }
+        .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px 5px; width: 100%; justify-items: center; }
+        .container-sintoma { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+        .btn-icone-bia { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .btn-icone-bia img, .svg-colica { width: 26px; height: 26px; filter: brightness(0) invert(1); opacity: 0.8; }
+        .label-sintoma { font-size: 7.5px; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; }
+        .active-icon .btn-icone-bia { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
+        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-family: inherit; font-size: 15px; font-weight: 600; outline: none; }
+        .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); margin-top: 10px; }
         
-        /* Gráfico de Barras Offline */
-        .barra-container { display: flex; align-items: flex-end; height: 40px; background: #eee; border-radius: 5px; overflow: hidden; margin-top: 5px; }
-        .barra-fill { height: 100%; background: var(--eucalipto-profundo); transition: width 0.5s; }
+        /* Modal do Relatório */
+        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; overflow-y:auto; padding:20px; box-sizing:border-box; justify-content:center; align-items:center; }
+        .card-analise { background:#f4f7f5; border-radius:40px; padding:25px; width:100%; max-width:350px; color: var(--eucalipto-profundo); max-height: 90vh; overflow-y: auto; }
+        .analise-texto { font-size: 12px; line-height: 1.5; text-align: left; padding: 15px; background: white; border-radius: 20px; border-left: 4px solid var(--eucalipto-profundo); margin-top: 15px; }
+        .chart-container { position: relative; height: 180px; margin-bottom: 20px; }
+        .insights-container { font-size: 11px; line-height: 1.6; text-align: left; margin-bottom: 15px; }
+        .insights-container b { color: var(--eucalipto-profundo); }
     </style>
 </head>
 <body>
@@ -38,44 +45,82 @@
 <div id="modal-relatorio">
     <div class="card-analise">
         <h2 style="font-family:'Cinzel'; text-align:center; font-size:22px;">Análise Brilhante ✨</h2>
-        <div id="conteudo-relatorio"></div>
+        
+        <div style="margin-top: 20px;">
+            <h4 style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--eucalipto-profundo); margin-bottom: 10px;">Oscilação Mensal</h4>
+            <div class="chart-container"><canvas id="chartSono"></canvas></div>
+            <div class="chart-container"><canvas id="chartHumor"></canvas></div>
+            <div class="chart-container"><canvas id="chartEnergia"></canvas></div>
+            <div class="chart-container"><canvas id="chartDescanso"></canvas></div>
+        </div>
+
+        <div class="insights-container" id="dados-corpo"></div>
+        <div id="analise-bo" class="analise-texto"></div>
         <button class="btn-salvar" onclick="document.getElementById('modal-relatorio').style.display='none'">Fechar</button>
     </div>
 </div>
 
 <div class="ilha-mae">
     <h1>LunaBia</h1>
-    <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="carregarDados()"></div>
+    <div class="divider"><svg viewBox="0 0 100 20" fill="none"><path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#2d3d36" stroke-width="0.5"/><circle cx="50" cy="10" r="2.5" fill="#2d3d36"/></svg></div>
+    <div class="ilha-lua"><div id="lua-visual">🌑</div><div id="lua-nome">...</div></div>
+    
+    <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="carregarDadosDia()"></div>
+    <div class="ilha-filha ilha-verde"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div></div>
+    <div class="ilha-filha ilha-clara"><h3>📜 Versículo</h3><textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea></div>
+    
     <div id="area-escalas"></div>
-    <div class="ilha-filha">
-        <h3>Sintomas</h3>
-        <div class="grid-icones-bia">
-            <div class="container-sintoma" data-sintoma="Cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia">🩸</div><div class="label-sintoma">Cólica</div></div>
-            <div class="container-sintoma" data-sintoma="Inchaço" onclick="toggleIcon(this)"><div class="btn-icone-bia">🎈</div><div class="label-sintoma">Inchaço</div></div>
-            <div class="container-sintoma" data-sintoma="Estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia">⚡</div><div class="label-sintoma">Estresse</div></div>
+
+    <div class="ilha-filha ilha-clara" id="ilha-ciclo">
+        <h3 style="color: var(--eucalipto-profundo) !important;">🩸 Fluxo Menstrual</h3>
+        <div style="display: flex; justify-content: center; gap: 8px;">
+            <button class="btn-glass-verde btn-ciclo" onclick="setSelect(this)">Leve</button>
+            <button class="btn-glass-verde btn-ciclo" onclick="setSelect(this)">Moderado</button>
+            <button class="btn-glass-verde btn-ciclo" onclick="setSelect(this)">Intenso</button>
         </div>
     </div>
-    <button class="btn-salvar" onclick="salvar()">Salvar Registro</button>
-    <button class="btn-salvar" style="background:rgba(255,255,255,0.2); color:#2d3d36; font-size: 11px;" onclick="gerarRelatorioAnalitico()">Gerar Relatório Analítico</button>
+
+    <div class="ilha-filha ilha-verde">
+        <h3>Sintomas</h3>
+        <div class="grid-icones-bia" id="grid-sintomas">
+            <div class="container-sintoma" data-sintoma="Cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="6"/><circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="5"/></svg></div><div class="label-sintoma">Cólica</div></div>
+            <div class="container-sintoma" data-sintoma="Inchaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
+            <div class="container-sintoma" data-sintoma="Costas" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="dor nas costas.png"></div><div class="label-sintoma">Costas</div></div>
+            <div class="container-sintoma" data-sintoma="Cabeça" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
+            <div class="container-sintoma" data-sintoma="Rinite" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Renite.png"></div><div class="label-sintoma">Rinite</div></div>
+            <div class="container-sintoma" data-sintoma="Estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="extressada.png"></div><div class="label-sintoma">Estresse</div></div>
+            <div class="container-sintoma" data-sintoma="Desânimo" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="desânimo.png"></div><div class="label-sintoma">Desânimo</div></div>
+            <div class="container-sintoma" data-sintoma="Focada" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Focada.png"></div><div class="label-sintoma">Focada</div></div>
+            <div class="container-sintoma" data-sintoma="Ouvido" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Dor de ouvido.png"></div><div class="label-sintoma">Ouvido</div></div>
+            <div class="container-sintoma" data-sintoma="Cansaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="cansaço.png"></div><div class="label-sintoma">Cansaço</div></div>
+        </div>
+    </div>
+    <div class="ilha-filha"><h3>✍️ Diário</h3><textarea id="d-input" rows="4" placeholder="Como você está?"></textarea></div>
+    <div class="area-acoes"><button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro</button><button class="btn-salvar" style="background:rgba(255,255,255,0.1); font-size:11px;" onclick="gerarRelatorio()">Gerar Relatório Analítico</button></div>
 </div>
 
 <script>
-    // Gerar escalas
-    const escNome = ["Sono", "Humor", "Energia", "Descanso"];
-    escNome.forEach(n => {
-        const d = document.createElement('div'); d.className = 'ilha-filha';
-        d.innerHTML = `<h3>${n}</h3><div class="grid-btns" data-n="${n}" style="display:flex; justify-content:space-between;"></div>`;
-        const g = d.querySelector('.grid-btns');
+    // Geradores
+    const bib = document.getElementById('grid-biblia');
+    for(let i=1; i<=31; i++) {
+        const b = document.createElement('button'); b.className = 'btn-glass-verde';
+        b.innerText = i; b.onclick = function() { this.classList.toggle('active'); salvarLeituraMensal(); };
+        bib.appendChild(b);
+    }
+    const escalasArea = document.getElementById('area-escalas');
+    const nomesEscalas = ["Sono", "Humor", "Energia", "Descanso"];
+    nomesEscalas.forEach(n => {
+        const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
+        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:10px;";
         for(let i=1; i<=5; i++) {
-            const b = document.createElement('button'); b.className = 'btn-glass-verde'; b.innerText = i;
-            b.onclick = function() { g.querySelectorAll('button').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
-            g.appendChild(b);
+            const bt = document.createElement('button'); bt.className = 'btn-glass-verde'; bt.innerText = i;
+            bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
+            g.appendChild(bt);
         }
-        document.getElementById('area-escalas').appendChild(d);
+        f.appendChild(g); escalasArea.appendChild(f);
     });
 
-    function toggleIcon(el) { el.classList.toggle('active-icon'); }
-
+    // Funções de Apoio
     function getLua(data) {
         const lp = 2551443; const new_m = new Date('1970-01-07T20:35:00Z').getTime();
         const d = new Date(data + "T12:00:00").getTime();
@@ -86,70 +131,289 @@
         return "Minguante";
     }
 
-    function salvar() {
+    function updateMoon() {
+        const dataIn = document.getElementById('data-input').value;
+        const res = getLua(dataIn);
+        const emojis = { "Nova": "🌑", "Crescente": "🌓", "Cheia": "🌕", "Minguante": "🌗" };
+        document.getElementById('lua-visual').innerText = emojis[res];
+        document.getElementById('lua-nome').innerText = "Lua " + res;
+    }
+
+    function toggleIcon(el) { el.classList.toggle('active-icon'); }
+    function setSelect(btn) {
+        btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function salvarLeituraMensal() {
         const data = document.getElementById('data-input').value;
-        const esc = {};
-        document.querySelectorAll('[data-n]').forEach(g => esc[g.dataset.n] = g.querySelector('.active')?.innerText || "0");
-        const obj = { escalas: esc, sintomas: Array.from(document.querySelectorAll('.active-icon')).map(i => i.dataset.sintoma), lua: getLua(data) };
+        const mesAno = data.substring(0, 7);
+        const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText);
+        localStorage.setItem('LunaBia-Biblia-' + mesAno, JSON.stringify(atuais));
+    }
+
+    function salvarDadosDia() {
+        const data = document.getElementById('data-input').value;
+        const escalas = {};
+        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
+            escalas[ilha.querySelector('h3').innerText] = ilha.querySelector('.active')?.innerText || "0";
+        });
+        const obj = {
+            diario: document.getElementById('d-input').value,
+            versiculo: document.getElementById('v-input').value,
+            sintomas: Array.from(document.querySelectorAll('.active-icon')).map(i => i.dataset.sintoma),
+            fluxo: document.querySelector('#ilha-ciclo .active')?.innerText || "",
+            escalas: escalas,
+            lua: getLua(data)
+        };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(obj));
-        alert("Bo salvou seus dados! ✨");
+        alert("Bo guardou tudo com carinho! ✨");
     }
 
-    function carregarDados() {
+    function carregarDadosDia() {
+        updateMoon();
         const data = document.getElementById('data-input').value;
-        const s = JSON.parse(localStorage.getItem('LunaBia-' + data) || '{"escalas":{},"sintomas":[]}');
-        document.querySelectorAll('.active, .active-icon').forEach(x => x.classList.remove('active', 'active-icon'));
-        for(let k in s.escalas) {
-            const g = document.querySelector(`[data-n="${k}"]`);
-            g?.querySelectorAll('button').forEach(b => { if(b.innerText == s.escalas[k]) b.classList.add('active'); });
+        const mesAno = data.substring(0, 7);
+        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
+        document.querySelectorAll('#grid-biblia button').forEach(b => {
+            b.classList.remove('active'); if(leitura.includes(b.innerText)) b.classList.add('active');
+        });
+        const salvo = JSON.parse(localStorage.getItem('LunaBia-' + data) || '{}');
+        document.getElementById('d-input').value = salvo.diario || "";
+        document.getElementById('v-input').value = salvo.versiculo || "";
+        document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
+        if(salvo.sintomas) salvo.sintomas.forEach(s => { document.querySelector(`[data-sintoma="${s}"]`)?.classList.add('active-icon'); });
+        document.querySelectorAll('#area-escalas .active, #ilha-ciclo .active').forEach(b => b.classList.remove('active'));
+        if(salvo.fluxo) document.querySelectorAll('#ilha-ciclo button').forEach(b => { if(b.innerText == salvo.fluxo) b.classList.add('active'); });
+        if(salvo.escalas) {
+            for(let k in salvo.escalas) {
+                const ilha = Array.from(document.querySelectorAll('#area-escalas .ilha-filha')).find(i => i.querySelector('h3').innerText == k);
+                ilha?.querySelectorAll('button').forEach(b => { if(b.innerText == salvo.escalas[k]) b.classList.add('active'); });
+            }
         }
-        if(s.sintomas) s.sintomas.forEach(st => document.querySelector(`[data-sintoma="${st}"]`)?.classList.add('active-icon'));
     }
 
-    function gerarRelatorioAnalitico() {
-        const mes = document.getElementById('data-input').value.substring(0, 7);
-        let soma = {Sono:0, Humor:0, Energia:0, Descanso:0}, conta = 0, luaImpacto = {Nova:[], Crescente:[], Cheia:[], Minguante:[]};
+    let chartsRelatorio = {};
 
+    function gerarRelatorio() {
+        const dataInput = document.getElementById('data-input').value;
+        const mesAno = dataInput.substring(0, 7); // AAAA-MM
+        const [ano, mes] = mesAno.split('-');
+        const mesesNomes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        const nomeMesExtenso = mesesNomes[parseInt(mes) - 1];
+
+        // Estrutura para armazenar dados diários
+        let dadosDiarios = {};
+        let sintCount = {};
+        let luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
+        let luaEnergia = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
+        let diaOuro = null;
+        let maxPontos = 0;
+
+        // Iterar por todos os registros do mês
         for (let i = 0; i < localStorage.length; i++) {
-            const c = localStorage.key(i);
-            if (c.startsWith('LunaBia-') && c.includes(mes)) {
-                const d = JSON.parse(localStorage.getItem(c));
-                conta++;
-                for(let k in soma) soma[k] += parseInt(d.escalas[k] || 0);
-                if(d.lua) luaImpacto[d.lua].push(parseInt(d.escalas.Humor || 0));
+            const chave = localStorage.key(i);
+            if (chave.startsWith('LunaBia-') && chave.includes(mesAno) && !chave.includes('Biblia')) {
+                const d = JSON.parse(localStorage.getItem(chave));
+                const dia = chave.split('-').pop();
+                
+                // Armazenar dados diários para gráficos
+                dadosDiarios[dia] = {
+                    sono: parseInt(d.escalas.Sono || 0),
+                    humor: parseInt(d.escalas.Humor || 0),
+                    energia: parseInt(d.escalas.Energia || 0),
+                    descanso: parseInt(d.escalas.Descanso || 0),
+                    lua: d.lua
+                };
+
+                // Contar sintomas
+                if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
+
+                // Agrupar humor e energia por fase lunar
+                if(d.lua) {
+                    luaHumor[d.lua].push(parseInt(d.escalas.Humor || 0));
+                    luaEnergia[d.lua].push(parseInt(d.escalas.Energia || 0));
+                }
+
+                // Encontrar Dia de Ouro (soma máxima de todas as escalas)
+                const somaDia = parseInt(d.escalas.Sono || 0) + parseInt(d.escalas.Humor || 0) + 
+                               parseInt(d.escalas.Energia || 0) + parseInt(d.escalas.Descanso || 0);
+                if(somaDia > maxPontos && somaDia === 20) { // 20 = 5+5+5+5 (máximo)
+                    maxPontos = somaDia;
+                    diaOuro = dia;
+                }
             }
         }
 
-        if(conta === 0) return alert("Nenhum dado encontrado para Abril. Salve alguns dias primeiro!");
+        // Preparar dados para gráficos (ordenar por dia)
+        const diasOrdenados = Object.keys(dadosDiarios).sort((a,b) => parseInt(a) - parseInt(b));
+        const labels = diasOrdenados.map(d => d);
+        const sonoData = diasOrdenados.map(d => dadosDiarios[d].sono);
+        const humorData = diasOrdenados.map(d => dadosDiarios[d].humor);
+        const energiaData = diasOrdenados.map(d => dadosDiarios[d].energia);
+        const descansoData = diasOrdenados.map(d => dadosDiarios[d].descanso);
 
-        let html = "";
-        for(let k in soma) {
-            let med = (soma[k] / conta).toFixed(1);
-            html += `<div class="box-info">
-                <h4 style="margin:0; font-size:10px; text-transform:uppercase;">${k} (Média: ${med})</h4>
-                <div class="barra-container"><div class="barra-fill" style="width:${(med/5)*100}%"></div></div>
-            </div>`;
+        // Se não houver dados, avisar
+        if (diasOrdenados.length === 0) {
+            alert(`Bia, não encontrei registros para ${nomeMesExtenso} de ${ano}. Selecione uma data deste mês no calendário primeiro!`);
+            return;
         }
 
-        let piorLua = ""; let minH = 6;
-        for(let l in luaImpacto) {
-            if(luaImpacto[l].length > 0) {
-                let m = luaImpacto[l].reduce((a,b)=>a+b)/luaImpacto[l].length;
-                if(m < minH) { minH = m; piorLua = l; }
-            }
-        }
-
-        html += `<div class="box-info" style="border-left-color: #5a7569;">
-            <h4 style="margin:0; font-size:10px;">🌙 INSIGHT DO BO</h4>
-            <p style="font-size:12px; margin-top:10px;">Bia, notei que na <b>Lua ${piorLua || '...'}</b> seu humor tende a ser mais baixo. Com ${conta} dias registrados, sua média geral está equilibrada!</p>
-        </div>`;
-
-        document.getElementById('conteudo-relatorio').innerHTML = html;
+        // Abrir modal
         document.getElementById('modal-relatorio').style.display = 'flex';
+        document.querySelector('#modal-relatorio h2').innerText = `Análise de ${nomeMesExtenso} ✨`;
+
+        // Destruir gráficos anteriores
+        Object.values(chartsRelatorio).forEach(chart => {
+            if(chart) chart.destroy();
+        });
+        chartsRelatorio = {};
+
+        // Configuração comum para gráficos
+        const configGrafico = {
+            type: 'bar',
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { max: 5, min: 0, ticks: { stepSize: 1 } },
+                    x: { ticks: { font: { size: 9 } } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: function(context) { return 'Dia ' + context.label + ': ' + context.parsed.y; } } }
+                }
+            }
+        };
+
+        // Gráfico Sono
+        chartsRelatorio.sono = new Chart(document.getElementById('chartSono'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Sono',
+                    data: sonoData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Gráfico Humor
+        chartsRelatorio.humor = new Chart(document.getElementById('chartHumor'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Humor',
+                    data: humorData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Gráfico Energia
+        chartsRelatorio.energia = new Chart(document.getElementById('chartEnergia'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Energia',
+                    data: energiaData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Gráfico Descanso
+        chartsRelatorio.descanso = new Chart(document.getElementById('chartDescanso'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Descanso',
+                    data: descansoData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Calcular médias por fase lunar
+        let piorLuaHumor = "";
+        let piorLuaEnergia = "";
+        let minHumor = 6;
+        let minEnergia = 6;
+
+        for(let l in luaHumor) {
+            if(luaHumor[l].length > 0) {
+                let m = luaHumor[l].reduce((a,b)=>a+b)/luaHumor[l].length;
+                if(m < minHumor) { minHumor = m; piorLuaHumor = l; }
+            }
+        }
+
+        for(let l in luaEnergia) {
+            if(luaEnergia[l].length > 0) {
+                let m = luaEnergia[l].reduce((a,b)=>a+b)/luaEnergia[l].length;
+                if(m < minEnergia) { minEnergia = m; piorLuaEnergia = l; }
+            }
+        }
+
+        // Top 3 sintomas
+        const topSint = Object.entries(sintCount).sort((a,b) => b[1]-a[1]).slice(0,3);
+        const textTopSint = topSint.length > 0 ? topSint.map(s => `${s[0]} (${s[1]}x)`).join(', ') : 'Nenhum sintoma registrado';
+
+        // Montar insights
+        let insightsHTML = `<b>📊 Insights do Mês:</b><br>`;
+        insightsHTML += `<b>Top Sintomas:</b> ${textTopSint}<br>`;
+        
+        if(diaOuro) {
+            insightsHTML += `<b>🏆 Dia de Ouro:</b> ${diaOuro} de ${mesAno} (Notas máximas!)<br>`;
+        }
+        
+        if(piorLuaHumor) {
+            insightsHTML += `<b>🌙 Humor:</b> Mais baixo na Lua ${piorLuaHumor} (${minHumor.toFixed(1)}/5)<br>`;
+        }
+        
+        if(piorLuaEnergia) {
+            insightsHTML += `<b>⚡ Energia:</b> Mais baixa na Lua ${piorLuaEnergia} (${minEnergia.toFixed(1)}/5)<br>`;
+        }
+
+        document.getElementById('dados-corpo').innerHTML = insightsHTML;
+
+        // Gerar "Análise do Bo"
+        let analiseTexto = `Bia, analisando seu mês de ${nomeMesExtenso}... `;
+        
+        if(diaOuro) {
+            analiseTexto += `Seu <b>Dia de Ouro</b> foi <b>${diaOuro}</b> — que dia especial! `;
+        }
+
+        if(piorLuaHumor && piorLuaEnergia) {
+            analiseTexto += `Notei que na <b>Lua ${piorLuaHumor}</b> seu humor oscila mais, e na <b>Lua ${piorLuaEnergia}</b> sua energia cai. `;
+        } else if(piorLuaHumor) {
+            analiseTexto += `Percebi que seu humor é mais instável durante a <b>Lua ${piorLuaHumor}</b>. `;
+        } else if(piorLuaEnergia) {
+            analiseTexto += `Sua energia tende a cair durante a <b>Lua ${piorLuaEnergia}</b>. `;
+        }
+
+        if(topSint.length > 0) {
+            analiseTexto += `Seus sintomas mais frequentes foram ${topSint.slice(0,2).map(s => `<b>${s[0]}</b>`).join(' e ')}. `;
+        }
+
+        analiseTexto += `Continue se cuidando! 💚`;
+
+        document.getElementById('analise-bo').innerHTML = analiseTexto;
     }
 
     document.getElementById('data-input').value = new Date().toISOString().split('T')[0];
-    carregarDados();
+    window.onload = carregarDadosDia;
 </script>
 </body>
 </html>
