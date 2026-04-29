@@ -197,58 +197,61 @@
 
     function gerarRelatorio() {
         const dataInput = document.getElementById('data-input').value;
-        const [ano, mes] = dataInput.split('-');
-        const mesAnoBusca = `${ano}-${mes}`; // Garante formato AAAA-MM
+        const partes = dataInput.split('-');
+        const anoBusca = partes[0];
+        const mesBusca = partes[1];
         
         const mesesNomes = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-        const nomeMesExtenso = mesesNomes[parseInt(mes) - 1];
+        const nomeMesExtenso = mesesNomes[parseInt(mesBusca) - 1];
 
-        // Estrutura para armazenar dados diários
         let dadosDiarios = {};
         let sintCount = {};
         let luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
         let luaEnergia = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
         let diaOuro = null;
-        let maxPontosTotal = 0;
 
-        // Iterar por todos os registros do localStorage
+        console.log("Iniciando busca para:", anoBusca, mesBusca);
+
         for (let i = 0; i < localStorage.length; i++) {
             const chave = localStorage.key(i);
             
-            // Verificação rigorosa: Começa com LunaBia- e contém o padrão AAAA-MM
-            // Exemplo: LunaBia-2024-03-15
-            if (chave.startsWith('LunaBia-') && !chave.includes('Biblia')) {
-                // Extrair a data da chave: LunaBia-2024-03-15 -> 2024-03-15
-                const dataChave = chave.replace('LunaBia-', '');
+            // Busca ultra-flexível: se tiver LunaBia e o ano/mês em qualquer lugar da chave
+            if (chave.includes('LunaBia') && !chave.includes('Biblia')) {
+                const d = JSON.parse(localStorage.getItem(chave));
                 
-                // Verificar se a data da chave pertence ao mês e ano selecionados
-                if (dataChave.startsWith(mesAnoBusca)) {
-                    const d = JSON.parse(localStorage.getItem(chave));
-                    const dia = dataChave.split('-')[2]; // Pega o DD
-                    
-                    // Armazenar dados diários para gráficos
-                    dadosDiarios[dia] = {
-                        sono: parseInt(d.escalas?.Sono || 0),
-                        humor: parseInt(d.escalas?.Humor || 0),
-                        energia: parseInt(d.escalas?.Energia || 0),
-                        descanso: parseInt(d.escalas?.Descanso || 0),
-                        lua: d.lua || getLua(dataChave)
-                    };
+                // Tentar extrair a data da própria chave ou do objeto salvo
+                // Formatos possíveis na chave: LunaBia-2026-03-01 ou 2026-03-01
+                const regexData = /(\d{4})-(\d{2})-(\d{2})/;
+                const match = chave.match(regexData);
+                
+                if (match) {
+                    const anoChave = match[1];
+                    const mesChave = match[2];
+                    const diaChave = match[3];
 
-                    // Contar sintomas
-                    if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
+                    if (anoChave === anoBusca && mesChave === mesBusca) {
+                        console.log("Encontrado registro para o dia:", diaChave);
+                        
+                        dadosDiarios[diaChave] = {
+                            sono: parseInt(d.escalas?.Sono || d.escalas?.sono || 0),
+                            humor: parseInt(d.escalas?.Humor || d.escalas?.humor || 0),
+                            energia: parseInt(d.escalas?.Energia || d.escalas?.energia || 0),
+                            descanso: parseInt(d.escalas?.Descanso || d.escalas?.descanso || 0),
+                            lua: d.lua || getLua(`${anoChave}-${mesChave}-${diaChave}`)
+                        };
 
-                    // Agrupar humor e energia por fase lunar
-                    const faseLua = d.lua || getLua(dataChave);
-                    if(faseLua) {
-                        luaHumor[faseLua].push(parseInt(d.escalas?.Humor || 0));
-                        luaEnergia[faseLua].push(parseInt(d.escalas?.Energia || 0));
-                    }
+                        if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
 
-                    // Encontrar Dia de Ouro (todas as notas 5)
-                    const s = d.escalas;
-                    if(s && s.Sono=="5" && s.Humor=="5" && s.Energia=="5" && s.Descanso=="5") {
-                        diaOuro = dia;
+                        const faseLua = dadosDiarios[diaChave].lua;
+                        if(faseLua) {
+                            luaHumor[faseLua].push(dadosDiarios[diaChave].humor);
+                            luaEnergia[faseLua].push(dadosDiarios[diaChave].energia);
+                        }
+
+                        const s = dadosDiarios[diaChave];
+                        if(s.sono >= 5 && s.humor >= 5 && s.energia >= 5 && s.descanso >= 5) {
+                            diaOuro = diaChave;
+                        }
                     }
                 }
             }
