@@ -16,10 +16,8 @@
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
         
-        /* ILHAS */
         .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 30px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); }
         .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
-        /* ILHA CLARA (VERSÍCULO) */
         .ilha-clara { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.4) !important; }
         
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
@@ -34,9 +32,10 @@
         .active-icon .btn-icone-bia { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
         .active-icon .label-sintoma { color: white !important; font-weight: 800; }
         
-        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: white; font-family: inherit; font-size: 15px; outline: none; }
-        
-        /* BOTÕES DE AÇÃO */
+        /* ESCRITA EM VERDE DENTRO DOS CAMPOS */
+        textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-family: inherit; font-size: 15px; font-weight: 600; outline: none; }
+        textarea::placeholder { color: rgba(45, 61, 54, 0.5); }
+
         .area-acoes { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
         .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
@@ -62,6 +61,8 @@
         <h3>📜 Versículo do Dia</h3>
         <textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea>
     </div>
+
+    <div id="area-escalas"></div>
 
     <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
@@ -101,7 +102,6 @@
 <script>
     const bib = document.getElementById('grid-biblia');
     const leituraSalva = JSON.parse(localStorage.getItem('LunaBia-Tracker-Biblia') || '[]');
-
     for(let i=1; i<=31; i++) {
         const b = document.createElement('button');
         b.className = 'btn-glass-verde';
@@ -114,6 +114,19 @@
         };
         bib.appendChild(b);
     }
+
+    const escalasArea = document.getElementById('area-escalas');
+    const nomesEscalas = ["Sono", "Humor", "Energia", "Descanso"];
+    nomesEscalas.forEach(n => {
+        const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
+        const g = document.createElement('div'); g.style = "display:grid; grid-template-columns:repeat(5, 1fr); gap:10px;";
+        for(let i=1; i<=5; i++) {
+            const bt = document.createElement('button'); bt.className = 'btn-glass-verde'; bt.innerText = i;
+            bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
+            g.appendChild(bt);
+        }
+        f.appendChild(g); escalasArea.appendChild(f);
+    });
 
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
@@ -135,7 +148,13 @@
         const diario = document.getElementById('d-input').value;
         const versiculo = document.getElementById('v-input').value;
         const sintomas = Array.from(document.querySelectorAll('.active-icon')).map(i => i.getAttribute('data-sintoma'));
-        const dados = { diario, versiculo, sintomas };
+        const escalas = {};
+        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
+            const nome = ilha.querySelector('h3').innerText;
+            const valor = ilha.querySelector('.active')?.innerText || "";
+            escalas[nome] = valor;
+        });
+        const dados = { diario, versiculo, sintomas, escalas };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
         alert("LunaBia: Salvo com sucesso! ✨");
     }
@@ -147,6 +166,8 @@
         document.getElementById('d-input').value = "";
         document.getElementById('v-input').value = "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
+        document.querySelectorAll('#area-escalas .active').forEach(b => b.classList.remove('active'));
+
         if (salvo) {
             const dados = JSON.parse(salvo);
             document.getElementById('d-input').value = dados.diario || "";
@@ -155,6 +176,15 @@
                 dados.sintomas.forEach(s => {
                     const el = document.querySelector(`[data-sintoma="${s}"]`);
                     if (el) el.classList.add('active-icon');
+                });
+            }
+            if (dados.escalas) {
+                document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => {
+                    const nome = ilha.querySelector('h3').innerText;
+                    const valor = dados.escalas[nome];
+                    if (valor) {
+                        ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); });
+                    }
                 });
             }
         }
