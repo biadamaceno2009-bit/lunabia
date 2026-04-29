@@ -35,7 +35,8 @@
         #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; overflow-y:auto; padding:20px; box-sizing:border-box; justify-content:center; align-items:center; }
         .card-analise { background:#f4f7f5; border-radius:40px; padding:25px; width:100%; max-width:350px; color: var(--eucalipto-profundo); max-height: 90vh; overflow-y: auto; }
         .analise-texto { font-size: 12px; line-height: 1.5; text-align: left; padding: 15px; background: white; border-radius: 20px; border-left: 4px solid var(--eucalipto-profundo); margin-top: 15px; }
-        .chart-container { position: relative; height: 180px; margin-bottom: 20px; }
+        .chart-container { position: relative; height: 150px; width: 100%; margin-bottom: 30px; background: rgba(255,255,255,0.5); border-radius: 15px; padding: 10px; box-sizing: border-box; }
+        .chart-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--eucalipto-profundo); margin-bottom: 5px; display: block; text-align: left; }
         .insights-container { font-size: 11px; line-height: 1.6; text-align: left; margin-bottom: 15px; }
         .insights-container b { color: var(--eucalipto-profundo); }
     </style>
@@ -47,10 +48,16 @@
         <h2 style="font-family:'Cinzel'; text-align:center; font-size:22px;">Análise Brilhante ✨</h2>
         
         <div style="margin-top: 20px;">
-            <h4 style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--eucalipto-profundo); margin-bottom: 10px;">Oscilação Mensal</h4>
+            <span class="chart-label">📈 Qualidade do Sono</span>
             <div class="chart-container"><canvas id="chartSono"></canvas></div>
+            
+            <span class="chart-label">🎭 Estabilidade do Humor</span>
             <div class="chart-container"><canvas id="chartHumor"></canvas></div>
+            
+            <span class="chart-label">⚡ Nível de Energia</span>
             <div class="chart-container"><canvas id="chartEnergia"></canvas></div>
+            
+            <span class="chart-label">🌿 Nível de Descanso</span>
             <div class="chart-container"><canvas id="chartDescanso"></canvas></div>
         </div>
 
@@ -271,88 +278,45 @@
             return;
         }
 
-        // Abrir modal
-        document.getElementById('modal-relatorio').style.display = 'flex';
+        // Abrir modal primeiro
+        const modal = document.getElementById('modal-relatorio');
+        modal.style.display = 'flex';
         document.querySelector('#modal-relatorio h2').innerText = `Análise de ${nomeMesExtenso} ✨`;
 
-        // Destruir gráficos anteriores
-        Object.values(chartsRelatorio).forEach(chart => {
-            if(chart) chart.destroy();
-        });
-        chartsRelatorio = {};
+        // Usar setTimeout para garantir que o modal esteja visível antes de desenhar os gráficos
+        setTimeout(() => {
+            // Destruir gráficos anteriores
+            Object.values(chartsRelatorio).forEach(chart => { if(chart) chart.destroy(); });
+            chartsRelatorio = {};
 
-        // Configuração comum para gráficos
-        const configGrafico = {
-            type: 'bar',
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { 
-                        max: 5, 
-                        min: 0, 
-                        ticks: { stepSize: 1, color: '#2d3d36' },
-                        grid: { color: 'rgba(45, 61, 54, 0.1)' }
+            const configGrafico = {
+                type: 'bar',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 500 },
+                    scales: {
+                        y: { max: 5, min: 0, ticks: { stepSize: 1, color: '#2d3d36' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                        x: { ticks: { color: '#2d3d36', font: { size: 10 } }, grid: { display: false } }
                     },
-                    x: { 
-                        ticks: { font: { size: 9 }, color: '#2d3d36' },
-                        grid: { display: false }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { 
-                        backgroundColor: '#2d3d36',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        callbacks: { label: function(context) { return 'Nota: ' + context.parsed.y; } } 
-                    }
+                    plugins: { legend: { display: false } }
                 }
-            }
-        };
+            };
 
-        const cores = {
-            sono: '#4a6d5d',
-            humor: '#2d3d36',
-            energia: '#6b8e7d',
-            descanso: '#8fb3a1'
-        };
-
-        // Gráfico Sono
-        chartsRelatorio.sono = new Chart(document.getElementById('chartSono'), {
-            ...configGrafico,
-            data: {
-                labels: labels,
-                datasets: [{ data: sonoData, backgroundColor: cores.sono, borderRadius: 5 }]
-            }
-        });
-
-        // Gráfico Humor
-        chartsRelatorio.humor = new Chart(document.getElementById('chartHumor'), {
-            ...configGrafico,
-            data: {
-                labels: labels,
-                datasets: [{ data: humorData, backgroundColor: cores.humor, borderRadius: 5 }]
-            }
-        });
-
-        // Gráfico Energia
-        chartsRelatorio.energia = new Chart(document.getElementById('chartEnergia'), {
-            ...configGrafico,
-            data: {
-                labels: labels,
-                datasets: [{ data: energiaData, backgroundColor: cores.energia, borderRadius: 5 }]
-            }
-        });
-
-        // Gráfico Descanso
-        chartsRelatorio.descanso = new Chart(document.getElementById('chartDescanso'), {
-            ...configGrafico,
-            data: {
-                labels: labels,
-                datasets: [{ data: descansoData, backgroundColor: cores.descanso, borderRadius: 5 }]
-            }
-        });
+            // Criar os gráficos um por um com IDs garantidos
+            chartsRelatorio.sono = new Chart(document.getElementById('chartSono').getContext('2d'), {
+                ...configGrafico, data: { labels: labels, datasets: [{ data: sonoData, backgroundColor: '#4a6d5d', borderRadius: 4 }] }
+            });
+            chartsRelatorio.humor = new Chart(document.getElementById('chartHumor').getContext('2d'), {
+                ...configGrafico, data: { labels: labels, datasets: [{ data: humorData, backgroundColor: '#2d3d36', borderRadius: 4 }] }
+            });
+            chartsRelatorio.energia = new Chart(document.getElementById('chartEnergia').getContext('2d'), {
+                ...configGrafico, data: { labels: labels, datasets: [{ data: energiaData, backgroundColor: '#6b8e7d', borderRadius: 4 }] }
+            });
+            chartsRelatorio.descanso = new Chart(document.getElementById('chartDescanso').getContext('2d'), {
+                ...configGrafico, data: { labels: labels, datasets: [{ data: descansoData, backgroundColor: '#8fb3a1', borderRadius: 4 }] }
+            });
+        }, 100);
 
         // Calcular médias por fase lunar
         let piorLuaHumor = "";
