@@ -33,8 +33,11 @@
         
         /* Modal do Relatório */
         #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:2000; overflow-y:auto; padding:20px; box-sizing:border-box; justify-content:center; align-items:center; }
-        .card-analise { background:#f4f7f5; border-radius:40px; padding:25px; width:100%; max-width:350px; color: var(--eucalipto-profundo); }
+        .card-analise { background:#f4f7f5; border-radius:40px; padding:25px; width:100%; max-width:350px; color: var(--eucalipto-profundo); max-height: 90vh; overflow-y: auto; }
         .analise-texto { font-size: 12px; line-height: 1.5; text-align: left; padding: 15px; background: white; border-radius: 20px; border-left: 4px solid var(--eucalipto-profundo); margin-top: 15px; }
+        .chart-container { position: relative; height: 180px; margin-bottom: 20px; }
+        .insights-container { font-size: 11px; line-height: 1.6; text-align: left; margin-bottom: 15px; }
+        .insights-container b { color: var(--eucalipto-profundo); }
     </style>
 </head>
 <body>
@@ -42,8 +45,16 @@
 <div id="modal-relatorio">
     <div class="card-analise">
         <h2 style="font-family:'Cinzel'; text-align:center; font-size:22px;">Análise Brilhante ✨</h2>
-        <div style="height: 200px; margin-bottom: 20px;"><canvas id="chartBarras"></canvas></div>
-        <div id="dados-corpo" style="font-size: 12px; text-align: left; margin-bottom: 15px;"></div>
+        
+        <div style="margin-top: 20px;">
+            <h4 style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--eucalipto-profundo); margin-bottom: 10px;">Oscilação Mensal</h4>
+            <div class="chart-container"><canvas id="chartSono"></canvas></div>
+            <div class="chart-container"><canvas id="chartHumor"></canvas></div>
+            <div class="chart-container"><canvas id="chartEnergia"></canvas></div>
+            <div class="chart-container"><canvas id="chartDescanso"></canvas></div>
+        </div>
+
+        <div class="insights-container" id="dados-corpo"></div>
         <div id="analise-bo" class="analise-texto"></div>
         <button class="btn-salvar" onclick="document.getElementById('modal-relatorio').style.display='none'">Fechar</button>
     </div>
@@ -182,47 +193,212 @@
         }
     }
 
-    let myChart = null;
+    let chartsRelatorio = {};
+
     function gerarRelatorio() {
         const mesAno = document.getElementById('data-input').value.substring(0, 7);
-        let soma = {Sono:0, Humor:0, Energia:0, Descanso:0}, conta = 0, sintCount = {}, luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
+        
+        // Estrutura para armazenar dados diários
+        let dadosDiarios = {};
+        let sintCount = {};
+        let luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
+        let luaEnergia = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
+        let diaOuro = null;
+        let maxPontos = 0;
 
+        // Iterar por todos os registros do mês
         for (let i = 0; i < localStorage.length; i++) {
             const chave = localStorage.key(i);
             if (chave.startsWith('LunaBia-') && chave.includes(mesAno) && !chave.includes('Biblia')) {
                 const d = JSON.parse(localStorage.getItem(chave));
-                conta++;
-                for(let k in soma) soma[k] += parseInt(d.escalas[k] || 0);
+                const dia = chave.split('-').pop();
+                
+                // Armazenar dados diários para gráficos
+                dadosDiarios[dia] = {
+                    sono: parseInt(d.escalas.Sono || 0),
+                    humor: parseInt(d.escalas.Humor || 0),
+                    energia: parseInt(d.escalas.Energia || 0),
+                    descanso: parseInt(d.escalas.Descanso || 0),
+                    lua: d.lua
+                };
+
+                // Contar sintomas
                 if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
-                if(d.lua) luaHumor[d.lua].push(parseInt(d.escalas.Humor || 0));
+
+                // Agrupar humor e energia por fase lunar
+                if(d.lua) {
+                    luaHumor[d.lua].push(parseInt(d.escalas.Humor || 0));
+                    luaEnergia[d.lua].push(parseInt(d.escalas.Energia || 0));
+                }
+
+                // Encontrar Dia de Ouro (soma máxima de todas as escalas)
+                const somaDia = parseInt(d.escalas.Sono || 0) + parseInt(d.escalas.Humor || 0) + 
+                               parseInt(d.escalas.Energia || 0) + parseInt(d.escalas.Descanso || 0);
+                if(somaDia > maxPontos && somaDia === 20) { // 20 = 5+5+5+5 (máximo)
+                    maxPontos = somaDia;
+                    diaOuro = dia;
+                }
             }
         }
 
-        const medias = Object.values(soma).map(v => conta > 0 ? v/conta : 0);
+        // Preparar dados para gráficos (ordenar por dia)
+        const diasOrdenados = Object.keys(dadosDiarios).sort((a,b) => parseInt(a) - parseInt(b));
+        const labels = diasOrdenados.map(d => d);
+        const sonoData = diasOrdenados.map(d => dadosDiarios[d].sono);
+        const humorData = diasOrdenados.map(d => dadosDiarios[d].humor);
+        const energiaData = diasOrdenados.map(d => dadosDiarios[d].energia);
+        const descansoData = diasOrdenados.map(d => dadosDiarios[d].descanso);
+
+        // Abrir modal
         document.getElementById('modal-relatorio').style.display = 'flex';
 
-        if(myChart) myChart.destroy();
-        myChart = new Chart(document.getElementById('chartBarras'), {
+        // Destruir gráficos anteriores
+        Object.values(chartsRelatorio).forEach(chart => {
+            if(chart) chart.destroy();
+        });
+        chartsRelatorio = {};
+
+        // Configuração comum para gráficos
+        const configGrafico = {
             type: 'bar',
-            data: { labels: ['Sono', 'Humor', 'Energia', 'Descanso'], datasets: [{ data: medias, backgroundColor: '#2d3d36' }] },
-            options: { scales: { y: { max: 5, min: 0 } }, plugins: { legend: { display: false } } }
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { max: 5, min: 0, ticks: { stepSize: 1 } },
+                    x: { ticks: { font: { size: 9 } } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: function(context) { return 'Dia ' + context.label + ': ' + context.parsed.y; } } }
+                }
+            }
+        };
+
+        // Gráfico Sono
+        chartsRelatorio.sono = new Chart(document.getElementById('chartSono'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Sono',
+                    data: sonoData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
         });
 
-        const topSint = Object.entries(sintCount).sort((a,b) => b[1]-a[1]).slice(0,3);
-        document.getElementById('dados-corpo').innerHTML = `<b>Top Sintomas:</b> ${topSint.map(s => s[0]).join(', ') || 'Nenhum'}`;
+        // Gráfico Humor
+        chartsRelatorio.humor = new Chart(document.getElementById('chartHumor'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Humor',
+                    data: humorData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
 
-        let piorLua = ""; let minH = 6;
-        for(let l in luaHumor) { 
+        // Gráfico Energia
+        chartsRelatorio.energia = new Chart(document.getElementById('chartEnergia'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Energia',
+                    data: energiaData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Gráfico Descanso
+        chartsRelatorio.descanso = new Chart(document.getElementById('chartDescanso'), {
+            ...configGrafico,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Descanso',
+                    data: descansoData,
+                    backgroundColor: '#2d3d36',
+                    borderColor: '#2d3d36',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Calcular médias por fase lunar
+        let piorLuaHumor = "";
+        let piorLuaEnergia = "";
+        let minHumor = 6;
+        let minEnergia = 6;
+
+        for(let l in luaHumor) {
             if(luaHumor[l].length > 0) {
                 let m = luaHumor[l].reduce((a,b)=>a+b)/luaHumor[l].length;
-                if(m < minH) { minH = m; piorLua = l; }
+                if(m < minHumor) { minHumor = m; piorLuaHumor = l; }
             }
         }
 
-        let txt = `Bia, este mês sua energia média foi <b>${medias[2].toFixed(1)}</b>. `;
-        if(piorLua) txt += `Notei que seu humor oscila mais na <b>Lua ${piorLua}</b>. `;
-        if(soma.Sono/conta < 3) txt += "Tente dormir mais, pois isso pode estar afetando sua rinite.";
-        document.getElementById('analise-bo').innerHTML = txt;
+        for(let l in luaEnergia) {
+            if(luaEnergia[l].length > 0) {
+                let m = luaEnergia[l].reduce((a,b)=>a+b)/luaEnergia[l].length;
+                if(m < minEnergia) { minEnergia = m; piorLuaEnergia = l; }
+            }
+        }
+
+        // Top 3 sintomas
+        const topSint = Object.entries(sintCount).sort((a,b) => b[1]-a[1]).slice(0,3);
+        const textTopSint = topSint.length > 0 ? topSint.map(s => `${s[0]} (${s[1]}x)`).join(', ') : 'Nenhum sintoma registrado';
+
+        // Montar insights
+        let insightsHTML = `<b>📊 Insights do Mês:</b><br>`;
+        insightsHTML += `<b>Top Sintomas:</b> ${textTopSint}<br>`;
+        
+        if(diaOuro) {
+            insightsHTML += `<b>🏆 Dia de Ouro:</b> ${diaOuro} de ${mesAno} (Notas máximas!)<br>`;
+        }
+        
+        if(piorLuaHumor) {
+            insightsHTML += `<b>🌙 Humor:</b> Mais baixo na Lua ${piorLuaHumor} (${minHumor.toFixed(1)}/5)<br>`;
+        }
+        
+        if(piorLuaEnergia) {
+            insightsHTML += `<b>⚡ Energia:</b> Mais baixa na Lua ${piorLuaEnergia} (${minEnergia.toFixed(1)}/5)<br>`;
+        }
+
+        document.getElementById('dados-corpo').innerHTML = insightsHTML;
+
+        // Gerar "Análise do Bo"
+        let analiseTexto = `Bia, analisando seu mês de ${mesAno}... `;
+        
+        if(diaOuro) {
+            analiseTexto += `Seu <b>Dia de Ouro</b> foi <b>${diaOuro}</b> — que dia especial! `;
+        }
+
+        if(piorLuaHumor && piorLuaEnergia) {
+            analiseTexto += `Notei que na <b>Lua ${piorLuaHumor}</b> seu humor oscila mais, e na <b>Lua ${piorLuaEnergia}</b> sua energia cai. `;
+        } else if(piorLuaHumor) {
+            analiseTexto += `Percebi que seu humor é mais instável durante a <b>Lua ${piorLuaHumor}</b>. `;
+        } else if(piorLuaEnergia) {
+            analiseTexto += `Sua energia tende a cair durante a <b>Lua ${piorLuaEnergia}</b>. `;
+        }
+
+        if(topSint.length > 0) {
+            analiseTexto += `Seus sintomas mais frequentes foram ${topSint.slice(0,2).map(s => `<b>${s[0]}</b>`).join(' e ')}. `;
+        }
+
+        analiseTexto += `Continue se cuidando! 💚`;
+
+        document.getElementById('analise-bo').innerHTML = analiseTexto;
     }
 
     document.getElementById('data-input').value = new Date().toISOString().split('T')[0];
