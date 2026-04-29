@@ -15,11 +15,17 @@
         .ilha-lua { background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border-glass); backdrop-filter: blur(20px); }
         #lua-visual { font-size: 40px; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto-profundo); font-weight: 700; margin-top: 8px; }
+        
+        /* ILHAS */
         .ilha-filha { background: rgba(255, 255, 255, 0.05); border-radius: 40px; padding: 25px 18px; margin-bottom: 30px; border: 1px solid var(--border-glass); backdrop-filter: blur(15px); }
         .ilha-verde { background: var(--eucalipto-glass-escuro) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; }
+        /* ILHA CLARA (VERSÍCULO) */
+        .ilha-clara { background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.4) !important; }
+        
         h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: white; font-weight: 700; }
         .btn-glass-verde { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: white; cursor: pointer; transition: 0.3s; border-radius: 50%; width: 42px; height: 42px; font-weight: 700; font-size: 12px; }
         .active { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; transform: translateY(3px); }
+        
         .grid-icones-bia { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px 5px; width: 100%; justify-items: center; }
         .container-sintoma { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
         .btn-icone-bia { width: 44px; height: 44px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
@@ -27,8 +33,13 @@
         .label-sintoma { font-size: 7.5px; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; text-align: center; }
         .active-icon .btn-icone-bia { background: var(--eucalipto-profundo) !important; border: 1px solid white !important; }
         .active-icon .label-sintoma { color: white !important; font-weight: 800; }
+        
         textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: white; font-family: inherit; font-size: 15px; outline: none; }
-        .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); margin-top: 10px; }
+        
+        /* BOTÕES DE AÇÃO */
+        .area-acoes { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+        .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body>
@@ -47,7 +58,7 @@
         <div id="grid-biblia" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;"></div>
     </div>
 
-    <div class="ilha-filha ilha-verde">
+    <div class="ilha-filha ilha-clara">
         <h3>📜 Versículo do Dia</h3>
         <textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea>
     </div>
@@ -55,7 +66,15 @@
     <div class="ilha-filha ilha-verde">
         <h3>Sintomas</h3>
         <div class="grid-icones-bia" id="grid-sintomas">
-            <div class="container-sintoma" data-sintoma="colica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><path d="M50,10 A40,40 0 1,1 10,50 A40,40 0 0,1 50,10 Z" stroke="black" fill="none" stroke-width="8"/></svg></div><div class="label-sintoma">Cólica</div></div>
+            <div class="container-sintoma" data-sintoma="colica" onclick="toggleIcon(this)">
+                <div class="btn-icone-bia">
+                    <svg class="svg-colica" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="6"/>
+                        <circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="5"/>
+                    </svg>
+                </div>
+                <div class="label-sintoma">Cólica</div>
+            </div>
             <div class="container-sintoma" data-sintoma="inchaco" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
             <div class="container-sintoma" data-sintoma="costas" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="dor nas costas.png"></div><div class="label-sintoma">Costas</div></div>
             <div class="container-sintoma" data-sintoma="cabeca" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
@@ -73,11 +92,13 @@
         <textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea>
     </div>
 
-    <button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro do Dia</button>
+    <div class="area-acoes">
+        <button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro</button>
+        <button class="btn-relatorio" onclick="alert('Relatório em breve!')">Gerar Relatório</button>
+    </div>
 </div>
 
 <script>
-    // Gerar e Carregar o Tracker Bíblico Permanente
     const bib = document.getElementById('grid-biblia');
     const leituraSalva = JSON.parse(localStorage.getItem('LunaBia-Tracker-Biblia') || '[]');
 
@@ -88,7 +109,6 @@
         b.innerText = i;
         b.onclick = function() { 
             this.classList.toggle('active');
-            // Salva na hora para nunca perder o progresso mensal
             const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText);
             localStorage.setItem('LunaBia-Tracker-Biblia', JSON.stringify(atuais));
         };
@@ -115,21 +135,18 @@
         const diario = document.getElementById('d-input').value;
         const versiculo = document.getElementById('v-input').value;
         const sintomas = Array.from(document.querySelectorAll('.active-icon')).map(i => i.getAttribute('data-sintoma'));
-        
         const dados = { diario, versiculo, sintomas };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
-        alert("LunaBia: Dia " + data + " salvo com sucesso! ✨");
+        alert("LunaBia: Salvo com sucesso! ✨");
     }
 
     function carregarDadosDia() {
         updateMoon();
         const data = document.getElementById('data-input').value;
         const salvo = localStorage.getItem('LunaBia-' + data);
-        
         document.getElementById('d-input').value = "";
         document.getElementById('v-input').value = "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
-
         if (salvo) {
             const dados = JSON.parse(salvo);
             document.getElementById('d-input').value = dados.diario || "";
