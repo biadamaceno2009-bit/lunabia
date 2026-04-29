@@ -44,11 +44,12 @@
         .barra-preenchimento { height: 100%; background: var(--eucalipto-profundo); border-radius: 10px; transition: width 1s ease-in-out; }
         
         /* Cards de Destaque */
-        .grid-destaques { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .card-destaque { background: #f4f7f5; padding: 15px; border-radius: 25px; text-align: center; border: 1px solid rgba(0,0,0,0.05); }
-        .destaque-icone { font-size: 24px; margin-bottom: 8px; display: block; }
-        .destaque-valor { font-size: 12px; font-weight: 800; display: block; color: var(--eucalipto-profundo); }
-        .destaque-label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+        .lista-direta { background: #f4f7f5; padding: 20px; border-radius: 30px; margin-bottom: 25px; text-align: left; }
+        .item-direto { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .item-direto:last-child { margin-bottom: 0; }
+        .icone-item { font-size: 24px; min-width: 30px; }
+        .texto-item { font-size: 12px; line-height: 1.4; color: #444; }
+        .texto-item b { color: var(--eucalipto-profundo); display: block; font-size: 13px; }
 
         /* Mapa de Sintomas */
         .mapa-sintomas { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; background: #f9f9f9; padding: 15px; border-radius: 25px; }
@@ -70,16 +71,14 @@
             <div id="area-barras"></div>
         </div>
 
-        <div class="grid-destaques">
-            <div class="card-destaque">
-                <span class="destaque-icone">🏆</span>
-                <span class="destaque-valor" id="val-ouro">--</span>
-                <span class="destaque-label">Dia de Ouro</span>
+        <div class="lista-direta">
+            <div class="item-direto">
+                <div class="icone-item">✨</div>
+                <div class="texto-item" id="info-ouro">Nenhum dia com notas máximas registrado ainda.</div>
             </div>
-            <div class="card-destaque">
-                <span class="destaque-icone">🌙</span>
-                <span class="destaque-valor" id="val-lua">--</span>
-                <span class="destaque-label">Fase Crítica</span>
+            <div class="item-direto">
+                <div class="icone-item">🌙</div>
+                <div class="texto-item" id="info-lua">Ainda não há dados lunares suficientes.</div>
             </div>
         </div>
 
@@ -237,21 +236,41 @@
         let sintCount = {}, luaHumor = {Cheia:[], Minguante:[], Nova:[], Crescente:[]};
         let diaOuro = null;
 
+        // SCANNER UNIVERSAL: Varre tudo sem exceção
         for (let i = 0; i < localStorage.length; i++) {
             const chave = localStorage.key(i);
-            if (chave.startsWith('LunaBia-') && chave.includes(`${ano}-${mes}`) && !chave.includes('Biblia')) {
-                const d = JSON.parse(localStorage.getItem(chave));
-                conta++;
-                for(let k in soma) soma[k] += parseInt(d.escalas?.[k] || 0);
-                if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
-                
-                const fLua = d.lua || getLua(chave.replace('LunaBia-', ''));
-                if(fLua) luaHumor[fLua].push(parseInt(d.escalas?.Humor || 0));
+            
+            // Verifica se a chave pertence ao app e contém o Ano-Mês selecionado
+            // Aceita LunaBia-2024-03, LunaBia-2024-3, ou qualquer variação
+            const regexData = new RegExp(`${ano}-0?${parseInt(mes)}`);
+            
+            if (chave.includes('LunaBia') && !chave.includes('Biblia') && regexData.test(chave)) {
+                try {
+                    const d = JSON.parse(localStorage.getItem(chave));
+                    if (d && d.escalas) {
+                        conta++;
+                        // Soma garantindo que pega tanto "Sono" quanto "sono"
+                        soma.Sono += parseInt(d.escalas.Sono || d.escalas.sono || 0);
+                        soma.Humor += parseInt(d.escalas.Humor || d.escalas.humor || 0);
+                        soma.Energia += parseInt(d.escalas.Energia || d.escalas.energia || 0);
+                        soma.Descanso += parseInt(d.escalas.Descanso || d.escalas.descanso || 0);
 
-                const s = d.escalas;
-                if(s && s.Sono=="5" && s.Humor=="5" && s.Energia=="5" && s.Descanso=="5") {
-                    diaOuro = chave.split('-').pop();
-                }
+                        if(d.sintomas) d.sintomas.forEach(s => sintCount[s] = (sintCount[s] || 0) + 1);
+                        
+                        const fLua = d.lua || getLua(chave.match(/\d{4}-\d{2}-\d{2}/)?.[0] || dataInput);
+                        if(fLua) {
+                            const notaHumor = parseInt(d.escalas.Humor || d.escalas.humor || 0);
+                            if(notaHumor > 0) luaHumor[fLua].push(notaHumor);
+                        }
+
+                        const sVal = d.escalas;
+                        const isOuro = (sVal.Sono == "5" || sVal.sono == "5") && 
+                                     (sVal.Humor == "5" || sVal.humor == "5") && 
+                                     (sVal.Energia == "5" || sVal.energia == "5") && 
+                                     (sVal.Descanso == "5" || sVal.descanso == "5");
+                        if(isOuro) diaOuro = chave.split('-').pop();
+                    }
+                } catch(e) { console.error("Erro ao ler chave:", chave); }
             }
         }
 
@@ -279,8 +298,13 @@
             `;
         }
 
-        // Destaques
-        document.getElementById('val-ouro').innerText = diaOuro ? `Dia ${diaOuro}` : "---";
+        // Destaques Diretos
+        const infoOuro = document.getElementById('info-ouro');
+        if(diaOuro) {
+            infoOuro.innerHTML = `<b>Seu Melhor Dia</b> No dia ${diaOuro} de ${nomeMesExtenso} você atingiu seu ápice de bem-estar!`;
+        } else {
+            infoOuro.innerHTML = `<b>Seu Melhor Dia</b> Continue registrando para encontrarmos seu dia perfeito!`;
+        }
         
         let piorLua = "---"; let minH = 6;
         for(let l in luaHumor) {
@@ -289,7 +313,13 @@
                 if(m < minH) { minH = m; piorLua = l; }
             }
         }
-        document.getElementById('val-lua').innerText = piorLua !== "---" ? piorLua : "---";
+        
+        const infoLua = document.getElementById('info-lua');
+        if(piorLua !== "---") {
+            infoLua.innerHTML = `<b>Atenção na Lua ${piorLua}</b> Seu humor e energia costumam baixar nesta fase. Se cuide mais!`;
+        } else {
+            infoLua.innerHTML = `<b>Atenção na Lua</b> Continue registrando para entendermos seu ciclo lunar.`;
+        }
 
         // Sintomas
         const topSint = Object.entries(sintCount).sort((a,b) => b[1]-a[1]).slice(0,3);
@@ -297,11 +327,17 @@
         areaSintomas.innerHTML = topSint.length > 0 ? topSint.map(s => `<span class="tag-sintoma">${s[0]}</span>`).join('') : '<span style="font-size:10px; color:#888;">Nenhum registrado</span>';
 
         // Texto do Bo
-        let txt = `Bia, em <b>${nomeMesExtenso}</b> sua energia média foi <b>${(soma.Energia/conta).toFixed(1)}</b>. `;
-        if(diaOuro) txt += `O dia <b>${diaOuro}</b> foi seu ápice de bem-estar! `;
-        if(piorLua !== "---") txt += `Fique atenta à <b>Lua ${piorLua}</b>, quando seu humor tende a oscilar mais. `;
-        if(topSint.length > 0) txt += `Notei que <b>${topSint[0][0]}</b> foi o que mais apareceu. `;
-        txt += `Continue brilhando! ✨`;
+        let txt = `Bia, analisando seu mês de <b>${nomeMesExtenso}</b>... `;
+        if(diaOuro) {
+            txt += `No dia <b>${diaOuro}</b> você estava radiante, com todas as notas no máximo! `;
+        }
+        if(piorLua !== "---") {
+            txt += `Percebi que na <b>Lua ${piorLua}</b> você costuma se sentir um pouco mais sensível ou cansada. `;
+        }
+        if(topSint.length > 0) {
+            txt += `O sintoma que mais te acompanhou foi <b>${topSint[0][0]}</b>. `;
+        }
+        txt += `Tire um tempo para você e continue se cuidando com carinho! ✨`;
         document.getElementById('bo-texto-visual').innerHTML = txt;
     }
 
