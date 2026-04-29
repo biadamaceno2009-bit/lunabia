@@ -32,9 +32,26 @@
         textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 20px; padding: 18px; color: var(--eucalipto-profundo); font-family: inherit; font-size: 15px; font-weight: 600; outline: none; }
         .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        
+        /* ESTILO DO RELATÓRIO POPUP */
+        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; padding:20px; box-sizing:border-box; }
+        #conteudo-relatorio { background:white; width:100%; max-width:350px; border-radius:40px; padding:30px; text-align:left; max-height:80vh; overflow-y:auto; color: var(--eucalipto-profundo); }
+        #conteudo-relatorio h2 { font-family: 'Cinzel', serif; font-size: 24px; text-align:center; margin-bottom:20px; }
+        .item-relatorio { margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid rgba(45,61,54,0.1); }
+        .item-relatorio b { color: #2d3d36; }
+        .btn-fechar { width:100%; padding:15px; background:var(--eucalipto-profundo); color:white; border:none; border-radius:20px; font-weight:800; text-transform:uppercase; margin-top:10px; }
     </style>
 </head>
 <body>
+
+<div id="modal-relatorio">
+    <div id="conteudo-relatorio">
+        <h2>Relatório Mensal</h2>
+        <div id="dados-relatorio"></div>
+        <button class="btn-fechar" onclick="fecharRelatorio()">Fechar</button>
+    </div>
+</div>
+
 <div class="ilha-mae">
     <h1>LunaBia</h1>
     <div class="divider"><svg viewBox="0 0 100 20" fill="none"><path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#2d3d36" stroke-width="0.5"/><circle cx="50" cy="10" r="2.5" fill="#2d3d36"/></svg></div>
@@ -71,41 +88,18 @@
         </div>
     </div>
     <div class="ilha-filha"><h3>✍️ Diário</h3><textarea id="d-input" rows="4" placeholder="Abra seu coração..."></textarea></div>
-    <div class="area-acoes"><button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro</button><button class="btn-relatorio" onclick="alert('Relatório em breve!')">Gerar Relatório</button></div>
+    <div class="area-acoes"><button class="btn-salvar" onclick="salvarDadosDia()">Salvar Registro</button><button class="btn-relatorio" onclick="gerarRelatorio()">Gerar Relatório</button></div>
 </div>
 
 <script>
-    // Gerar botões da bíblia
+    // Configurações e Geradores
     const bib = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
         const b = document.createElement('button'); b.className = 'btn-glass-verde';
-        b.innerText = i;
-        b.onclick = function() { 
-            this.classList.toggle('active'); 
-            salvarLeituraMensal(); 
-        };
+        b.innerText = i; b.onclick = function() { this.classList.toggle('active'); salvarLeituraMensal(); };
         bib.appendChild(b);
     }
 
-    function salvarLeituraMensal() {
-        const data = document.getElementById('data-input').value;
-        const mesAno = data.substring(0, 7); // Ex: "2026-03"
-        const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText);
-        localStorage.setItem('LunaBia-Biblia-' + mesAno, JSON.stringify(atuais));
-    }
-
-    function carregarLeituraMensal() {
-        const data = document.getElementById('data-input').value;
-        const mesAno = data.substring(0, 7);
-        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
-        document.querySelectorAll('#grid-biblia button').forEach(b => {
-            b.classList.remove('active');
-            if(leitura.includes(b.innerText)) b.classList.add('active');
-        });
-    }
-
-    // Gerar escalas
-    const escalasArea = document.getElementById('area-escalas');
     const nomesEscalas = ["Sono", "Humor", "Energia", "Descanso"];
     nomesEscalas.forEach(n => {
         const f = document.createElement('div'); f.className = 'ilha-filha'; f.innerHTML = `<h3>${n}</h3>`;
@@ -115,9 +109,10 @@
             bt.onclick = function() { g.querySelectorAll('.btn-glass-verde').forEach(x => x.classList.remove('active')); this.classList.add('active'); };
             g.appendChild(bt);
         }
-        f.appendChild(g); escalasArea.appendChild(f);
+        f.appendChild(g); document.getElementById('area-escalas').appendChild(f);
     });
 
+    // Funções de Lógica
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
         const date = dataIn ? new Date(dataIn + "T12:00:00") : new Date();
@@ -129,12 +124,17 @@
     }
 
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
-    
     function setSelect(btn) {
-        const p = btn.parentElement;
-        const jaAtivo = btn.classList.contains('active');
+        const p = btn.parentElement; const jaAtivo = btn.classList.contains('active');
         p.querySelectorAll('.btn-glass-verde').forEach(b => b.classList.remove('active'));
         if (!jaAtivo) btn.classList.add('active');
+    }
+
+    function salvarLeituraMensal() {
+        const data = document.getElementById('data-input').value;
+        const mesAno = data.substring(0, 7);
+        const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText);
+        localStorage.setItem('LunaBia-Biblia-' + mesAno, JSON.stringify(atuais));
     }
 
     function salvarDadosDia() {
@@ -147,34 +147,82 @@
         document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = ilha.querySelector('.active')?.innerText || ""; escalas[nome] = valor; });
         const dados = { diario, versiculo, sintomas, fluxo, escalas };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
-        alert("LunaBia: Registro salvo com sucesso! ✨");
+        alert("LunaBia: Salvo! ✨");
     }
 
     function carregarDadosDia() {
         updateMoon();
-        carregarLeituraMensal(); // Agora carrega a leitura baseada no mês selecionado
         const data = document.getElementById('data-input').value;
+        const mesAno = data.substring(0, 7);
+        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
+        document.querySelectorAll('#grid-biblia button').forEach(b => { b.classList.remove('active'); if(leitura.includes(b.innerText)) b.classList.add('active'); });
+
         const salvo = localStorage.getItem('LunaBia-' + data);
         document.getElementById('d-input').value = ""; document.getElementById('v-input').value = "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
-        document.querySelectorAll('.active').forEach(b => b.classList.remove('active'));
-        
+        document.querySelectorAll('#area-escalas .active, #ilha-ciclo .active').forEach(b => b.classList.remove('active'));
+
         if (salvo) {
             const dados = JSON.parse(salvo);
             document.getElementById('d-input').value = dados.diario || "";
             document.getElementById('v-input').value = dados.versiculo || "";
-            if (dados.fluxo) {
-                document.querySelectorAll('#ilha-ciclo .btn-glass-verde').forEach(b => { if(b.innerText == dados.fluxo) b.classList.add('active'); });
-            }
-            if (dados.sintomas) { dados.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if (el) el.classList.add('active-icon'); }); }
-            if (dados.escalas) { document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = dados.escalas[nome]; if (valor) { ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); } }); }
+            if (dados.fluxo) document.querySelectorAll('#ilha-ciclo .btn-glass-verde').forEach(b => { if(b.innerText == dados.fluxo) b.classList.add('active'); });
+            if (dados.sintomas) dados.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if (el) el.classList.add('active-icon'); });
+            if (dados.escalas) { document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = dados.escalas[nome]; if (valor) ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); }); }
         }
-        carregarLeituraMensal(); // Reforça o carregamento correto da bíblia
     }
 
+    // LÓGICA DO RELATÓRIO
+    function gerarRelatorio() {
+        const data = document.getElementById('data-input').value;
+        const mesAno = data.substring(0, 7);
+        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
+        
+        let contSintomas = {};
+        let somaEnergia = 0, contaEnergia = 0;
+        let diasIntensos = 0;
+
+        // Varrer o LocalStorage em busca de dados do mês selecionado
+        for (let i = 0; i < localStorage.length; i++) {
+            const chave = localStorage.key(i);
+            if (chave.startsWith('LunaBia-' + mesAno)) {
+                const dados = JSON.parse(localStorage.getItem(chave));
+                // Contar sintomas
+                if(dados.sintomas) dados.sintomas.forEach(s => contSintomas[s] = (contSintomas[s] || 0) + 1);
+                // Média de energia
+                if(dados.escalas && dados.escalas["Energia"]) {
+                    somaEnergia += parseInt(dados.escalas["Energia"]);
+                    contaEnergia++;
+                }
+                // Fluxo intenso
+                if(dados.fluxo === "Intenso") diasIntensos++;
+            }
+        }
+
+        const mediaEnergia = contaEnergia > 0 ? (somaEnergia / contaEnergia).toFixed(1) : 0;
+        let resumoSintomas = Object.entries(contSintomas).sort((a,b) => b[1] - a[1]).slice(0,3);
+
+        let html = `
+            <div class="item-relatorio">📖 <b>Leitura Bíblica:</b> Você concluiu ${leitura.length} dias de leitura este mês!</div>
+            <div class="item-relatorio">⚡ <b>Energia Média:</b> ${mediaEnergia} de 5.0</div>
+            <div class="item-relatorio">🩸 <b>Fluxo:</b> Tivemos ${diasIntensos} dias de fluxo intenso.</div>
+            <div class="item-relatorio">🩺 <b>Top 3 Sintomas:</b><br>
+                ${resumoSintomas.map(s => `- ${s[0]}: ${s[1]}x`).join('<br>') || "Nenhum registrado."}
+            </div>
+        `;
+
+        if(mediaEnergia < 3 && contaEnergia > 5) {
+            html += `<div class="item-relatorio" style="color:#8b0000">⚠️ <b>Alerta Bo:</b> Bia, sua energia está baixa na média. Lembre-se de priorizar seu descanso!</div>`;
+        }
+
+        document.getElementById('dados-relatorio').innerHTML = html;
+        document.getElementById('modal-relatorio').style.display = 'flex';
+    }
+
+    function fecharRelatorio() { document.getElementById('modal-relatorio').style.display = 'none'; }
+
     const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('data-input').value = hoje; 
-    window.onload = carregarDadosDia;
+    document.getElementById('data-input').value = hoje; window.onload = carregarDadosDia;
 </script>
 </body>
 </html>
