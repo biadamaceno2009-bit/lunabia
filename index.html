@@ -75,14 +75,36 @@
 </div>
 
 <script>
+    // Gerar botões da bíblia
     const bib = document.getElementById('grid-biblia');
-    const leituraSalva = JSON.parse(localStorage.getItem('LunaBia-Tracker-Biblia') || '[]');
     for(let i=1; i<=31; i++) {
         const b = document.createElement('button'); b.className = 'btn-glass-verde';
-        if(leituraSalva.includes(i.toString())) b.classList.add('active'); b.innerText = i;
-        b.onclick = function() { this.classList.toggle('active'); const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText); localStorage.setItem('LunaBia-Tracker-Biblia', JSON.stringify(atuais)); };
+        b.innerText = i;
+        b.onclick = function() { 
+            this.classList.toggle('active'); 
+            salvarLeituraMensal(); 
+        };
         bib.appendChild(b);
     }
+
+    function salvarLeituraMensal() {
+        const data = document.getElementById('data-input').value;
+        const mesAno = data.substring(0, 7); // Ex: "2026-03"
+        const atuais = Array.from(document.querySelectorAll('#grid-biblia .active')).map(x => x.innerText);
+        localStorage.setItem('LunaBia-Biblia-' + mesAno, JSON.stringify(atuais));
+    }
+
+    function carregarLeituraMensal() {
+        const data = document.getElementById('data-input').value;
+        const mesAno = data.substring(0, 7);
+        const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
+        document.querySelectorAll('#grid-biblia button').forEach(b => {
+            b.classList.remove('active');
+            if(leitura.includes(b.innerText)) b.classList.add('active');
+        });
+    }
+
+    // Gerar escalas
     const escalasArea = document.getElementById('area-escalas');
     const nomesEscalas = ["Sono", "Humor", "Energia", "Descanso"];
     nomesEscalas.forEach(n => {
@@ -95,6 +117,7 @@
         }
         f.appendChild(g); escalasArea.appendChild(f);
     });
+
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
         const date = dataIn ? new Date(dataIn + "T12:00:00") : new Date();
@@ -104,13 +127,16 @@
         if (days < 1.84) res = { emoji: '🌑', nome: 'Lua Nova' }; else if (days < 5.53) res = { emoji: '🌒', nome: 'Crescente' }; else if (days < 9.22) res = { emoji: '🌓', nome: 'Quarto Crescente' }; else if (days < 12.91) res = { emoji: '🌔', nome: 'Gibosa' }; else if (days < 16.61) res = { emoji: '🌕', nome: 'Lua Cheia' }; else if (days < 20.30) res = { emoji: '🌖', nome: 'Gibosa' }; else if (days < 23.99) res = { emoji: '🌗', nome: 'Quarto Minguante' }; else res = { emoji: '🌘', nome: 'Lua Minguante' };
         document.getElementById('lua-visual').innerText = res.emoji; document.getElementById('lua-nome').innerText = res.nome;
     }
+
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
+    
     function setSelect(btn) {
         const p = btn.parentElement;
         const jaAtivo = btn.classList.contains('active');
         p.querySelectorAll('.btn-glass-verde').forEach(b => b.classList.remove('active'));
         if (!jaAtivo) btn.classList.add('active');
     }
+
     function salvarDadosDia() {
         const data = document.getElementById('data-input').value;
         const diario = document.getElementById('d-input').value;
@@ -123,13 +149,16 @@
         localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
         alert("LunaBia: Registro salvo com sucesso! ✨");
     }
+
     function carregarDadosDia() {
         updateMoon();
+        carregarLeituraMensal(); // Agora carrega a leitura baseada no mês selecionado
         const data = document.getElementById('data-input').value;
         const salvo = localStorage.getItem('LunaBia-' + data);
         document.getElementById('d-input').value = ""; document.getElementById('v-input').value = "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
         document.querySelectorAll('.active').forEach(b => b.classList.remove('active'));
+        
         if (salvo) {
             const dados = JSON.parse(salvo);
             document.getElementById('d-input').value = dados.diario || "";
@@ -140,11 +169,12 @@
             if (dados.sintomas) { dados.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if (el) el.classList.add('active-icon'); }); }
             if (dados.escalas) { document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = dados.escalas[nome]; if (valor) { ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); } }); }
         }
-        const leitura = JSON.parse(localStorage.getItem('LunaBia-Tracker-Biblia') || '[]');
-        document.querySelectorAll('#grid-biblia button').forEach(b => { if(leitura.includes(b.innerText)) b.classList.add('active'); });
+        carregarLeituraMensal(); // Reforça o carregamento correto da bíblia
     }
+
     const hoje = new Date().toISOString().split('T')[0];
-    document.getElementById('data-input').value = hoje; window.onload = carregarDadosDia;
+    document.getElementById('data-input').value = hoje; 
+    window.onload = carregarDadosDia;
 </script>
 </body>
 </html>
