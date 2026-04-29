@@ -33,21 +33,24 @@
         .btn-salvar { width: 100%; padding: 22px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.3); color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto-glass-escuro); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .btn-relatorio { width: 100%; padding: 18px; border-radius: 35px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); text-transform: uppercase; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
         
-        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:1000; justify-content:center; align-items:center; padding:20px; box-sizing:border-box; }
-        #conteudo-relatorio { background:white; width:100%; max-width:350px; border-radius:40px; padding:30px; text-align:left; max-height:80vh; overflow-y:auto; color: var(--eucalipto-profundo); }
-        #conteudo-relatorio h2 { font-family: 'Cinzel', serif; font-size: 24px; text-align:center; margin-bottom:20px; }
-        .item-relatorio { margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid rgba(45,61,54,0.1); }
-        .item-relatorio b { color: #2d3d36; }
-        .btn-fechar { width:100%; padding:15px; background:var(--eucalipto-profundo); color:white; border:none; border-radius:20px; font-weight:800; text-transform:uppercase; margin-top:10px; }
+        /* ESTILO DO RELATÓRIO BRILHANTE */
+        #modal-relatorio { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(15px); z-index:1000; justify-content:center; align-items:center; padding:20px; box-sizing:border-box; }
+        #conteudo-relatorio { background:#f8f9f8; width:100%; max-width:350px; border-radius:50px; padding:35px; text-align:left; max-height:85vh; overflow-y:auto; color: var(--eucalipto-profundo); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        #conteudo-relatorio h2 { font-family: 'Cinzel', serif; font-size: 26px; text-align:center; margin-bottom:25px; color: var(--eucalipto-profundo); }
+        .sessao-relatorio { background: white; border-radius: 25px; padding: 20px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(45,61,54,0.1); }
+        .barra-progresso-bg { background: #eee; border-radius: 10px; height: 12px; width: 100%; margin: 10px 0; overflow: hidden; }
+        .barra-progresso-fill { background: var(--eucalipto-profundo); height: 100%; transition: 0.5s; }
+        .label-barra { font-size: 10px; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; }
+        .btn-fechar { width:100%; padding:20px; background:var(--eucalipto-profundo); color:white; border:none; border-radius:30px; font-weight:800; text-transform:uppercase; margin-top:10px; cursor:pointer; }
     </style>
 </head>
 <body>
 
 <div id="modal-relatorio">
     <div id="conteudo-relatorio">
-        <h2>Relatório Mensal</h2>
+        <h2>Seu Mês ✨</h2>
         <div id="dados-relatorio"></div>
-        <button class="btn-fechar" onclick="fecharRelatorio()">Fechar</button>
+        <button class="btn-fechar" onclick="fecharRelatorio()">Continuar Jornada</button>
     </div>
 </div>
 
@@ -91,7 +94,7 @@
 </div>
 
 <script>
-    // Gerar bíblia
+    // Geradores Iniciais
     const bib = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
         const b = document.createElement('button'); b.className = 'btn-glass-verde';
@@ -111,6 +114,7 @@
         f.appendChild(g); document.getElementById('area-escalas').appendChild(f);
     });
 
+    // Funções de Sistema
     function updateMoon() {
         const dataIn = document.getElementById('data-input').value;
         const date = dataIn ? new Date(dataIn + "T12:00:00") : new Date();
@@ -142,20 +146,27 @@
         const sintomas = Array.from(document.querySelectorAll('.active-icon')).map(i => i.getAttribute('data-sintoma'));
         const fluxo = document.querySelector('#ilha-ciclo .active')?.innerText || "";
         const escalas = {};
-        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = ilha.querySelector('.active')?.innerText || ""; escalas[nome] = valor; });
+        document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { 
+            const nome = ilha.querySelector('h3').innerText; 
+            const valor = ilha.querySelector('.active')?.innerText || ""; 
+            escalas[nome] = valor; 
+        });
         const dados = { diario, versiculo, sintomas, fluxo, escalas };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(dados));
-        alert("LunaBia: Registro salvo! ✨");
+        alert("LunaBia: Salvo! ✨");
     }
 
     function carregarDadosDia() {
         updateMoon();
-        const data = document.getElementById('data-input').value;
-        const mesAno = data.substring(0, 7);
+        const dataInput = document.getElementById('data-input').value;
+        const mesAno = dataInput.substring(0, 7);
         const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
-        document.querySelectorAll('#grid-biblia button').forEach(b => { b.classList.remove('active'); if(leitura.includes(b.innerText)) b.classList.add('active'); });
+        document.querySelectorAll('#grid-biblia button').forEach(b => { 
+            b.classList.remove('active'); 
+            if(leitura.includes(b.innerText)) b.classList.add('active'); 
+        });
 
-        const salvo = localStorage.getItem('LunaBia-' + data);
+        const salvo = localStorage.getItem('LunaBia-' + dataInput);
         document.getElementById('d-input').value = ""; document.getElementById('v-input').value = "";
         document.querySelectorAll('.active-icon').forEach(i => i.classList.remove('active-icon'));
         document.querySelectorAll('#area-escalas .active, #ilha-ciclo .active').forEach(b => b.classList.remove('active'));
@@ -166,17 +177,25 @@
             document.getElementById('v-input').value = dados.versiculo || "";
             if (dados.fluxo) document.querySelectorAll('#ilha-ciclo .btn-glass-verde').forEach(b => { if(b.innerText == dados.fluxo) b.classList.add('active'); });
             if (dados.sintomas) dados.sintomas.forEach(s => { const el = document.querySelector(`[data-sintoma="${s}"]`); if (el) el.classList.add('active-icon'); });
-            if (dados.escalas) { document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { const nome = ilha.querySelector('h3').innerText; const valor = dados.escalas[nome]; if (valor) ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); }); }
+            if (dados.escalas) { 
+                document.querySelectorAll('#area-escalas .ilha-filha').forEach(ilha => { 
+                    const nome = ilha.querySelector('h3').innerText; 
+                    const valor = dados.escalas[nome]; 
+                    if (valor) ilha.querySelectorAll('.btn-glass-verde').forEach(b => { if(b.innerText == valor) b.classList.add('active'); }); 
+                }); 
+            }
         }
     }
 
+    // RELATÓRIO BRILHANTE ATIVADO
     function gerarRelatorio() {
         const dataInput = document.getElementById('data-input').value;
         const mesAno = dataInput.substring(0, 7);
         const leitura = JSON.parse(localStorage.getItem('LunaBia-Biblia-' + mesAno) || '[]');
         
         let contSintomas = {};
-        let somaEnergia = 0, contaEnergia = 0;
+        let somaEscalas = { "Sono":0, "Humor":0, "Energia":0, "Descanso":0 };
+        let contaEscalas = { "Sono":0, "Humor":0, "Energia":0, "Descanso":0 };
         let diasIntensos = 0;
 
         for (let i = 0; i < localStorage.length; i++) {
@@ -184,28 +203,54 @@
             if (chave.startsWith('LunaBia-') && chave.includes(mesAno) && !chave.includes('Biblia')) {
                 const dados = JSON.parse(localStorage.getItem(chave));
                 if(dados.sintomas) dados.sintomas.forEach(s => contSintomas[s] = (contSintomas[s] || 0) + 1);
-                if(dados.escalas && dados.escalas["Energia"]) {
-                    somaEnergia += parseInt(dados.escalas["Energia"]);
-                    contaEnergia++;
+                if(dados.escalas) {
+                    for(let esc in somaEscalas) {
+                        if(dados.escalas[esc]) {
+                            somaEscalas[esc] += parseInt(dados.escalas[esc]);
+                            contaEscalas[esc]++;
+                        }
+                    }
                 }
                 if(dados.fluxo === "Intenso") diasIntensos++;
             }
         }
 
-        const mediaEnergia = contaEnergia > 0 ? (somaEnergia / contaEnergia).toFixed(1) : 0;
-        let resumoSintomas = Object.entries(contSintomas).sort((a,b) => b[1] - a[1]).slice(0,3);
-
         let html = `
-            <div class="item-relatorio">📖 <b>Leitura Bíblica:</b> Você concluiu ${leitura.length} dias de leitura este mês!</div>
-            <div class="item-relatorio">⚡ <b>Energia Média:</b> ${mediaEnergia} de 5.0</div>
-            <div class="item-relatorio">🩸 <b>Fluxo:</b> Tivemos ${diasIntensos} dias de fluxo intenso.</div>
-            <div class="item-relatorio">🩺 <b>Principais Sintomas:</b><br>
-                ${resumoSintomas.map(s => `- ${s[0]}: ${s[1]}x`).join('<br>') || "Nenhum registrado."}
+            <div class="sessao-relatorio">
+                <div class="label-barra"><span>📖 Jornada Bíblica</span><span>${leitura.length}/31 dias</span></div>
+                <div class="barra-progresso-bg"><div class="barra-progresso-fill" style="width:${(leitura.length/31)*100}%"></div></div>
+            </div>
+            
+            <div class="sessao-relatorio">
+                <h3 style="color:var(--eucalipto-profundo); margin-bottom:15px; font-size:10px;">📊 Médias de Bem-Estar</h3>
+        `;
+
+        for(let esc in somaEscalas) {
+            let media = contaEscalas[esc] > 0 ? (somaEscalas[esc] / contaEscalas[esc]).toFixed(1) : 0;
+            html += `
+                <div class="label-barra" style="margin-top:10px;"><span>${esc}</span><span>${media}</span></div>
+                <div class="barra-progresso-bg"><div class="barra-progresso-fill" style="width:${(media/5)*100}%; background:#5a7569;"></div></div>
+            `;
+        }
+
+        let resumoSintomas = Object.entries(contSintomas).sort((a,b) => b[1] - a[1]).slice(0,3);
+        html += `</div>
+            <div class="sessao-relatorio">
+                <h3 style="color:var(--eucalipto-profundo); margin-bottom:10px; font-size:10px;">🩺 Sinais do Corpo</h3>
+                <p style="font-size:12px; margin:0;">${resumoSintomas.map(s => `<b>${s[0]}</b> apareceu ${s[1]}x`).join(', ') || "Tudo tranquilo por aqui!"}</p>
+                <p style="font-size:12px; margin-top:10px;">🩸 Fluxo intenso: <b>${diasIntensos} dias</b>.</p>
             </div>
         `;
 
-        if(mediaEnergia < 3 && contaEnergia > 0) {
-            html += `<div class="item-relatorio" style="color:#8b0000">⚠️ <b>Cuidado, Bia:</b> Sua energia média está baixa. Procure descansar um pouco mais quando puder.</div>`;
+        let mediaEnergia = contaEscalas["Energia"] > 0 ? (somaEscalas["Energia"] / contaEscalas["Energia"]) : 0;
+        if(mediaEnergia > 0 && mediaEnergia < 3) {
+            html += `<div class="sessao-relatorio" style="border-left: 5px solid #8b0000; background:#fff5f5;">
+                <p style="font-size:12px; color:#8b0000; margin:0;"><b>💡 Conselho do Bo:</b> Bia, sua energia este mês está pedindo socorro. Que tal agendar um "dia de nada" para recarregar? Você merece esse cuidado!</p>
+            </div>`;
+        } else {
+            html += `<div class="sessao-relatorio" style="border-left: 5px solid var(--eucalipto-profundo);">
+                <p style="font-size:12px; margin:0;"><b>✨ Palavra do Bo:</b> Continue firme na sua jornada, Bia! Seus registros mostram uma mulher dedicada ao autocuidado e à palavra.</p>
+            </div>`;
         }
 
         document.getElementById('dados-relatorio').innerHTML = html;
