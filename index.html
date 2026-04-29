@@ -288,14 +288,34 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { max: 5, min: 0, ticks: { stepSize: 1 } },
-                    x: { ticks: { font: { size: 9 } } }
+                    y: { 
+                        max: 5, 
+                        min: 0, 
+                        ticks: { stepSize: 1, color: '#2d3d36' },
+                        grid: { color: 'rgba(45, 61, 54, 0.1)' }
+                    },
+                    x: { 
+                        ticks: { font: { size: 9 }, color: '#2d3d36' },
+                        grid: { display: false }
+                    }
                 },
                 plugins: {
                     legend: { display: false },
-                    tooltip: { callbacks: { label: function(context) { return 'Dia ' + context.label + ': ' + context.parsed.y; } } }
+                    tooltip: { 
+                        backgroundColor: '#2d3d36',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        callbacks: { label: function(context) { return 'Nota: ' + context.parsed.y; } } 
+                    }
                 }
             }
+        };
+
+        const cores = {
+            sono: '#4a6d5d',
+            humor: '#2d3d36',
+            energia: '#6b8e7d',
+            descanso: '#8fb3a1'
         };
 
         // Gráfico Sono
@@ -303,13 +323,7 @@
             ...configGrafico,
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Sono',
-                    data: sonoData,
-                    backgroundColor: '#2d3d36',
-                    borderColor: '#2d3d36',
-                    borderWidth: 1
-                }]
+                datasets: [{ data: sonoData, backgroundColor: cores.sono, borderRadius: 5 }]
             }
         });
 
@@ -318,13 +332,7 @@
             ...configGrafico,
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Humor',
-                    data: humorData,
-                    backgroundColor: '#2d3d36',
-                    borderColor: '#2d3d36',
-                    borderWidth: 1
-                }]
+                datasets: [{ data: humorData, backgroundColor: cores.humor, borderRadius: 5 }]
             }
         });
 
@@ -333,13 +341,7 @@
             ...configGrafico,
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Energia',
-                    data: energiaData,
-                    backgroundColor: '#2d3d36',
-                    borderColor: '#2d3d36',
-                    borderWidth: 1
-                }]
+                datasets: [{ data: energiaData, backgroundColor: cores.energia, borderRadius: 5 }]
             }
         });
 
@@ -348,13 +350,7 @@
             ...configGrafico,
             data: {
                 labels: labels,
-                datasets: [{
-                    label: 'Descanso',
-                    data: descansoData,
-                    backgroundColor: '#2d3d36',
-                    borderColor: '#2d3d36',
-                    borderWidth: 1
-                }]
+                datasets: [{ data: descansoData, backgroundColor: cores.descanso, borderRadius: 5 }]
             }
         });
 
