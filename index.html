@@ -21,40 +21,38 @@
         h3 { font-family: 'Cinzel', serif; font-size: 12px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
         .divider { margin: 10px auto 30px; width: 180px; opacity: 0.7; }
         
-        /* ILHA DA LUA JOIA TEXTURIZADA */
-        .ilha-lua { background: var(--glass); border-radius: 40px; padding: 25px; margin: 0 auto 35px; width: fit-content; border: 1px solid var(--border); box-shadow: 10px 10px 20px rgba(0,0,0,0.2); }
+        /* ILHA DA LUA COM BORDA CLARA E SUAVE */
+        .ilha-lua { background: var(--glass); border-radius: 40px; padding: 25px; margin: 0 auto 35px; width: fit-content; border: 1px solid var(--border); box-shadow: 10px 10px 20px rgba(0,0,0,0.15); }
         
         .lua-esfera-joia {
             width: 70px; height: 70px;
             border-radius: 50%;
-            /* Fundo preto para as fases funcionarem */
-            background: #000;
+            background: #f0f4f2; /* Fundo claro para a base */
             position: relative;
-            box-shadow: 0 0 20px rgba(255,255,255,0.1), inset 0 0 10px rgba(0,0,0,0.8);
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.3); /* Borda de cristal */
+            border: 1px solid rgba(255,255,255,0.4); 
+            box-shadow: 0 0 15px rgba(255,255,255,0.2), inset 0 0 10px rgba(255,255,255,0.5);
         }
 
-        /* TEXTURA REALISTA FOSCA (NASA + GLASS) */
         .lua-textura-real {
             position: absolute;
             width: 100%; height: 100%;
-            /* Imagem real com efeito de vidro fosco aplicado */
             background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg');
             background-size: cover;
-            opacity: 0.85; /* Sutil, não 'queijo' */
-            filter: grayscale(100%) contrast(110%) blur(0.5px); /* Efeito Aesthetic */
+            opacity: 0.7; 
+            filter: grayscale(100%) contrast(105%) blur(0.3px);
             transition: opacity 0.5s;
         }
 
-        /* SOMBRA ORBITAL DO BO */
+        /* SOMBRA MAIS CLARA (EFEITO VIDRO FOSCO) */
         .lua-sombra-orbital {
             position: absolute;
             width: 100%; height: 100%;
-            background: rgba(10, 15, 12, 0.96); /* Sombra profunda e limpa */
+            background: rgba(45, 61, 54, 0.85); /* Tom de eucalipto translúcido em vez de preto */
+            backdrop-filter: blur(2px);
             border-radius: 50%;
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: inset 0 0 10px rgba(0,0,0,1);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
         }
 
         #lua-nome { font-size: 10px; font-weight: 800; color: var(--eucalipto); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
@@ -63,12 +61,14 @@
         .grid-numbers { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; }
         .btn-gv { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--texto-claro); cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 600; font-size: 14px; box-shadow: 4px 4px 8px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.1); transition: 0.2s; }
         .active { background: var(--eucalipto) !important; color: white !important; box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); border: 1px solid white; transform: translateY(3px); }
+        
         .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px 8px; width: 100%; justify-items: center; }
         .container-sintoma { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .btn-icone-bia { width: 46px; height: 46px; background: var(--eucalipto); border: 1px solid var(--border); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 5px 5px 10px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.2); }
         .btn-icone-bia img, .svg-colica { width: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
         .label-sintoma { font-size: 7px; color: white; margin-top: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .active-icon .btn-icone-bia { background: var(--eucalipto-claro) !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5); border-color: white; }
+        
         textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 25px; padding: 20px; color: var(--eucalipto); font-weight: 800; outline: none; }
         .btn-salvar { width: 100%; padding: 22px; border-radius: 40px; color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto); margin-bottom: 12px; border: none; box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
         .btn-relatorio { width: 100%; padding: 15px; border-radius: 40px; color: var(--eucalipto); font-weight: 800; text-transform: uppercase; cursor: pointer; background: transparent; border: 1.5px solid var(--eucalipto); letter-spacing: 1px; font-size: 10px; }
