@@ -6,6 +6,9 @@
     <title>LunaBia</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
     <style>
         :root { 
             --eucalipto: #2d3d36; 
@@ -16,46 +19,34 @@
         
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center bottom; background-attachment: fixed; display: flex; justify-content: center; padding: 20px 15px; box-sizing: border-box; overflow-x: hidden; }
         
-        .ilha-mae { 
-            background: rgba(255, 255, 255, 0.005); 
-            backdrop-filter: blur(8px) saturate(180%); 
-            width: 100%; max-width: 380px; 
-            border-radius: 70px; padding: 50px 15px; 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            text-align: center; 
-            box-shadow: 0 40px 80px rgba(0,0,0,0.3); 
-            margin: auto;
-        }
-
+        .ilha-mae { background: rgba(255, 255, 255, 0.005); backdrop-filter: blur(8px) saturate(180%); width: 100%; max-width: 380px; border-radius: 70px; padding: 50px 15px; border: 1px solid rgba(255, 255, 255, 0.15); text-align: center; box-shadow: 0 40px 80px rgba(0,0,0,0.3); margin: auto; }
         h1 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--eucalipto) !important; font-size: 46px; margin: 0; letter-spacing: -1px; }
         h3 { font-family: 'Cinzel', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
         .divider { margin: 10px auto 30px; width: 160px; opacity: 0.7; }
         
-        .ilha-lua { background: rgba(255, 255, 255, 0.03); border-radius: 40px; padding: 25px; margin: 0 auto 35px auto; width: fit-content; border: 1px solid var(--border); box-shadow: 10px 10px 20px rgba(0,0,0,0.15), inset 2px 2px 5px rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .lua-esfera-joia { width: 70px; height: 70px; border-radius: 50%; background: #f0f4f2; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 0 15px rgba(255,255,255,0.2), inset 0 0 10px rgba(255,255,255,0.5); }
+        .ilha-lua { background: rgba(255, 255, 255, 0.03); border-radius: 40px; padding: 25px; margin: 0 auto 35px auto; width: fit-content; border: 1px solid var(--border); box-shadow: 10px 10px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .lua-esfera-joia { width: 70px; height: 70px; border-radius: 50%; background: #f0f4f2; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); }
         .lua-textura-real { position: absolute; width: 100%; height: 100%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg'); background-size: cover; opacity: 0.6; filter: grayscale(100%) contrast(105%); }
-        .lua-sombra-orbital { position: absolute; width: 100%; height: 100%; background: rgba(45, 61, 54, 0.8); backdrop-filter: blur(3px); border-radius: 50%; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 0 15px rgba(0,0,0,0.2); }
+        .lua-sombra-orbital { position: absolute; width: 100%; height: 100%; background: rgba(45, 61, 54, 0.8); backdrop-filter: blur(3px); border-radius: 50%; transition: all 0.8s; }
         #lua-nome { font-size: 9px; font-weight: 800; color: var(--eucalipto); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
         
         .ilha-filha { background: rgba(255, 255, 255, 0.02); border-radius: 45px; padding: 25px 15px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: 15px 15px 30px rgba(0,0,0,0.15), inset -5px -5px 10px rgba(255,255,255,0.05), inset 5px 5px 10px rgba(0,0,0,0.05); }
-
         .grid-numbers { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; }
         .grid-fluxo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        
-        .btn-gv { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--texto-claro); cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 600; font-size: 14px; box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.1); transition: 0.2s; }
-        .btn-fluxo { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--texto-claro); cursor: pointer; border-radius: 20px; padding: 12px 5px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        
+        .btn-gv { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--texto-claro); cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 600; font-size: 14px; box-shadow: 4px 4px 8px rgba(0,0,0,0.2); }
+        .btn-fluxo { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--texto-claro); cursor: pointer; border-radius: 20px; padding: 12px 5px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .active { background: var(--eucalipto) !important; color: white !important; box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); border: 1px solid white; transform: translateY(2px); }
         
         .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px 8px; width: 100%; justify-items: center; }
-        .btn-icone-bia { width: 46px; height: 46px; background: var(--eucalipto); border: 1px solid var(--border); border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.2); }
+        .btn-icone-bia { width: 46px; height: 46px; background: var(--eucalipto); border: 1px solid var(--border); border-radius: 14px; display: flex; align-items: center; justify-content: center; }
         .btn-icone-bia img, .svg-colica { width: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
-        .label-sintoma { font-size: 7px; color: white; margin-top: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .active-icon .btn-icone-bia { background: var(--eucalipto-claro) !important; border-color: white; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.4); }
+        .label-sintoma { font-size: 7px; color: white; margin-top: 6px; font-weight: 700; text-transform: uppercase; }
+        .active-icon .btn-icone-bia { background: var(--eucalipto-claro) !important; border-color: white; }
 
         textarea, input[type="date"] { width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; color: var(--eucalipto); font-weight: 800; outline: none; }
         .btn-salvar { width: 100%; padding: 22px; border-radius: 40px; color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto); margin-bottom: 12px; border: none; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .btn-relatorio { width: 100%; padding: 15px; border-radius: 40px; color: var(--eucalipto); font-weight: 800; text-transform: uppercase; cursor: pointer; background: transparent; border: 1.5px solid var(--eucalipto); font-size: 10px; }
+        .btn-relatorio { width: 100%; padding: 15px; border-radius: 40px; color: var(--eucalipto); font-weight: 800; text-transform: uppercase; cursor: pointer; background: transparent; border: 1.5px solid var(--eucalipto); font-size: 10px; margin-bottom: 8px; }
+        .btn-pdf { width: 100%; padding: 15px; border-radius: 40px; color: #a52a2a; font-weight: 800; text-transform: uppercase; cursor: pointer; background: rgba(165, 42, 42, 0.1); border: 1.5px solid #a52a2a; font-size: 10px; }
     </style>
 </head>
 <body>
@@ -67,10 +58,8 @@
     <div class="ilha-lua"><div class="lua-esfera-joia"><div class="lua-textura-real"></div><div id="lua-sombra" class="lua-sombra-orbital"></div></div><div id="lua-nome">...</div></div>
     
     <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="mudarData()"></div>
-
     <div class="ilha-filha"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" class="grid-numbers"></div></div>
     <div class="ilha-filha"><h3>📜 Versículo</h3><textarea id="v-input" rows="2" placeholder="Sua palavra hoje..."></textarea></div>
-
     <div id="area-escalas"></div>
 
     <div class="ilha-filha">
@@ -99,16 +88,17 @@
     </div>
 
     <button class="btn-salvar" onclick="salvarDados()">Salvar Registro</button>
-    <button class="btn-relatorio" onclick="gerarRelatorio()">Análise de Sintomas & Lua</button>
+    <button class="btn-relatorio" onclick="gerarRelatorio()">Ver Insights do Mês</button>
+    <button class="btn-pdf" onclick="baixarPDFComAnalise()">Baixar Relatório em PDF</button>
 </div>
 
 <script>
+    // Lógica das escalas e botões (Mesmo anterior)
     const bib = document.getElementById('grid-biblia');
     for(let i=1; i<=31; i++) {
         const b = document.createElement('button'); b.className = 'btn-gv'; b.innerText = i;
         b.onclick = function() { this.classList.toggle('active'); }; bib.appendChild(b);
     }
-
     const escalas = ["Sono", "Humor", "Energia", "Descanso"];
     escalas.forEach(n => {
         const d = document.createElement('div'); d.className = 'ilha-filha';
@@ -126,7 +116,6 @@
         if(btn.classList.contains('active')) btn.classList.remove('active');
         else { document.querySelectorAll('.btn-fluxo').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
     }
-
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
     function calcularLua(dataStr) {
@@ -151,7 +140,7 @@
         const obj = { escalas: {}, sintomas: Array.from(document.querySelectorAll('.active-icon')).map(i => i.dataset.sintoma), fluxo: document.querySelector('.btn-fluxo.active')?.innerText || "Nenhum", versiculo: document.getElementById('v-input').value, biblia: Array.from(document.getElementById('grid-biblia').querySelectorAll('.active')).map(b => b.innerText), lua: calcularLua(data).nome };
         document.querySelectorAll('[data-n]').forEach(g => obj.escalas[g.dataset.n] = g.querySelector('.active')?.innerText || "0");
         localStorage.setItem('LunaBia-' + data, JSON.stringify(obj));
-        alert("LunaBia atualizado! ✨");
+        alert("LunaBia: Dados guardados! ✨");
     }
 
     function carregarDados() {
@@ -167,6 +156,77 @@
         if(s.fluxo) document.querySelectorAll('.btn-fluxo').forEach(b => { if(b.innerText == s.fluxo) b.classList.add('active'); });
         document.getElementById('v-input').value = s.versiculo || "";
     }
+
+    // NOVA FUNÇÃO DE PDF COM ANÁLISE MENSAL
+    async function baixarPDFComAnalise() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const mesAno = document.getElementById('data-input').value.substring(0, 7);
+        let chaves = Object.keys(localStorage).filter(k => k.startsWith('LunaBia-') && k.includes(mesAno)).sort();
+        
+        if(chaves.length === 0) return alert("Bia, não encontrei dados para este mês!");
+
+        // 1. Título e Estilo
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(22);
+        doc.setTextColor(45, 61, 54);
+        doc.text("Relatório Mensal LunaBia", 14, 25);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(100);
+        doc.text(`Período: ${mesAno}`, 14, 32);
+
+        // 2. Cálculo da Análise Mensal
+        let contSintomas = {};
+        let luaSintoma = { "Nova": 0, "Crescente": 0, "Cheia": 0, "Minguante": 0 };
+        let totalRegistros = chaves.length;
+
+        chaves.forEach(k => {
+            let d = JSON.parse(localStorage.getItem(k));
+            d.sintomas.forEach(s => {
+                contSintomas[s] = (contSintomas[s] || 0) + 1;
+                if(s === "Inchaço") luaSintoma[d.lua]++;
+            });
+        });
+
+        let topSintoma = Object.entries(contSintomas).sort((a,b) => b[1] - a[1])[0];
+        let topLua = Object.entries(luaSintoma).sort((a,b) => b[1] - a[1])[0];
+
+        // 3. Quadro de Análise do Bo
+        doc.setFillColor(240, 245, 242);
+        doc.rect(14, 40, 182, 35, 'F');
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(45, 61, 54);
+        doc.text("Insights do Bo para Bia:", 20, 48);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.text(`- O sintoma que mais te visitou foi: ${topSintoma ? topSintoma[0] : 'Nenhum'}.`, 20, 56);
+        doc.text(`- Padrão Lunar: O inchaço teve maior incidência na Lua ${topLua[1] > 0 ? topLua[0] : '...'}.`, 20, 62);
+        doc.text(`- Total de dias registados com carinho: ${totalRegistros} dias.`, 20, 68);
+
+        // 4. Tabela de Dados
+        let rows = chaves.map(chave => {
+            let d = JSON.parse(localStorage.getItem(chave));
+            return [
+                chave.replace('LunaBia-', ''),
+                d.fluxo || "-",
+                d.sintomas.join(", ") || "-",
+                d.lua || "-"
+            ];
+        });
+
+        doc.autoTable({
+            startY: 85,
+            head: [['Data', 'Fluxo', 'Sintomas', 'Lua']],
+            body: rows,
+            theme: 'striped',
+            headStyles: { fillColor: [45, 61, 54] },
+            styles: { fontSize: 9 }
+        });
+
+        doc.save(`LunaBia_Analise_${mesAno}.pdf`);
+    }
+
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('data-input').value = hoje;
     mudarData();
