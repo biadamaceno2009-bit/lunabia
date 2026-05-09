@@ -15,7 +15,6 @@
         
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
         
-        /* ILHA MÃE COM PROFUNDIDADE MAIOR */
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.01); 
             backdrop-filter: blur(50px) saturate(180%); 
@@ -28,7 +27,6 @@
             box-shadow: 0 50px 100px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.1); 
         }
 
-        /* TÍTULOS EM VERDE EUCALIPTO */
         h1 { font-family: 'Cinzel', serif; color: var(--eucalipto) !important; font-size: 48px; margin: 0; letter-spacing: 6px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: var(--eucalipto) !important; font-weight: 800; }
         
@@ -38,7 +36,6 @@
         #lua-visual { font-size: 40px; line-height: 1; }
         #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto); font-weight: 700; margin-top: 10px; }
         
-        /* ILHAS FILHAS COM RELEVO */
         .ilha-filha { 
             background: rgba(255, 255, 255, 0.02); 
             border-radius: 45px; 
@@ -49,16 +46,16 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05); 
         }
 
-        /* BOTÕES/NÚMEROS COM PROFUNDIDADE EXTREMA */
+        /* NÚMEROS COM COR VERDE E PROFUNDIDADE */
         .btn-gv { 
             background: rgba(255, 255, 255, 0.08); 
             border: 1px solid rgba(255, 255, 255, 0.2); 
-            color: white; 
+            color: var(--eucalipto); /* Cor do número mudada para Verde */
             cursor: pointer; 
             border-radius: 50%; 
             width: 44px; 
             height: 44px; 
-            font-weight: 700; 
+            font-weight: 800; /* Um pouco mais negrito para destacar o verde */
             font-size: 14px; 
             transition: all 0.2s; 
             box-shadow: 0 8px 16px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
@@ -66,6 +63,7 @@
         
         .btn-gv:active, .active { 
             background: var(--eucalipto) !important; 
+            color: white !important; /* Quando ativo, o número fica branco para contraste */
             border-color: white !important; 
             transform: translateY(4px); 
             box-shadow: inset 0 6px 12px rgba(0,0,0,0.6); 
@@ -74,21 +72,19 @@
         .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px 8px; width: 100%; justify-items: center; }
         .container-sintoma { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
         
-        /* ÍCONES VERDES COM DESENHO BRANCO */
         .btn-icone-bia { 
             width: 46px; 
             height: 46px; 
-            background: var(--eucalipto); /* Fundo Verde */
+            background: var(--eucalipto); 
             border: 1px solid var(--border); 
             border-radius: 14px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
             box-shadow: 0 8px 16px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
         }
         
-        .btn-icone-bia img, .svg-colica { width: 28px; height: 28px; filter: brightness(0) invert(1); opacity: 0.9; } /* Ícone Branco */
+        .btn-icone-bia img, .svg-colica { width: 28px; height: 28px; filter: brightness(0) invert(1); opacity: 0.9; }
         .label-sintoma { font-size: 7px; color: rgba(255,255,255,0.7); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
         
         .active-icon .btn-icone-bia { background: var(--eucalipto-claro) !important; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5); border-color: white; }
@@ -123,7 +119,6 @@
             letter-spacing: 2px;
         }
 
-        /* MODAL COM PROFUNDIDADE EXTREMA */
         #modal-analise { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.92); z-index:9999; overflow-y:auto; padding:20px; box-sizing:border-box; }
         .card-analise { background: #151d1a; border-radius: 50px; padding: 30px; width:100%; max-width:360px; margin: auto; border: 1px solid #2d3d36; color: white; box-shadow: 0 40px 80px rgba(0,0,0,1); }
         .grafico-box { background: rgba(255,255,255,0.02); border-radius: 30px; padding: 18px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 3px 6px rgba(0,0,0,0.6); }
@@ -137,7 +132,7 @@
 
 <div id="modal-analise">
     <div class="card-analise">
-        <h2 id="titulo-rastreador" style="font-family:'Cinzel'; text-align:center; font-size:20px; margin-bottom:30px; color: var(--eucalipto-claro);">Tendências Mensais</h2>
+        <h2 style="font-family:'Cinzel'; text-align:center; font-size:20px; margin-bottom:30px; color: var(--eucalipto-claro);">Tendências Mensais</h2>
         <div id="conteudo-rastreio"></div>
         <button class="btn-salvar" style="background:transparent; border: 1px solid #333;" onclick="document.getElementById('modal-analise').style.display='none'">Voltar ao App</button>
     </div>
@@ -232,7 +227,7 @@
             biblia: Array.from(document.getElementById('grid-biblia').querySelectorAll('.active')).map(b => b.innerText)
         };
         localStorage.setItem('LunaBia-' + data, JSON.stringify(obj));
-        alert("Bo guardou seus dados com profundidade! ✨");
+        alert("Bo atualizou com números verdes! ✨");
     }
 
     function carregarDados() {
@@ -262,7 +257,7 @@
             }
         }
         registros.sort((a,b) => a.dia - b.dia);
-        if(registros.length === 0) return alert("Bia, selecione um mês com dados!");
+        if(registros.length === 0) return alert("Selecione um mês com dados!");
 
         let html = "";
         escalas.forEach(p => {
