@@ -8,14 +8,12 @@
     <style>
         :root { 
             --eucalipto: #2d3d36; 
-            --eucalipto-claro: #5a7569;
-            --glass: rgba(255, 255, 255, 0.03); 
+            --glass-bg: rgba(255, 255, 255, 0.03); 
             --border: rgba(255, 255, 255, 0.15); 
         }
         
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
         
-        /* ILHA MÃE */
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.01); 
             backdrop-filter: blur(50px) saturate(180%); 
@@ -25,105 +23,97 @@
             padding: 60px 15px; 
             border: 1px solid var(--border); 
             text-align: center; 
-            box-shadow: 0 50px 100px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.1); 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.6); 
         }
 
-        /* TÍTULOS */
-        h1 { font-family: 'Cinzel', serif; color: var(--eucalipto) !important; font-size: 48px; margin: 0; letter-spacing: 6px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin: 0 0 20px 0; color: var(--eucalipto) !important; font-weight: 800; }
+        h1 { font-family: 'Cinzel', serif; color: var(--eucalipto) !important; font-size: 48px; margin: 0; letter-spacing: 6px; }
+        h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
         
-        .divider { margin: 15px auto 40px; width: 180px; opacity: 0.6; }
+        /* ILHA DA LUA REALISTA (SISTEMA DE LUZ E SOMBRA) */
+        .ilha-lua { background: var(--glass-bg); border-radius: 35px; padding: 25px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border); box-shadow: 0 15px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; }
         
-        /* ILHA DA LUA REALISTA */
-        .ilha-lua { background: var(--glass); border-radius: 30px; padding: 20px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border); box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center;}
-        
-        /* Ajuste da Imagem da Lua */
-        #lua-visual-real { 
-            width: 60px; 
-            height: 60px; 
-            border-radius: 50%; 
-            background-size: cover; 
-            background-position: center; 
-            box-shadow: 0 0 20px rgba(255,255,255,0.2); /* Brilho suave */
-            transition: background-image 0.5s ease-in-out;
+        .lua-esfera {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #e0e0e0, #888 30%, #333 70%, #000 100%);
+            position: relative;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1), inset -5px -5px 15px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
-        
-        #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto); font-weight: 700; margin-top: 10px; }
-        
-        /* ILHAS FILHAS */
-        .ilha-filha { background: rgba(255, 255, 255, 0.02); border-radius: 45px; padding: 28px 20px; margin-bottom: 35px; border: 1px solid var(--border); backdrop-filter: blur(15px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.05); }
 
-        /* NÚMEROS COM COR VERDE E PROFUNDIDADE */
+        /* Sombra que faz a fase da lua */
+        .lua-sombra-orbital {
+            position: absolute;
+            width: 100%; height: 100%;
+            background: rgba(10, 15, 10, 0.9);
+            border-radius: 50%;
+            transition: transform 0.6s ease-in-out, left 0.6s ease-in-out;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--eucalipto); font-weight: 700; margin-top: 15px; }
+        
+        .ilha-filha { 
+            background: rgba(255, 255, 255, 0.02); 
+            border-radius: 45px; 
+            padding: 28px 20px; 
+            margin-bottom: 35px; 
+            border: 1px solid var(--border); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.05); 
+        }
+
+        /* BOTÕES COM PROFUNDIDADE E NÚMEROS VERDES */
         .btn-gv { 
             background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
             color: var(--eucalipto); 
             cursor: pointer; 
             border-radius: 50%; 
-            width: 44px; 
-            height: 44px; 
-            font-weight: 800; 
-            font-size: 14px; 
+            width: 44px; height: 44px; 
+            font-weight: 800; font-size: 14px; 
+            margin: 5px;
             transition: all 0.2s; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.4), 
+                        -2px -2px 5px rgba(255,255,255,0.05),
+                        inset 1px 1px 2px rgba(255,255,255,0.1); 
         }
         
         .btn-gv:active, .active { 
             background: var(--eucalipto) !important; 
             color: white !important; 
-            border-color: white !important; 
-            transform: translateY(4px); 
-            box-shadow: inset 0 6px 12px rgba(0,0,0,0.6); 
+            transform: translateY(3px); 
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.6); 
         }
         
-        /* SINTOMAS */
-        .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px 8px; width: 100%; justify-items: center; }
-        .container-sintoma { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
-        
+        /* SINTOMAS VERDES COM ÍCONE BRANCO */
+        .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .container-sintoma { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .btn-icone-bia { 
-            width: 46px; 
-            height: 46px; 
+            width: 46px; height: 46px; 
             background: var(--eucalipto); 
             border: 1px solid var(--border); 
             border-radius: 14px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
+            display: flex; align-items: center; justify-content: center; 
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.4), inset 1px 1px 2px rgba(255,255,255,0.2); 
         }
-        
-        .btn-icone-bia img, .svg-colica { width: 28px; height: 28px; filter: brightness(0) invert(1); opacity: 0.9; }
-        .label-sintoma { font-size: 7px; color: rgba(255,255,255,0.7); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .active-icon .btn-icone-bia { background: var(--eucalipto-claro) !important; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5); border-color: white; }
-        
+        .btn-icone-bia img { width: 26px; filter: brightness(0) invert(1); }
+        .label-sintoma { font-size: 7px; color: white; margin-top: 5px; font-weight: 600; text-transform: uppercase; }
+        .active-icon .btn-icone-bia { background: #5a7569 !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5); }
+
         textarea, input[type="date"] { 
-            width: 100%; 
-            box-sizing: border-box; 
+            width: 100%; box-sizing: border-box; 
             background: rgba(255,255,255,0.05); 
             border: 1px solid var(--border); 
-            border-radius: 25px; 
-            padding: 20px; 
-            color: var(--eucalipto); 
-            font-family: inherit; 
-            font-size: 15px; 
-            font-weight: 700; 
+            border-radius: 25px; padding: 20px; 
+            color: var(--eucalipto); font-weight: 700; 
             outline: none; 
-            box-shadow: inset 0 3px 6px rgba(0,0,0,0.2);
         }
 
         .btn-salvar { 
-            width: 100%; 
-            padding: 24px; 
-            border-radius: 40px; 
-            border: 1px solid rgba(255,255,255,0.2); 
-            color: white; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            cursor: pointer; 
+            width: 100%; padding: 24px; border-radius: 40px; 
+            color: white; font-weight: 800; text-transform: uppercase; 
             background: var(--eucalipto); 
-            margin-top: 15px; 
-            box-shadow: 0 12px 24px rgba(0,0,0,0.5), inset 0 2px 2px rgba(255,255,255,0.2); 
-            letter-spacing: 2px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
         }
     </style>
 </head>
@@ -131,34 +121,22 @@
 
 <div class="ilha-mae">
     <h1>LunaBia</h1>
-    <div class="divider"><svg viewBox="0 0 100 20" fill="none"><path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#2d3d36" stroke-width="0.8"/><circle cx="50" cy="10" r="3" fill="#2d3d36"/></svg></div>
     
     <div class="ilha-lua">
-        <div id="lua-visual-real"></div>
-        <div id="lua-nome">...</div>
+        <div class="lua-esfera">
+            <div id="lua-sombra" class="lua-sombra-orbital"></div>
+        </div>
+        <div id="lua-nome">Carregando...</div>
     </div>
     
     <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="mudarData()"></div>
-    
-    <div class="ilha-filha"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;"></div></div>
-
-    <div class="ilha-filha"><h3>📜 Versículo</h3><textarea id="v-input" rows="3" placeholder="Palavra de hoje..."></textarea></div>
-
     <div id="area-escalas"></div>
 
     <div class="ilha-filha">
         <h3>🩺 Sintomas</h3>
         <div class="grid-sintomas">
-            <div class="container-sintoma" data-sintoma="Cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="8"/><circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="6"/></svg></div><div class="label-sintoma">Cólica</div></div>
-            <div class="container-sintoma" data-sintoma="Inchaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
-            <div class="container-sintoma" data-sintoma="Costas" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="dor nas costas.png"></div><div class="label-sintoma">Costas</div></div>
-            <div class="container-sintoma" data-sintoma="Cabeça" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
-            <div class="container-sintoma" data-sintoma="Rinite" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Renite.png"></div><div class="label-sintoma">Rinite</div></div>
-            <div class="container-sintoma" data-sintoma="Estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="extressada.png"></div><div class="label-sintoma">Estresse</div></div>
-            <div class="container-sintoma" data-sintoma="Desânimo" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="desânimo.png"></div><div class="label-sintoma">Desânimo</div></div>
-            <div class="container-sintoma" data-sintoma="Focada" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Focada.png"></div><div class="label-sintoma">Focada</div></div>
-            <div class="container-sintoma" data-sintoma="Ouvido" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="Dor de ouvido.png"></div><div class="label-sintoma">Ouvido</div></div>
-            <div class="container-sintoma" data-sintoma="Cansaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="cansaço.png"></div><div class="label-sintoma">Cansaço</div></div>
+            <div class="container-sintoma" data-sintoma="Cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia">🩸</div><div class="label-sintoma">Cólica</div></div>
+            <div class="container-sintoma" data-sintoma="Estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia">⚡</div><div class="label-sintoma">Estresse</div></div>
         </div>
     </div>
 
@@ -166,17 +144,10 @@
 </div>
 
 <script>
-    // Geradores
-    const bib = document.getElementById('grid-biblia');
-    for(let i=1; i<=31; i++) {
-        const b = document.createElement('button'); b.className = 'btn-gv'; b.innerText = i;
-        b.onclick = function() { this.classList.toggle('active'); }; bib.appendChild(b);
-    }
-
-    const escalas_nomes = ["Sono", "Humor", "Energia", "Descanso"];
-    escalas_nomes.forEach(n => {
+    const escalas = ["Sono", "Humor", "Energia", "Descanso"];
+    escalas.forEach(n => {
         const d = document.createElement('div'); d.className = 'ilha-filha';
-        d.innerHTML = `<h3>${n}</h3><div class="btns-row" data-n="${n}" style="display:flex; justify-content:space-between;"></div>`;
+        d.innerHTML = `<h3>${n}</h3><div class="btns-row" data-n="${n}" style="display:flex; justify-content:center;"></div>`;
         const r = d.querySelector('.btns-row');
         for(let i=1; i<=5; i++) {
             const b = document.createElement('button'); b.className = 'btn-gv'; b.innerText = i;
@@ -188,75 +159,42 @@
 
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
-    // NOVA LÓGICA DE LUA COM IMAGENS REAIS (ESTILO NASA)
-    function atualizarLuaRealista(dataStr) {
+    function atualizarLuaEsferica(dataStr) {
         const data = new Date(dataStr + "T12:00:00");
         const dia = data.getDate(); const mes = data.getMonth() + 1; let ano = data.getFullYear();
         if (mes < 3) { ano--; mes += 12; }
         let c = 365.25 * ano; let e = 30.6 * (mes + 1);
         let jd = c + e + dia - 694039.09; jd /= 29.5305882;
         let b = parseInt(jd); jd -= b;
-        let faseIdx = Math.round(jd * 8); if (faseIdx >= 8) faseIdx = 0;
-
-        // Biblioteca de imagens reais (baseadas em texturas da NASA)
-        const fasesReais = [
-            {n:"Nova",   url:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Lunar_Phases_-_New_Moon.jpg/120px-Lunar_Phases_-_New_Moon.jpg"}, 
-            {n:"Crescente Côncava", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Lunar_Phases_-_Waxing_Crescent.jpg/120px-Lunar_Phases_-_Waxing_Crescent.jpg"}, 
-            {n:"Quarto Crescente", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Lunar_Phases_-_First_Quarter.jpg/120px-Lunar_Phases_-_First_Quarter.jpg"}, 
-            {n:"Crescente Gibosa", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Lunar_Phases_-_Waxing_Gibbous.jpg/120px-Lunar_Phases_-_Waxing_Gibbous.jpg"}, 
-            {n:"Cheia", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Lunar_Phases_-_Full_Moon.jpg/120px-Lunar_Phases_-_Full_Moon.jpg"}, 
-            {n:"Minguante Gibosa", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Lunar_Phases_-_Waning_Gibbous.jpg/120px-Lunar_Phases_-_Waning_Gibbous.jpg"}, 
-            {n:"Quarto Minguante", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Lunar_Phases_-_Third_Quarter.jpg/120px-Lunar_Phases_-_Third_Quarter.jpg"}, 
-            {n:"Minguante Côncava", url:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Lunar_Phases_-_Waning_Crescent.jpg/120px-Lunar_Phases_-_Waning_Crescent.jpg"}
-        ];
-
-        const visual = document.getElementById('lua-visual-real');
-        visual.style.backgroundImage = `url('${fasesReais[faseIdx].url}')`;
-        document.getElementById('lua-nome').innerText = "Lua " + fasesReais[faseIdx].n;
+        
+        const sombra = document.getElementById('lua-sombra');
+        const nome = document.getElementById('lua-nome');
+        
+        // Movimento da sombra orbital (0 a 100%)
+        let fase = jd * 100;
+        
+        if (fase <= 50) {
+            // Crescente: a sombra sai da direita para a esquerda
+            sombra.style.left = (fase * 2) + "%";
+            nome.innerText = "Lua Crescente";
+        } else {
+            // Minguante: a sombra volta a cobrir
+            sombra.style.left = "-" + (100 - (fase - 50) * 2) + "%";
+            nome.innerText = "Lua Minguante";
+        }
+        
+        if (fase > 46 && fase < 54) nome.innerText = "Lua Cheia";
+        if (fase < 4 || fase > 96) nome.innerText = "Lua Nova";
     }
 
     function mudarData() {
         const data = document.getElementById('data-input').value;
-        atualizarLuaRealista(data); // Muda a lua real
-        carregarDados();
+        atualizarLuaEsferica(data);
     }
 
-    function salvarDados() {
-        const data = document.getElementById('data-input').value;
-        const esc = {};
-        document.querySelectorAll('[data-n]').forEach(g => esc[g.dataset.n] = g.querySelector('.active')?.innerText || "0");
-        const obj = { 
-            escalas: esc, 
-            sintomas: Array.from(document.querySelectorAll('.active-icon')).map(i => i.dataset.sintoma), 
-            versiculo: document.getElementById('v-input').value,
-            biblia: Array.from(document.getElementById('grid-biblia').querySelectorAll('.active')).map(b => b.innerText)
-        };
-        localStorage.setItem('LunaBia-' + data, JSON.stringify(obj));
-        alert("Bo salvou com a nova Lua Real! ✨");
-    }
-
-    function carregarDados() {
-        const data = document.getElementById('data-input').value;
-        const s = JSON.parse(localStorage.getItem('LunaBia-' + data) || '{"escalas":{},"sintomas":[],"biblia":[]}');
-        document.querySelectorAll('.active, .active-icon').forEach(x => x.classList.remove('active', 'active-icon'));
-        for(let k in s.escalas) {
-            const g = document.querySelector(`[data-n="${k}"]`);
-            g?.querySelectorAll('button').forEach(b => { if(b.innerText == s.escalas[k]) b.classList.add('active'); });
-        }
-        if(s.sintomas) s.sintomas.forEach(st => document.querySelector(`[data-sintoma="${st}"]`)?.classList.add('active-icon'));
-        if(s.biblia) {
-            document.getElementById('grid-biblia').querySelectorAll('button').forEach(b => {
-                if(s.biblia.includes(b.innerText)) b.classList.add('active');
-            });
-        }
-        document.getElementById('v-input').value = s.versiculo || "";
-    }
-
-    // Iniciar
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('data-input').value = hoje;
-    atualizarLuaRealista(hoje);
-    carregarDados();
+    atualizarLuaEsferica(hoje);
 </script>
 </body>
 </html>
