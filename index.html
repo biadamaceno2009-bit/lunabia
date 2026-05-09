@@ -27,6 +27,14 @@
         h1 { font-family: 'Cinzel', serif; color: var(--eucalipto) !important; font-size: 42px; margin: 0; letter-spacing: 5px; }
         h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
         
+        /* O VETOR DIVISOR QUE VOLTOU */
+        .divider { 
+            margin: 15px auto 40px; 
+            width: 180px; 
+            opacity: 0.6; 
+            display: block; /* Garante que ele apareça */
+        }
+        
         /* LUA ESTÉTICA (GLASS MORPHISM) */
         .ilha-lua { 
             background: var(--glass-base); 
@@ -68,7 +76,7 @@
             border: 1px solid var(--border); 
             color: var(--eucalipto); 
             cursor: pointer; 
-            border-radius: 15px; /* Quadrado arredondado para mais profundidade */
+            border-radius: 15px; 
             width: 45px; height: 45px; 
             font-weight: 800; font-size: 16px; 
             margin: 5px;
@@ -86,7 +94,7 @@
         /* SINTOMAS: VERDE TRANSLÚCIDO COM ÍCONE BRANCO */
         .btn-icone-bia { 
             width: 50px; height: 50px; 
-            background: rgba(45, 61, 54, 0.8); /* Verde Eucalipto Translúcido */
+            background: rgba(45, 61, 54, 0.8); 
             border: 1px solid var(--border); 
             border-radius: 18px; 
             display: flex; align-items: center; justify-content: center; 
@@ -118,6 +126,13 @@
 <div class="ilha-mae">
     <h1>LunaBia</h1>
     
+    <div class="divider">
+        <svg viewBox="0 0 100 20" fill="none">
+            <path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#2d3d36" stroke-width="0.8"/>
+            <circle cx="50" cy="10" r="3" fill="#2d3d36"/>
+        </svg>
+    </div>
+    
     <div class="ilha-lua">
         <div class="lua-brilhante">
             <div id="lua-sombra"></div>
@@ -144,6 +159,7 @@
 </div>
 
 <script>
+    // Geradores e Lógica permanecem os mesmos para garantir funcionamento
     const escalas = ["Sono", "Humor", "Energia", "Descanso"];
     escalas.forEach(n => {
         const d = document.createElement('div'); d.className = 'ilha-filha';
