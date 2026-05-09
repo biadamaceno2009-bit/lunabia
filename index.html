@@ -14,20 +14,7 @@
             --texto-claro: rgba(255, 255, 255, 0.95);
         }
         
-        body { 
-            margin: 0; 
-            min-height: 100vh; 
-            font-family: 'Montserrat', sans-serif; 
-            background-image: url('1.jpeg'); 
-            background-size: cover; 
-            background-position: center bottom; 
-            background-attachment: fixed; 
-            display: flex; 
-            justify-content: center; 
-            padding: 20px 15px; 
-            box-sizing: border-box; 
-            overflow-x: hidden; 
-        }
+        body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center bottom; background-attachment: fixed; display: flex; justify-content: center; padding: 20px 15px; box-sizing: border-box; overflow-x: hidden; }
         
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.005); 
@@ -42,37 +29,22 @@
 
         h1 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--eucalipto) !important; font-size: 46px; margin: 0; letter-spacing: -1px; }
         h3 { font-family: 'Cinzel', serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
-        
         .divider { margin: 10px auto 30px; width: 160px; opacity: 0.7; }
         
-        /* ILHA DA LUA CENTRALIZADA */
-        .ilha-lua { 
-            background: rgba(255, 255, 255, 0.03); 
-            border-radius: 40px; padding: 25px; 
-            margin: 0 auto 35px auto; 
-            width: fit-content; 
-            border: 1px solid var(--border); 
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), inset 2px 2px 5px rgba(255,255,255,0.1); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
+        .ilha-lua { background: rgba(255, 255, 255, 0.03); border-radius: 40px; padding: 25px; margin: 0 auto 35px auto; width: fit-content; border: 1px solid var(--border); box-shadow: 10px 10px 20px rgba(0,0,0,0.15), inset 2px 2px 5px rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .lua-esfera-joia { width: 70px; height: 70px; border-radius: 50%; background: #f0f4f2; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 0 15px rgba(255,255,255,0.2), inset 0 0 10px rgba(255,255,255,0.5); }
         .lua-textura-real { position: absolute; width: 100%; height: 100%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg'); background-size: cover; opacity: 0.6; filter: grayscale(100%) contrast(105%); }
         .lua-sombra-orbital { position: absolute; width: 100%; height: 100%; background: rgba(45, 61, 54, 0.8); backdrop-filter: blur(3px); border-radius: 50%; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 0 15px rgba(0,0,0,0.2); }
         #lua-nome { font-size: 9px; font-weight: 800; color: var(--eucalipto); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
         
-        /* ILHAS FILHAS COM PROFUNDIDADE (RELEVO) */
-        .ilha-filha { 
-            background: rgba(255, 255, 255, 0.02); 
-            border-radius: 45px; padding: 25px 15px; 
-            margin-bottom: 30px; 
-            border: 1px solid var(--border); 
-            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), 
-                        inset -5px -5px 10px rgba(255,255,255,0.05),
-                        inset 5px 5px 10px rgba(0,0,0,0.05); /* Efeito de profundidade */
-        }
+        .ilha-filha { background: rgba(255, 255, 255, 0.02); border-radius: 45px; padding: 25px 15px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: 15px 15px 30px rgba(0,0,0,0.15), inset -5px -5px 10px rgba(255,255,255,0.05), inset 5px 5px 10px rgba(0,0,0,0.05); }
 
         .grid-numbers { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; }
+        .grid-fluxo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        
         .btn-gv { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--texto-claro); cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 600; font-size: 14px; box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.1); transition: 0.2s; }
+        .btn-fluxo { background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--texto-claro); cursor: pointer; border-radius: 20px; padding: 12px 5px; font-weight: 600; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        
         .active { background: var(--eucalipto) !important; color: white !important; box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); border: 1px solid white; transform: translateY(2px); }
         
         .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px 8px; width: 100%; justify-items: center; }
@@ -98,6 +70,16 @@
     <div class="ilha-lua"><div class="lua-esfera-joia"><div class="lua-textura-real"></div><div id="lua-sombra" class="lua-sombra-orbital"></div></div><div id="lua-nome">...</div></div>
     
     <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="mudarData()"></div>
+
+    <div class="ilha-filha">
+        <h3>🩸 Fluxo Menstrual</h3>
+        <div class="grid-fluxo" id="area-fluxo">
+            <button class="btn-fluxo" onclick="setFluxo(this)">Leve</button>
+            <button class="btn-fluxo" onclick="setFluxo(this)">Moderado</button>
+            <button class="btn-fluxo" onclick="setFluxo(this)">Intenso</button>
+        </div>
+    </div>
+
     <div class="ilha-filha"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" class="grid-numbers"></div></div>
     <div class="ilha-filha"><h3>📜 Versículo</h3><textarea id="v-input" rows="2" placeholder="Sua palavra hoje..."></textarea></div>
 
@@ -149,6 +131,11 @@
         document.getElementById('area-escalas').appendChild(d);
     });
 
+    function setFluxo(btn) {
+        document.querySelectorAll('.btn-fluxo').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
     function calcularLua(dataStr) {
@@ -173,25 +160,28 @@
         const obj = { 
             escalas: {}, 
             sintomas: Array.from(document.querySelectorAll('.active-icon')).map(i => i.dataset.sintoma),
+            fluxo: document.querySelector('.btn-fluxo.active')?.innerText || "Nenhum",
             versiculo: document.getElementById('v-input').value,
             biblia: Array.from(document.getElementById('grid-biblia').querySelectorAll('.active')).map(b => b.innerText),
             lua: calcularLua(data).nome
         };
         document.querySelectorAll('[data-n]').forEach(g => obj.escalas[g.dataset.n] = g.querySelector('.active')?.innerText || "0");
         localStorage.setItem('LunaBia-' + data, JSON.stringify(obj));
-        alert("LunaBia atualizado! ✨");
+        alert("Bo guardou seu registro do ciclo! 🩸✨");
     }
 
     function carregarDados() {
         const data = document.getElementById('data-input').value;
         const s = JSON.parse(localStorage.getItem('LunaBia-' + data) || '{"escalas":{},"sintomas":[],"biblia":[]}');
         document.querySelectorAll('.active, .active-icon').forEach(x => x.classList.remove('active', 'active-icon'));
+        
         for(let k in s.escalas) {
             const g = document.querySelector(`[data-n="${k}"]`);
             g?.querySelectorAll('button').forEach(b => { if(b.innerText == s.escalas[k]) b.classList.add('active'); });
         }
         if(s.sintomas) s.sintomas.forEach(st => document.querySelector(`[data-sintoma="${st}"]`)?.classList.add('active-icon'));
         if(s.biblia) document.getElementById('grid-biblia').querySelectorAll('button').forEach(b => { if(s.biblia.includes(b.innerText)) b.classList.add('active'); });
+        if(s.fluxo) document.querySelectorAll('.btn-fluxo').forEach(b => { if(b.innerText == s.fluxo) b.classList.add('active'); });
         document.getElementById('v-input').value = s.versiculo || "";
     }
 
@@ -211,12 +201,13 @@
                 });
             }
         }
-        if(totalRegistros === 0) return alert("Bia, registre alguns dias para vermos a análise!");
+        if(totalRegistros === 0) return alert("Registre alguns dias para a análise completa!");
         let topSintoma = Object.entries(contagemSintomas).sort((a,b) => b[1] - a[1])[0];
         let faseInchada = Object.entries(luaInchaço).sort((a,b) => b[1] - a[1])[0];
-        document.getElementById('conteudo-relatorio').innerHTML = `<div class="card-insight"><h3 style="font-family:'Cinzel'">🏆 Campeão do Mês</h3><p>O sintoma que mais te acompanhou foi <b>${topSintoma ? topSintoma[0] : 'Nenhum'}</b>.</p></div><div class="card-insight"><h3 style="font-family:'Cinzel'">🌊 Detectamos um Padrão</h3><p>Bia, você tende a se sentir mais <b>inchada</b> na <b>Lua ${faseInchada[1] > 0 ? faseInchada[0] : '...'}</b>.</p></div>`;
+        document.getElementById('conteudo-relatorio').innerHTML = `<div class="card-insight"><h3>🏆 Campeão do Mês</h3><p>O sintoma que mais te acompanhou foi <b>${topSintoma ? topSintoma[0] : 'Nenhum'}</b>.</p></div><div class="card-insight"><h3>🌊 Padrão Lunar</h3><p>Bia, você tende a se sentir mais <b>inchada</b> na <b>Lua ${faseInchada[1] > 0 ? faseInchada[0] : '...'}</b>.</p></div>`;
         document.getElementById('modal-relatorio').style.display = 'block';
     }
+
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('data-input').value = hoje;
     mudarData();
