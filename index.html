@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LunaBia Pro Lux</title>
+    <title>LunaBia Pro Aesthetic</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { 
             --eucalipto: #2d3d36; 
-            --glass-bg: rgba(255, 255, 255, 0.03); 
-            --border: rgba(255, 255, 255, 0.15); 
+            --glass-base: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.2);
         }
         
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 40px 15px; box-sizing: border-box; overflow-x: hidden; }
@@ -17,103 +17,99 @@
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.01); 
             backdrop-filter: blur(50px) saturate(180%); 
-            width: 100%; 
-            max-width: 380px; 
-            border-radius: 70px; 
-            padding: 60px 15px; 
+            width: 100%; max-width: 380px; 
+            border-radius: 70px; padding: 60px 15px; 
             border: 1px solid var(--border); 
             text-align: center; 
-            box-shadow: 0 50px 100px rgba(0,0,0,0.6); 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4); 
         }
 
-        h1 { font-family: 'Cinzel', serif; color: var(--eucalipto) !important; font-size: 48px; margin: 0; letter-spacing: 6px; }
+        h1 { font-family: 'Cinzel', serif; color: var(--eucalipto) !important; font-size: 42px; margin: 0; letter-spacing: 5px; }
         h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
         
-        /* ILHA DA LUA REALISTA (SISTEMA DE LUZ E SOMBRA) */
-        .ilha-lua { background: var(--glass-bg); border-radius: 35px; padding: 25px; margin: 0 auto 40px; width: fit-content; border: 1px solid var(--border); box-shadow: 0 15px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; }
+        /* LUA ESTÉTICA (GLASS MORPHISM) */
+        .ilha-lua { 
+            background: var(--glass-base); 
+            border-radius: 40px; padding: 25px; 
+            margin: 0 auto 40px; width: fit-content; 
+            border: 1px solid var(--border); 
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.2), inset -5px -5px 10px rgba(255,255,255,0.1);
+        }
         
-        .lua-esfera {
-            width: 70px; height: 70px;
+        .lua-brilhante {
+            width: 65px; height: 65px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #e0e0e0, #888 30%, #333 70%, #000 100%);
+            background: radial-gradient(circle at 30% 30%, #fff, #b8c6bf 40%, #2d3d36 90%);
+            box-shadow: 0 0 25px rgba(136, 192, 167, 0.3);
             position: relative;
-            box-shadow: 0 0 15px rgba(255,255,255,0.1), inset -5px -5px 15px rgba(0,0,0,0.5);
             overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        /* Sombra que faz a fase da lua */
-        .lua-sombra-orbital {
-            position: absolute;
-            width: 100%; height: 100%;
-            background: rgba(10, 15, 10, 0.9);
+        #lua-sombra {
+            position: absolute; width: 100%; height: 100%;
+            background: rgba(20, 30, 25, 0.9);
             border-radius: 50%;
-            transition: transform 0.6s ease-in-out, left 0.6s ease-in-out;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--eucalipto); font-weight: 700; margin-top: 15px; }
+        #lua-nome { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--eucalipto); font-weight: 800; margin-top: 15px; }
         
         .ilha-filha { 
-            background: rgba(255, 255, 255, 0.02); 
-            border-radius: 45px; 
-            padding: 28px 20px; 
-            margin-bottom: 35px; 
-            border: 1px solid var(--border); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.05); 
+            background: rgba(255, 255, 255, 0.03); 
+            border-radius: 45px; padding: 25px; 
+            margin-bottom: 30px; border: 1px solid var(--border); 
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.2), inset -5px -5px 10px rgba(255,255,255,0.05);
         }
 
-        /* BOTÕES COM PROFUNDIDADE E NÚMEROS VERDES */
+        /* NÚMEROS COM PROFUNDIDADE (INSET SHADOW) */
         .btn-gv { 
-            background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+            background: rgba(255, 255, 255, 0.07); 
+            border: 1px solid var(--border); 
             color: var(--eucalipto); 
             cursor: pointer; 
-            border-radius: 50%; 
-            width: 44px; height: 44px; 
-            font-weight: 800; font-size: 14px; 
+            border-radius: 15px; /* Quadrado arredondado para mais profundidade */
+            width: 45px; height: 45px; 
+            font-weight: 800; font-size: 16px; 
             margin: 5px;
-            transition: all 0.2s; 
-            box-shadow: 5px 5px 10px rgba(0,0,0,0.4), 
-                        -2px -2px 5px rgba(255,255,255,0.05),
-                        inset 1px 1px 2px rgba(255,255,255,0.1); 
+            transition: 0.2s; 
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.3), inset 2px 2px 4px rgba(255,255,255,0.1);
         }
         
-        .btn-gv:active, .active { 
+        .active { 
             background: var(--eucalipto) !important; 
             color: white !important; 
-            transform: translateY(3px); 
-            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.6); 
+            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); 
+            border: 1px solid white;
         }
         
-        /* SINTOMAS VERDES COM ÍCONE BRANCO */
-        .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .container-sintoma { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        /* SINTOMAS: VERDE TRANSLÚCIDO COM ÍCONE BRANCO */
         .btn-icone-bia { 
-            width: 46px; height: 46px; 
-            background: var(--eucalipto); 
+            width: 50px; height: 50px; 
+            background: rgba(45, 61, 54, 0.8); /* Verde Eucalipto Translúcido */
             border: 1px solid var(--border); 
-            border-radius: 14px; 
+            border-radius: 18px; 
             display: flex; align-items: center; justify-content: center; 
-            box-shadow: 4px 4px 8px rgba(0,0,0,0.4), inset 1px 1px 2px rgba(255,255,255,0.2); 
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
         }
-        .btn-icone-bia img { width: 26px; filter: brightness(0) invert(1); }
-        .label-sintoma { font-size: 7px; color: white; margin-top: 5px; font-weight: 600; text-transform: uppercase; }
-        .active-icon .btn-icone-bia { background: #5a7569 !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5); }
+        
+        .btn-icone-bia img, .svg-colica { width: 28px; filter: brightness(0) invert(1); }
+        .label-sintoma { font-size: 7px; color: white; margin-top: 6px; font-weight: 700; text-transform: uppercase; }
+        .active-icon .btn-icone-bia { background: #1a2521; border-color: white; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5); }
 
         textarea, input[type="date"] { 
             width: 100%; box-sizing: border-box; 
             background: rgba(255,255,255,0.05); 
             border: 1px solid var(--border); 
             border-radius: 25px; padding: 20px; 
-            color: var(--eucalipto); font-weight: 700; 
-            outline: none; 
+            color: var(--eucalipto); font-weight: 700; outline: none; 
         }
 
         .btn-salvar { 
-            width: 100%; padding: 24px; border-radius: 40px; 
+            width: 100%; padding: 22px; border-radius: 40px; 
             color: white; font-weight: 800; text-transform: uppercase; 
             background: var(--eucalipto); 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.2); 
         }
     </style>
 </head>
@@ -123,20 +119,24 @@
     <h1>LunaBia</h1>
     
     <div class="ilha-lua">
-        <div class="lua-esfera">
-            <div id="lua-sombra" class="lua-sombra-orbital"></div>
+        <div class="lua-brilhante">
+            <div id="lua-sombra"></div>
         </div>
-        <div id="lua-nome">Carregando...</div>
+        <div id="lua-nome">...</div>
     </div>
     
     <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="mudarData()"></div>
+    
     <div id="area-escalas"></div>
 
     <div class="ilha-filha">
         <h3>🩺 Sintomas</h3>
-        <div class="grid-sintomas">
-            <div class="container-sintoma" data-sintoma="Cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia">🩸</div><div class="label-sintoma">Cólica</div></div>
-            <div class="container-sintoma" data-sintoma="Estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia">⚡</div><div class="label-sintoma">Estresse</div></div>
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;" id="grid-sintomas">
+            <div class="container-sintoma" data-sintoma="Cólica" onclick="toggleIcon(this)"><div class="btn-icone-bia"><svg class="svg-colica" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" stroke="black" fill="none" stroke-width="8"/><circle cx="50" cy="50" r="18" stroke="black" fill="none" stroke-width="6"/></svg></div><div class="label-sintoma">Cólica</div></div>
+            <div class="container-sintoma" data-sintoma="Inchaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="inchada.png"></div><div class="label-sintoma">Inchaço</div></div>
+            <div class="container-sintoma" data-sintoma="Estresse" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="extressada.png"></div><div class="label-sintoma">Estresse</div></div>
+            <div class="container-sintoma" data-sintoma="Cabeça" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="enxaqueca.png"></div><div class="label-sintoma">Cabeça</div></div>
+            <div class="container-sintoma" data-sintoma="Cansaço" onclick="toggleIcon(this)"><div class="btn-icone-bia"><img src="cansaço.png"></div><div class="label-sintoma">Cansaço</div></div>
         </div>
     </div>
 
@@ -147,7 +147,7 @@
     const escalas = ["Sono", "Humor", "Energia", "Descanso"];
     escalas.forEach(n => {
         const d = document.createElement('div'); d.className = 'ilha-filha';
-        d.innerHTML = `<h3>${n}</h3><div class="btns-row" data-n="${n}" style="display:flex; justify-content:center;"></div>`;
+        d.innerHTML = `<h3>${n}</h3><div class="btns-row" data-n="${n}" style="display:flex; justify-content:center; gap:8px;"></div>`;
         const r = d.querySelector('.btns-row');
         for(let i=1; i<=5; i++) {
             const b = document.createElement('button'); b.className = 'btn-gv'; b.innerText = i;
@@ -159,7 +159,7 @@
 
     function toggleIcon(el) { el.classList.toggle('active-icon'); }
 
-    function atualizarLuaEsferica(dataStr) {
+    function atualizarLuaAesthetic(dataStr) {
         const data = new Date(dataStr + "T12:00:00");
         const dia = data.getDate(); const mes = data.getMonth() + 1; let ano = data.getFullYear();
         if (mes < 3) { ano--; mes += 12; }
@@ -169,32 +169,27 @@
         
         const sombra = document.getElementById('lua-sombra');
         const nome = document.getElementById('lua-nome');
-        
-        // Movimento da sombra orbital (0 a 100%)
         let fase = jd * 100;
         
         if (fase <= 50) {
-            // Crescente: a sombra sai da direita para a esquerda
             sombra.style.left = (fase * 2) + "%";
-            nome.innerText = "Lua Crescente";
+            nome.innerText = "Crescente";
         } else {
-            // Minguante: a sombra volta a cobrir
             sombra.style.left = "-" + (100 - (fase - 50) * 2) + "%";
-            nome.innerText = "Lua Minguante";
+            nome.innerText = "Minguante";
         }
-        
-        if (fase > 46 && fase < 54) nome.innerText = "Lua Cheia";
-        if (fase < 4 || fase > 96) nome.innerText = "Lua Nova";
+        if (fase > 45 && fase < 55) nome.innerText = "Lua Cheia";
+        if (fase < 5 || fase > 95) nome.innerText = "Lua Nova";
     }
 
     function mudarData() {
         const data = document.getElementById('data-input').value;
-        atualizarLuaEsferica(data);
+        atualizarLuaAesthetic(data);
     }
 
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('data-input').value = hoje;
-    atualizarLuaEsferica(hoje);
+    atualizarLuaAesthetic(hoje);
 </script>
 </body>
 </html>
