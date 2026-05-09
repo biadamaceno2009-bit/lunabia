@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>LunaBia Pro Elite</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
     
@@ -11,8 +10,7 @@
         :root { 
             --eucalipto: #2d3d36; 
             --eucalipto-claro: #5a7569;
-            --glass-claro: rgba(255, 255, 255, 0.02); 
-            --border: rgba(255, 255, 255, 0.15); 
+            --border: rgba(255, 255, 255, 0.25); 
             --texto-claro: rgba(255, 255, 255, 0.95);
         }
         
@@ -22,7 +20,7 @@
             font-family: 'Montserrat', sans-serif; 
             background-image: url('1.jpeg'); 
             background-size: cover; 
-            background-position: center bottom; /* Foca na parte dourada do fundo */
+            background-position: center bottom; 
             background-attachment: fixed; 
             display: flex; 
             justify-content: center; 
@@ -31,13 +29,12 @@
             overflow-x: hidden; 
         }
         
-        /* ILHA MÃE - NÍTIDA E CRISTALINA */
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.005); 
-            backdrop-filter: blur(8px) saturate(180%); /* Blur reduzido para mais nitidez */
+            backdrop-filter: blur(8px) saturate(180%); 
             width: 100%; max-width: 380px; 
             border-radius: 70px; padding: 50px 15px; 
-            border: 1px solid rgba(255, 255, 255, 0.12); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
             text-align: center; 
             box-shadow: 0 40px 80px rgba(0,0,0,0.3); 
             margin: auto;
@@ -48,14 +45,14 @@
         
         .divider { margin: 10px auto 30px; width: 160px; opacity: 0.7; }
         
-        /* LUA CENTRALIZADA (VISUAL MANTIDO) */
+        /* ILHA DA LUA CENTRALIZADA */
         .ilha-lua { 
-            background: var(--glass-claro); 
+            background: rgba(255, 255, 255, 0.03); 
             border-radius: 40px; padding: 25px; 
             margin: 0 auto 35px auto; 
             width: fit-content; 
             border: 1px solid var(--border); 
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.1); 
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.15), inset 2px 2px 5px rgba(255,255,255,0.1); 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .lua-esfera-joia { width: 70px; height: 70px; border-radius: 50%; background: #f0f4f2; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 0 15px rgba(255,255,255,0.2), inset 0 0 10px rgba(255,255,255,0.5); }
@@ -63,7 +60,16 @@
         .lua-sombra-orbital { position: absolute; width: 100%; height: 100%; background: rgba(45, 61, 54, 0.8); backdrop-filter: blur(3px); border-radius: 50%; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: inset 0 0 15px rgba(0,0,0,0.2); }
         #lua-nome { font-size: 9px; font-weight: 800; color: var(--eucalipto); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
         
-        .ilha-filha { background: rgba(255, 255, 255, 0.02); border-radius: 45px; padding: 25px 15px; margin-bottom: 30px; border: 1px solid var(--border); box-shadow: 15px 15px 30px rgba(0,0,0,0.1), inset -1px -1px 2px rgba(255,255,255,0.05); }
+        /* ILHAS FILHAS COM PROFUNDIDADE (RELEVO) */
+        .ilha-filha { 
+            background: rgba(255, 255, 255, 0.02); 
+            border-radius: 45px; padding: 25px 15px; 
+            margin-bottom: 30px; 
+            border: 1px solid var(--border); 
+            box-shadow: 15px 15px 30px rgba(0,0,0,0.15), 
+                        inset -5px -5px 10px rgba(255,255,255,0.05),
+                        inset 5px 5px 10px rgba(0,0,0,0.05); /* Efeito de profundidade */
+        }
 
         .grid-numbers { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; }
         .btn-gv { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.1); color: var(--texto-claro); cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 600; font-size: 14px; box-shadow: 4px 4px 8px rgba(0,0,0,0.2), inset 1px 1px 2px rgba(255,255,255,0.1); transition: 0.2s; }
@@ -89,13 +95,7 @@
     <h1>LunaBia</h1>
     <div class="divider"><svg viewBox="0 0 100 20" fill="none"><path d="M10 10C30 10 35 18 50 18C65 18 70 10 90 10" stroke="#2d3d36" stroke-width="0.8"/><circle cx="50" cy="10" r="3" fill="#2d3d36"/></svg></div>
     
-    <div class="ilha-lua">
-        <div class="lua-esfera-joia">
-            <div class="lua-textura-real"></div>
-            <div id="lua-sombra" class="lua-sombra-orbital"></div>
-        </div>
-        <div id="lua-nome">...</div>
-    </div>
+    <div class="ilha-lua"><div class="lua-esfera-joia"><div class="lua-textura-real"></div><div id="lua-sombra" class="lua-sombra-orbital"></div></div><div id="lua-nome">...</div></div>
     
     <div class="ilha-filha"><h3>📅 Registro</h3><input type="date" id="data-input" onchange="mudarData()"></div>
     <div class="ilha-filha"><h3>📖 Leitura Bíblica</h3><div id="grid-biblia" class="grid-numbers"></div></div>
@@ -211,13 +211,12 @@
                 });
             }
         }
-        if(totalRegistros === 0) return alert("Bia, salve alguns dias primeiro para eu analisar!");
+        if(totalRegistros === 0) return alert("Bia, registre alguns dias para vermos a análise!");
         let topSintoma = Object.entries(contagemSintomas).sort((a,b) => b[1] - a[1])[0];
         let faseInchada = Object.entries(luaInchaço).sort((a,b) => b[1] - a[1])[0];
         document.getElementById('conteudo-relatorio').innerHTML = `<div class="card-insight"><h3 style="font-family:'Cinzel'">🏆 Campeão do Mês</h3><p>O sintoma que mais te acompanhou foi <b>${topSintoma ? topSintoma[0] : 'Nenhum'}</b>.</p></div><div class="card-insight"><h3 style="font-family:'Cinzel'">🌊 Detectamos um Padrão</h3><p>Bia, você tende a se sentir mais <b>inchada</b> na <b>Lua ${faseInchada[1] > 0 ? faseInchada[0] : '...'}</b>.</p></div>`;
         document.getElementById('modal-relatorio').style.display = 'block';
     }
-
     const hoje = new Date().toISOString().split('T')[0];
     document.getElementById('data-input').value = hoje;
     mudarData();
