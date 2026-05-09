@@ -11,11 +11,11 @@
             --eucalipto-claro: #5a7569;
             --glass: rgba(255, 255, 255, 0.03); 
             --border: rgba(255, 255, 255, 0.2); 
+            --texto-claro: rgba(255, 255, 255, 0.9);
         }
         
         body { margin: 0; min-height: 100vh; font-family: 'Montserrat', sans-serif; background-image: url('1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; display: flex; justify-content: center; padding: 20px 15px; box-sizing: border-box; }
         
-        /* ILHA MÃE */
         .ilha-mae { 
             background: rgba(255, 255, 255, 0.01); 
             backdrop-filter: blur(60px) saturate(180%); 
@@ -26,31 +26,28 @@
             box-shadow: 0 40px 80px rgba(0,0,0,0.4); 
         }
 
-        /* FONTE ELEGANTE NOS TÍTULOS */
         h1 { font-family: 'Playfair Display', serif; font-style: italic; color: var(--eucalipto) !important; font-size: 46px; margin: 0; letter-spacing: -1px; }
         h3 { font-family: 'Cinzel', serif; font-size: 12px; text-transform: uppercase; letter-spacing: 3px; color: var(--eucalipto) !important; font-weight: 800; margin-bottom: 20px; }
         
         .divider { margin: 10px auto 30px; width: 180px; opacity: 0.7; }
         
-        /* LUA ESTÉTICA */
         .ilha-lua { background: var(--glass); border-radius: 40px; padding: 20px; margin: 0 auto 35px; width: fit-content; border: 1px solid var(--border); box-shadow: 10px 10px 20px rgba(0,0,0,0.2); }
         .lua-brilhante { width: 65px; height: 65px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, #fff, #b8c6bf 40%, #2d3d36 90%); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.3); }
         #lua-sombra { position: absolute; width: 100%; height: 100%; background: rgba(20, 30, 25, 0.95); border-radius: 50%; transition: all 0.7s; }
         #lua-nome { font-size: 10px; font-weight: 800; color: var(--eucalipto); margin-top: 10px; text-transform: uppercase; letter-spacing: 2px; }
         
-        /* ILHAS FILHAS */
         .ilha-filha { background: rgba(255, 255, 255, 0.03); border-radius: 45px; padding: 25px 15px; margin-bottom: 25px; border: 1px solid var(--border); box-shadow: 15px 15px 30px rgba(0,0,0,0.2), inset -5px -5px 10px rgba(255,255,255,0.05); }
 
-        /* NÚMEROS COM PROFUNDIDADE */
+        /* NÚMEROS VOLTANDO PARA O TOM CLARO */
         .grid-numbers { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; justify-items: center; }
         .btn-gv { 
-            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); color: var(--eucalipto); 
-            cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 800; font-size: 14px;
+            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--border); 
+            color: var(--texto-claro); /* NÚMERO CLARO */
+            cursor: pointer; border-radius: 12px; width: 42px; height: 42px; font-weight: 600; font-size: 14px;
             box-shadow: 4px 4px 8px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.1); transition: 0.2s;
         }
         .active { background: var(--eucalipto) !important; color: white !important; box-shadow: inset 4px 4px 10px rgba(0,0,0,0.5); border: 1px solid white; transform: translateY(3px); }
         
-        /* SINTOMAS ORIGINAIS DE VOLTA */
         .grid-sintomas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px 8px; width: 100%; justify-items: center; }
         .container-sintoma { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .btn-icone-bia { 
@@ -58,7 +55,7 @@
             border-radius: 14px; display: flex; align-items: center; justify-content: center; 
             box-shadow: 5px 5px 10px rgba(0,0,0,0.3), inset 1px 1px 2px rgba(255,255,255,0.2); 
         }
-        .btn-icone-bia img, .svg-colica { width: 26px; filter: brightness(0) invert(1); }
+        .btn-icone-bia img, .svg-colica { width: 26px; filter: brightness(0) invert(1); opacity: 0.9; }
         .label-sintoma { font-size: 7px; color: white; margin-top: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .active-icon .btn-icone-bia { background: var(--eucalipto-claro) !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.5); border-color: white; }
 
@@ -67,7 +64,6 @@
         .btn-salvar { width: 100%; padding: 22px; border-radius: 40px; color: white; font-weight: 800; text-transform: uppercase; cursor: pointer; background: var(--eucalipto); margin-bottom: 12px; border: none; box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
         .btn-relatorio { width: 100%; padding: 15px; border-radius: 40px; color: var(--eucalipto); font-weight: 800; text-transform: uppercase; cursor: pointer; background: transparent; border: 1.5px solid var(--eucalipto); letter-spacing: 1px; font-size: 10px; }
 
-        /* MODAL INSIGHTS */
         #modal-relatorio { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,20,15,0.98); backdrop-filter: blur(25px); z-index: 1000; padding: 40px 20px; box-sizing: border-box; color: white; overflow-y: auto; }
         .card-insight { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 35px; margin-bottom: 25px; border-left: 6px solid #88c0a7; }
     </style>
@@ -109,7 +105,7 @@
 <div id="modal-relatorio">
     <h2 style="font-family:'Playfair Display'; font-style:italic; text-align:center; font-size:32px;">Insights do Bo ✨</h2>
     <div id="conteudo-relatorio"></div>
-    <button onclick="document.getElementById('modal-relatorio').style.display='none'" class="btn-salvar">Entendi, Bo!</button>
+    <button onclick="document.getElementById('modal-relatorio').style.display='none'" class="btn-salvar">Voltar</button>
 </div>
 
 <script>
@@ -162,7 +158,7 @@
         };
         document.querySelectorAll('[data-n]').forEach(g => obj.escalas[g.dataset.n] = g.querySelector('.active')?.innerText || "0");
         localStorage.setItem('LunaBia-' + data, JSON.stringify(obj));
-        alert("Bo guardou seus segredos com carinho! ✨");
+        alert("Bo guardou seus registros com sucesso! ✨");
     }
 
     function carregarDados() {
@@ -183,7 +179,6 @@
         let contagemSintomas = {};
         let luaInchaço = { "Nova": 0, "Crescente": 0, "Cheia": 0, "Minguante": 0 };
         let totalRegistros = 0;
-
         for (let i = 0; i < localStorage.length; i++) {
             let chave = localStorage.key(i);
             if(chave.startsWith('LunaBia-') && chave.includes(mesAno)) {
@@ -195,20 +190,17 @@
                 });
             }
         }
-
-        if(totalRegistros === 0) return alert("Bia, ainda não temos dados salvos este mês para analisar!");
-
+        if(totalRegistros === 0) return alert("Selecione um mês com dados salvos primeiro!");
         let topSintoma = Object.entries(contagemSintomas).sort((a,b) => b[1] - a[1])[0];
         let faseInchada = Object.entries(luaInchaço).sort((a,b) => b[1] - a[1])[0];
-
         document.getElementById('conteudo-relatorio').innerHTML = `
             <div class="card-insight">
                 <h3 style="font-family:'Cinzel'">🏆 Campeão do Mês</h3>
-                <p>Bia, o sintoma que mais te visitou foi <b>${topSintoma ? topSintoma[0] : 'Nenhum'}</b> (${topSintoma ? topSintoma[1] : 0} vezes).</p>
+                <p>O sintoma que mais te acompanhou foi <b>${topSintoma ? topSintoma[0] : 'Nenhum'}</b> (${topSintoma ? topSintoma[1] : 0} vezes).</p>
             </div>
             <div class="card-insight">
-                <h3 style="font-family:'Cinzel'">🌊 Padrão Detectado</h3>
-                <p>O Bo notou que o <b>inchaço</b> costuma aparecer mais quando estamos na <b>Lua ${faseInchada[1] > 0 ? faseInchada[0] : '...'}</b>.</p>
+                <h3 style="font-family:'Cinzel'">🌊 Detectamos um Padrão</h3>
+                <p>Bia, você tende a se sentir mais <b>inchada</b> na <b>Lua ${faseInchada[1] > 0 ? faseInchada[0] : '...'}</b>.</p>
             </div>
         `;
         document.getElementById('modal-relatorio').style.display = 'block';
